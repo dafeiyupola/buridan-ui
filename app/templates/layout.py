@@ -41,10 +41,7 @@ def layout_decorator(
             return rx.el.div(
                 rx.el.div(
                     banner,
-                    rx.el.header(
-                        navbar(),
-                        class_name="sticky top-0 z-50 w-full bg-background",
-                    ),
+                    navbar(),
                     rx.el.main(
                         rx.el.div(
                             rx.el.section(
