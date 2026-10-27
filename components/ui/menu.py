@@ -304,6 +304,8 @@ class MenuSubMenuTrigger(MenuBaseComponent):
 
     inset: Var[bool]
 
+    variant: Var[str]
+
     render_: Var[Component]
 
     @classmethod
@@ -311,6 +313,8 @@ class MenuSubMenuTrigger(MenuBaseComponent):
         props["data-slot"] = "menu-submenu-trigger"
         if props.get("inset"):
             props["data-inset"] = props.pop("inset")
+        if props.get("variant"):
+            props["data-variant"] = props.pop("variant")
         cls.set_class_name(ClassNames.SUBMENU_TRIGGER, props)
         return super().create(
             *children,
