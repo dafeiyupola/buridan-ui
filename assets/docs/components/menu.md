@@ -144,13 +144,7 @@ class MenuRoot(MenuBaseComponent):
 
     disabled: Var[bool]
 
-    open_on_hover: Var[bool]
-
-    delay: Var[int]
-
-    close_delay: Var[int]
-
-    loop: Var[bool]
+    loop_focus: Var[bool]
 
     orientation: Var[LiteralMenuOrientation]
 
@@ -166,6 +160,12 @@ class MenuTrigger(MenuBaseComponent):
     native_button: Var[bool]
 
     disabled: Var[bool]
+
+    open_on_hover: Var[bool]
+
+    delay: Var[int]
+
+    close_delay: Var[int]
 
     render_: Var[Component]
 
@@ -289,13 +289,7 @@ class MenuSubMenuRoot(MenuBaseComponent):
 
     disabled: Var[bool]
 
-    open_on_hover: Var[bool]
-
-    delay: Var[int]
-
-    close_delay: Var[int]
-
-    loop: Var[bool]
+    loop_focus: Var[bool]
 
     orientation: Var[LiteralMenuOrientation]
 
