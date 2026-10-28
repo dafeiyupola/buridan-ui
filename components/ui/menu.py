@@ -274,8 +274,6 @@ class MenuSubMenuRoot(MenuBaseComponent):
 
     orientation: Var[LiteralMenuOrientation]
 
-    render_: Var[Component]
-
     @classmethod
     def create(cls, *children, **props) -> BaseUIComponent:
         props["data-slot"] = "menu-submenu-root"
