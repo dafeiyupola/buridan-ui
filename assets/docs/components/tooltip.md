@@ -107,6 +107,10 @@ class TooltipProvider(TooltipBaseComponent):
 class TooltipTrigger(TooltipBaseComponent):
     tag = "Tooltip.Trigger"
 
+    delay: Var[int]
+
+    close_delay: Var[int]
+
     render_: Var[Component]
     _merge_default_classes_with_render: ClassVar[bool] = True
 
