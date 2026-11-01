@@ -62,11 +62,7 @@ class TooltipRoot(TooltipBaseComponent):
 
     disabled: Var[bool]
 
-    delay: Var[int]
-
-    close_delay: Var[int]
-
-    hoverable: Var[bool]
+    disable_hoverable_popup: Var[bool]
 
     @classmethod
     def create(cls, *children, **props) -> BaseUIComponent:
@@ -91,6 +87,10 @@ class TooltipProvider(TooltipBaseComponent):
 
 class TooltipTrigger(TooltipBaseComponent):
     tag = "Tooltip.Trigger"
+
+    delay: Var[int]
+
+    close_delay: Var[int]
 
     render_: Var[Component]
     _merge_default_classes_with_render: ClassVar[bool] = True
