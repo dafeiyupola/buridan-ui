@@ -91,6 +91,11 @@ def url_sync_engine() -> rx.Component:
             const dark = window.refs['_client_state_darkmode'] || false;
             const config = window.__generateFromSeed(seed, dark);
 
+            // Canonicalise the restored seed so state/URL hold the canonical
+            // seed (a stale `caaaoAgaa` entry normalises to `b0`), matching the
+            // intake canonicalisation in app/engine/actions.py and seed.py.
+            const cs = config['__seed'] || seed;
+
             // Apply theme directly to the DOM — no WebSocket/setTheme ref
             // needed (the `theme` ClientStateVar was removed in cf1a044 and
             // no component registers `_client_state_setTheme` anymore).
@@ -98,10 +103,11 @@ def url_sync_engine() -> rx.Component:
 
             // Keep the seed input and the `seed` client state in sync with
             // the restored history entry so follow-up sidebar actions derive
-            // their new seed from the correct (restored) one.
+            // their new seed from the correct (restored, canonical) one.
             const el = document.getElementById('seed-input-el');
             if (el) el.value = seed;
-            if (window.refs['_client_state_setSeed']) window.refs['_client_state_setSeed'](seed);
+            if (window.refs['_client_state_setSeed']) window.refs['_client_state_setSeed'](cs);
+            if (window.__updatePresetURL) window.__updatePresetURL(cs, false);
 
             if (window.__syncSidebar) window.__syncSidebar(config);
         });
