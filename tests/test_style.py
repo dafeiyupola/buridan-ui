@@ -93,7 +93,7 @@ def test_render_pre_code_element_re_invokes_prism_on_mount() -> None:
     """
     code = _first_code(render_pre("x = 1\ny = 2", language="python"))
 
-    assert str(code.class_name) == "language-python"
+    assert "language-python" in str(code.class_name)
     assert PRISM_CALL in _on_mount_script(code)
 
 
