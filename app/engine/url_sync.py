@@ -107,7 +107,8 @@ def url_sync_engine() -> rx.Component:
             const el = document.getElementById('seed-input-el');
             if (el) el.value = seed;
             if (window.refs['_client_state_setSeed']) window.refs['_client_state_setSeed'](cs);
-            if (window.__updatePresetURL) window.__updatePresetURL(cs, false);
+            try { if (window.__updatePresetURL) window.__updatePresetURL(cs, false); }
+            catch (e) { /* URL update is best-effort; never abort the restore. */ }
 
             if (window.__syncSidebar) window.__syncSidebar(config);
         });
