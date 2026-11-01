@@ -155,7 +155,7 @@ def test_url_sync_popstate_restores_seed_input_value() -> None:
     """
     popstate_block = _popstate_block(_url_sync_js())
     assert "getElementById('seed-input-el')" in popstate_block
-    assert re.search(r"el\.value\s*=\s*seed", popstate_block)
+    assert re.search(r"el\.value\s*=\s*cs", popstate_block)
 
 
 def test_url_sync_apply_theme_to_dom_matches_actions_apply_to_root_logic() -> None:
