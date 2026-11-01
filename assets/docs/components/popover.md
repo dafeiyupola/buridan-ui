@@ -67,12 +67,6 @@ class PopoverRoot(PopoverBaseComponent):
 
     modal: Var[bool | Literal["trap-focus"]]
 
-    open_on_hover: Var[bool]
-
-    delay: Var[int]
-
-    close_delay: Var[int]
-
     @classmethod
     def create(cls, *children, **props) -> BaseUIComponent:
         props["data-slot"] = "popover"
@@ -83,6 +77,12 @@ class PopoverTrigger(PopoverBaseComponent):
     tag = "Popover.Trigger"
 
     native_button: Var[bool]
+
+    open_on_hover: Var[bool]
+
+    delay: Var[int]
+
+    close_delay: Var[int]
 
     render_: Var[Component]
 
@@ -136,7 +136,7 @@ class PopoverPositioner(PopoverBaseComponent):
 
     position_method: Var[LiteralPosition]
 
-    track_anchor: Var[bool]
+    disable_anchor_tracking: Var[bool]
 
     collision_avoidance: Var[str | dict[str, str]]
 
