@@ -197,3 +197,19 @@ def test_tooltip_provider_still_exposes_delay_props() -> None:
     assert "closeDelay:300" in " ".join(
         TooltipProvider.create(close_delay=300).render()["props"],
     )
+
+
+def test_tooltip_trigger_exposes_delay_props() -> None:
+    """1.6.0 reads ``delay``/``closeDelay`` on ``Tooltip.Trigger``, so per-tooltip
+    delays must be declared there rather than falling into the inert ``css`` dict.
+    """
+    props = TooltipTrigger.get_props()
+    assert "delay" in props
+    assert "close_delay" in props
+
+    delay = " ".join(TooltipTrigger.create(delay=0).render()["props"])
+    close_delay = " ".join(TooltipTrigger.create(close_delay=300).render()["props"])
+    assert "delay:0" in delay
+    assert "closeDelay:300" in close_delay
+    assert "css:" not in delay
+    assert "css:" not in close_delay
