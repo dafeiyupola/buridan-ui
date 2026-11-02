@@ -3,6 +3,7 @@ import ast
 import shutil
 import sys
 from pathlib import Path
+from typing import Any, TypeGuard
 
 # ── registries ────────────────────────────────────────────────────────────────
 from app.registry.colors import COLOR_THEMES
@@ -73,15 +74,18 @@ def flatten_vars(obj: dict) -> dict:
     return out
 
 
-def _lookup(seq: list[dict], entry_id: str | None) -> dict | None:
+def _lookup(
+    seq: list[dict[str, Any]],
+    entry_id: str | None,
+) -> dict[str, Any] | None:
     if not entry_id:
         return None
     return next((x for x in seq if x["id"] == entry_id), None)
 
 
 def _apply_color_overlays(
-    theme: dict,
-    entry: dict | None,
+    theme: dict[str, Any],
+    entry: dict[str, Any] | None,
     *,
     dark: bool,
     chart: bool,
@@ -282,7 +286,7 @@ def add_components_to_project(
 
 
 def _inject_into_plugins_kw(lines: list[str], call: ast.Call, snippet: str) -> bool:
-    for i in range(call.lineno - 1, call.end_lineno):
+    for i in range(call.lineno - 1, call.end_lineno or call.lineno):
         if "plugins=" in lines[i]:
             lines[i] = lines[i].replace("plugins=[", f"plugins=[\n{snippet},")
             return True
@@ -290,7 +294,7 @@ def _inject_into_plugins_kw(lines: list[str], call: ast.Call, snippet: str) -> b
 
 
 def _inject_new_plugins_arg(lines: list[str], call: ast.Call, snippet: str) -> bool:
-    for i in range(call.lineno - 1, call.end_lineno):
+    for i in range(call.lineno - 1, call.end_lineno or call.lineno):
         if "Config(" in lines[i] or "config(" in lines[i]:
             indent = " " * (len(lines[i]) - len(lines[i].lstrip()))
             lines[i] = lines[i].replace(
@@ -301,7 +305,7 @@ def _inject_new_plugins_arg(lines: list[str], call: ast.Call, snippet: str) -> b
     return False
 
 
-def _is_rx_config_call(call: ast.expr) -> bool:
+def _is_rx_config_call(call: ast.expr) -> TypeGuard[ast.Call]:
     return (
         isinstance(call, ast.Call)
         and isinstance(call.func, ast.Attribute)

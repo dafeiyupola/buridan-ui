@@ -5,6 +5,7 @@ import pathlib
 import re
 from collections.abc import Callable
 from pathlib import Path
+from typing import cast
 
 import reflex as rx
 
@@ -37,17 +38,18 @@ def get_all_dependencies(name: str, registry: dict) -> list[str]:
     return deps
 
 
-def _render_demo(obj: Callable[..., rx.Component]) -> rx.Component:
-    src = inspect.getsource(obj).strip()
-    return demo_wrapper(obj(), src)
+def _render_demo(obj: object) -> rx.Component:
+    component = cast("Callable[[], rx.Component]", obj)
+    src = inspect.getsource(component).strip()
+    return demo_wrapper(component(), src)
 
 
 def _render_code(cmd: str, obj: object, inspect_obj: object) -> rx.Component:
-    src = (
-        inspect.getsource(inspect.getmodule(inspect_obj))
-        if "_file" in cmd
-        else inspect.getsource(obj)
-    ).strip()
+    target = inspect.getmodule(inspect_obj) if "_file" in cmd else obj
+    if target is None:
+        msg = "could not resolve a module for the component"
+        raise TypeError(msg)
+    src = inspect.getsource(cast("Callable[..., object]", target)).strip()
 
     return chart_util_wrapper(source=src)
 

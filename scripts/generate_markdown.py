@@ -266,7 +266,7 @@ def _registry_block(
     if "demo" in cmd:
         return _demo_block(name, obj)
     if "code" in cmd:
-        return _code_block(cmd, name, obj, option or "python")
+        return _code_block(cmd, name, obj, str(option or "python"))
     if cmd == "install":
         cli_cmd = str(option) if has_option else f"buridan add {str(name).lower()}"
         return _install_block(name, obj, cli_cmd)

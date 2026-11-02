@@ -169,7 +169,7 @@ def run_reflex(env, pages):
     return port
 
 
-def _select_pages(mode: str, sections: dict) -> list[str] | None:
+def _select_pages(mode: str, sections: dict[str, list[str]]) -> list[str] | None:
     if mode == "pages":
         return select_pages(sections)
     if mode in {"sections", "section-pages"}:
