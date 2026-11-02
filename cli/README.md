@@ -77,7 +77,7 @@ buridan apply --preset <ID>       # apply your theme
 buridan add button input select   # add the components you need
 ```
 
-# Documentation
+## Documentation
 
 Visit [https://ui.buridan.dev/components](https://ui.buridan.dev/components) to see all the components.
 
