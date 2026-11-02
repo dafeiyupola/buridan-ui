@@ -3,6 +3,7 @@ import ast
 import shutil
 import sys
 from pathlib import Path
+from typing import Any, TypeGuard
 
 # ── registries ────────────────────────────────────────────────────────────────
 from app.registry.colors import COLOR_THEMES
@@ -73,6 +74,30 @@ def flatten_vars(obj: dict) -> dict:
     return out
 
 
+def _lookup(
+    seq: list[dict[str, Any]],
+    entry_id: str | None,
+) -> dict[str, Any] | None:
+    if not entry_id:
+        return None
+    return next((x for x in seq if x["id"] == entry_id), None)
+
+
+def _apply_color_overlays(
+    theme: dict[str, Any],
+    entry: dict[str, Any] | None,
+    *,
+    dark: bool,
+    chart: bool,
+) -> None:
+    """Overlay the chart vars (chart=True) or the non-chart vars from `entry`."""
+    if not entry:
+        return
+    for k, v in flatten_vars(entry["dark"] if dark else entry["light"]).items():
+        if k.startswith("--chart-") == chart:
+            theme[k] = v
+
+
 def rebuild_theme(config: dict) -> dict:
     base_id = config.get("baseId")
     color_id = config.get("colorId")
@@ -82,35 +107,24 @@ def rebuild_theme(config: dict) -> dict:
     radius = config.get("radius")
     dark = config.get("darkMode", False)
 
-    base = next((b for b in BASE_THEMES if b["id"] == base_id), None)
+    base = _lookup(BASE_THEMES, base_id)
     if not base:
         return {}
 
     theme = {**flatten_vars(base["dark"] if dark else base["light"])}
 
-    if color_id:
-        color = next((c for c in COLOR_THEMES if c["id"] == color_id), None)
-        if color:
-            for k, v in flatten_vars(color["dark"] if dark else color["light"]).items():
-                if not k.startswith("--chart-"):
-                    theme[k] = v
+    _apply_color_overlays(
+        theme,
+        _lookup(COLOR_THEMES, color_id),
+        dark=dark,
+        chart=False,
+    )
+    _apply_color_overlays(theme, _lookup(COLOR_THEMES, chart_id), dark=dark, chart=True)
 
-    if chart_id:
-        chart = next((c for c in COLOR_THEMES if c["id"] == chart_id), None)
-        if chart:
-            for k, v in flatten_vars(chart["dark"] if dark else chart["light"]).items():
-                if k.startswith("--chart-"):
-                    theme[k] = v
-
-    if style_id:
-        style = next((s for s in STYLE_REGISTRY if s["id"] == style_id), None)
-        if style:
-            theme.update(style["vars"])
-
-    if font_id:
-        font = next((f for f in FONT_REGISTRY if f["id"] == font_id), None)
-        if font:
-            theme.update(font["vars"])
+    for registry, entry_id in ((STYLE_REGISTRY, style_id), (FONT_REGISTRY, font_id)):
+        entry = _lookup(registry, entry_id)
+        if entry:
+            theme.update(entry["vars"])
 
     if radius:
         theme["--radius"] = radius
@@ -271,6 +285,62 @@ def add_components_to_project(
     return True
 
 
+def _inject_into_plugins_kw(lines: list[str], call: ast.Call, snippet: str) -> bool:
+    for i in range(call.lineno - 1, call.end_lineno or call.lineno):
+        if "plugins=" in lines[i]:
+            lines[i] = lines[i].replace("plugins=[", f"plugins=[\n{snippet},")
+            return True
+    return False
+
+
+def _inject_new_plugins_arg(lines: list[str], call: ast.Call, snippet: str) -> bool:
+    for i in range(call.lineno - 1, call.end_lineno or call.lineno):
+        if "Config(" in lines[i] or "config(" in lines[i]:
+            indent = " " * (len(lines[i]) - len(lines[i].lstrip()))
+            lines[i] = lines[i].replace(
+                "(",
+                f"(\n{indent}    plugins=[\n{snippet}\n{indent}    ],",
+            )
+            return True
+    return False
+
+
+def _is_rx_config_call(call: ast.expr) -> TypeGuard[ast.Call]:
+    return (
+        isinstance(call, ast.Call)
+        and isinstance(call.func, ast.Attribute)
+        and call.func.attr.lower() == "config"
+        and getattr(call.func.value, "id", "") == "rx"
+    )
+
+
+def _inject_via_ast(content: str, snippet: str) -> str | None:
+    """Return patched content, or None if no rx.Config assignment was patched."""
+    lines = content.splitlines()
+    for node in ast.walk(ast.parse(content)):
+        if not isinstance(node, ast.Assign) or not _is_rx_config_call(node.value):
+            continue
+        call = node.value
+        has_plugins = any(kw.arg == "plugins" for kw in call.keywords)
+        inject = _inject_into_plugins_kw if has_plugins else _inject_new_plugins_arg
+        if inject(lines, call, snippet):
+            patched = "\n".join(lines)
+            patched = patched.replace("rx.plugins.TailwindV4Plugin(),", "")
+            patched = patched.replace("rx.plugins.TailwindV4Plugin()", "")
+            return patched.replace(",,", ",")
+    return None
+
+
+def _append_plugins_fallback(content: str, snippet: str) -> str | None:
+    for name in ("rx.Config(", "rx.config("):
+        if name in content:
+            return content.replace(
+                name,
+                f"{name}\n    plugins=[\n{snippet}\n    ],",
+            )
+    return None
+
+
 def patch_rxconfig(config_path: Path) -> None:
     """Inject TailwindV4 plugin into rxconfig.py if not already present."""
     content = config_path.read_text()
@@ -280,76 +350,22 @@ def patch_rxconfig(config_path: Path) -> None:
         return
 
     try:
-        tree = ast.parse(content)
         snippet = TAILWIND_CONFIG_SNIPPET.strip().rstrip(",")
-        lines = content.splitlines()
-        modified = False
+        patched = _inject_via_ast(content, snippet)
+        if patched is None:
+            patched = _append_plugins_fallback(content, snippet)
 
-        for node in ast.walk(tree):
-            if not isinstance(node, ast.Assign):
-                continue
-            call = node.value
-            if not (
-                isinstance(call, ast.Call)
-                and isinstance(call.func, ast.Attribute)
-                and call.func.attr.lower() == "config"
-                and getattr(call.func.value, "id", "") == "rx"
-            ):
-                continue
-
-            plugins_kw = next((kw for kw in call.keywords if kw.arg == "plugins"), None)
-
-            if plugins_kw:
-                for i in range(call.lineno - 1, call.end_lineno):
-                    if "plugins=" in lines[i]:
-                        lines[i] = lines[i].replace(
-                            "plugins=[",
-                            f"plugins=[\n{snippet},",
-                        )
-                        modified = True
-                        break
-            else:
-                for i in range(call.lineno - 1, call.end_lineno):
-                    if "Config(" in lines[i] or "config(" in lines[i]:
-                        indent = " " * (len(lines[i]) - len(lines[i].lstrip()))
-                        lines[i] = lines[i].replace(
-                            "(",
-                            f"(\n{indent}    plugins=[\n{snippet}\n{indent}    ],",
-                        )
-                        modified = True
-                        break
-
-            if modified:
-                content = "\n".join(lines)
-                content = content.replace("rx.plugins.TailwindV4Plugin(),", "")
-                content = content.replace("rx.plugins.TailwindV4Plugin()", "")
-                content = content.replace(",,", ",")
-                break
-
-        if not modified:
-            if "rx.Config(" in content:
-                content = content.replace(
-                    "rx.Config(",
-                    f"rx.Config(\n    plugins=[\n{snippet}\n    ],",
-                )
-                modified = True
-            elif "rx.config(" in content:
-                content = content.replace(
-                    "rx.config(",
-                    f"rx.config(\n    plugins=[\n{snippet}\n    ],",
-                )
-                modified = True
-
-        if modified:
-            import_stmt = "from reflex.plugins.shared_tailwind import TailwindConfig"
-            if import_stmt not in content:
-                content = f"{import_stmt}\n{content}"
-            config_path.write_text(content)
-            print("✓ Updated rxconfig.py with Buridan UI Tailwind config.")
-        else:
+        if patched is None:
             print(
                 "Warning: Could not automatically update rxconfig.py. Please configure manually.",
             )
+            return
+
+        import_stmt = "from reflex.plugins.shared_tailwind import TailwindConfig"
+        if import_stmt not in patched:
+            patched = f"{import_stmt}\n{patched}"
+        config_path.write_text(patched)
+        print("✓ Updated rxconfig.py with Buridan UI Tailwind config.")
 
     except Exception as e:
         print(f"Warning: Could not parse rxconfig.py ({e}). Please configure manually.")
@@ -445,6 +461,55 @@ def _consume_radius_scale_block(lines: list[str], end_line: int) -> int:
     return end_line
 
 
+def _find_block_end(lines: list[str], start: int) -> int | None:
+    """Index of the line closing the brace block that opens at/after `start`."""
+    depth = 0
+    started = False
+    for i in range(start, len(lines)):
+        depth += lines[i].count("{") - lines[i].count("}")
+        if depth > 0:
+            started = True
+        if started and depth == 0:
+            return i
+    return None
+
+
+def _theme_block_end(lines: list[str], start_line: int) -> int:
+    """Index of the last line of the :root block, the `.dark` block after it
+    (if any) and a trailing radius scale block (if any).
+    """
+    end_line = _find_block_end(lines, start_line)
+    if end_line is None:
+        return _consume_radius_scale_block(lines, start_line)
+    for j in range(end_line + 1, len(lines)):
+        if lines[j].strip().startswith(".dark {"):
+            dark_end = _find_block_end(lines, j)
+            if dark_end is not None and dark_end > j:
+                end_line = dark_end
+            break
+    # also consume a trailing `@theme inline` radius scale block previously
+    # emitted by generate_theme_css(), so re-applying a preset does not leave a
+    # stale/duplicate radius block.
+    return _consume_radius_scale_block(lines, end_line)
+
+
+def _merge_theme_css(current: str, theme_css: str) -> str:
+    if ":root {" not in current:
+        return theme_css + "\n\n" + current
+    lines = current.splitlines()
+    start_line = next(
+        (i for i, line in enumerate(lines) if line.strip().startswith(":root {")),
+        None,
+    )
+    if start_line is None:
+        return theme_css + "\n\n" + current
+    end_line = _theme_block_end(lines, start_line)
+    before = "\n".join(lines[:start_line]).rstrip("\n")
+    after = "\n".join(lines[end_line + 1 :]).lstrip("\n")
+    parts = [p for p in (before, theme_css, after) if p]
+    return "\n\n".join(parts) + "\n"
+
+
 def cmd_apply(preset: str) -> None:
     """Apply a theme preset to the project.
 
@@ -469,66 +534,8 @@ def cmd_apply(preset: str) -> None:
     css_path = assets_dir / "globals.css"
 
     theme_css = generate_theme_css(preset)
-    theme_marker = ":root {"
-
     if css_path.exists():
-        current = css_path.read_text()
-        if theme_marker in current:
-            # replace existing :root / .dark block, preserve everything after
-            # find where :root starts and .dark block ends
-            lines = current.splitlines()
-            start_line = next(
-                (
-                    i
-                    for i, line in enumerate(lines)
-                    if line.strip().startswith(":root {")
-                ),
-                None,
-            )
-            if start_line is not None:
-                # find end of :root block
-                brace_depth = 0
-                end_line = start_line
-                in_block = False
-                for i, line in enumerate(lines[start_line:], start_line):
-                    brace_depth += line.count("{") - line.count("}")
-                    if brace_depth > 0:
-                        in_block = True
-                    if in_block and brace_depth == 0:
-                        end_line = i
-                        # keep going to also consume .dark {}
-                        # find next block
-                        rest = lines[end_line + 1 :]
-                        for j, rest_line in enumerate(rest):
-                            if rest_line.strip().startswith(".dark {"):
-                                bd = 0
-                                for k, dl in enumerate(
-                                    lines[end_line + 1 + j :],
-                                    end_line + 1 + j,
-                                ):
-                                    bd += dl.count("{") - dl.count("}")
-                                    if bd > 0:
-                                        pass
-                                    if bd == 0 and k > end_line + 1 + j:
-                                        end_line = k
-                                        break
-                                break
-                        break
-
-                # also consume a trailing `@theme inline` radius scale block
-                # previously emitted by generate_theme_css(), so re-applying
-                # a preset does not leave a stale/duplicate radius block.
-                end_line = _consume_radius_scale_block(lines, end_line)
-
-                before = "\n".join(lines[:start_line]).rstrip("\n")
-                after = "\n".join(lines[end_line + 1 :]).lstrip("\n")
-                parts = [p for p in (before, theme_css, after) if p]
-                css_path.write_text("\n\n".join(parts) + "\n")
-            else:
-                css_path.write_text(theme_css + "\n\n" + current)
-        else:
-            # no existing theme — prepend
-            css_path.write_text(theme_css + "\n\n" + current)
+        css_path.write_text(_merge_theme_css(css_path.read_text(), theme_css))
     else:
         css_path.write_text(theme_css)
 

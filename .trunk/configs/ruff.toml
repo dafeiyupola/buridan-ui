@@ -168,8 +168,7 @@ convention = "google"
 "app/pages/**" = ["INP001"]
 
 # --- Developer tooling ---
-# Generation scripts don't need full type annotations. Complexity limits are
-# deferred until the long generators are split up (#134, #209).
-"scripts/**" = ["ANN001", "ANN202", "PLR0911", "PLR0912", "PLR0915"]
-# Typer command bodies branch on many options; refactoring deferred (#134).
-"cli/**" = ["PLR0912", "PLR0915", "INP001"]
+# Generation scripts don't need full type annotations.
+"scripts/**" = ["ANN001", "ANN202"]
+# cli/ is run as a script directory, not an importable package.
+"cli/**" = ["INP001"]
