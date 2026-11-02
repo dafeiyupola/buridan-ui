@@ -127,7 +127,7 @@ convention = "google"
 # whose parameter isn't named `value`, and component source ships verbatim.
 # A004: the input component is named `input`, shadowing the builtin.
 # RUF012: mutable class-level defaults are how Reflex components declare props.
-"components/**" = ["FBT003", "A004", "RUF012"]
+"components/**" = ["FBT003", "A001", "A004", "RUF012"]
 # FBT003: ClientStateVar.create(name, default) is Reflex's API and the repo
 # passes defaults positionally. Scoped so first-party logic under app/ stays gated.
 "app/hooks.py" = ["FBT003"]
@@ -140,9 +140,9 @@ convention = "google"
 "app/templates/**" = ["A004"]
 # Example modules are discovered by directory scan and imported dynamically
 # (app/www/parser.py), so they need no __init__.py. A004 as above.
-"app/www/library/examples/**" = ["INP001", "A004"]
+"app/www/library/examples/**" = ["INP001", "A001", "A004", "S311"]
 # ClientStateVar handles are intentionally capitalized.
-"app/www/library/charts/**" = ["N806"]
+"app/www/library/charts/**" = ["N806", "S311"]
 
 # --- Developer tooling ---
 # Generation scripts don't need full type annotations.

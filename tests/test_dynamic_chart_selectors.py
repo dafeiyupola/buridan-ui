@@ -16,7 +16,8 @@ def _find_select(component):
             for child in getattr(current, "children", ())
             if hasattr(child, "children")
         )
-    raise AssertionError("Chart demo does not contain a select element")
+    msg = "Chart demo does not contain a select element"
+    raise AssertionError(msg)
 
 
 def _assert_select_wiring(factory, expected_default, expected_values) -> None:

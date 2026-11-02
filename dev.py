@@ -166,8 +166,9 @@ def run_reflex(env, pages):
                     for page in pages:
                         print(f"{base_url}/{page}")
 
-            except Exception:
-                pass
+            except IndexError:
+                # Line mentions localhost but not in the expected URL form.
+                continue
 
     return port
 

@@ -1,4 +1,5 @@
 import sys
+from collections.abc import Iterator
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).parent.parent
@@ -86,12 +87,12 @@ def test_generate_doc_routes_sorts_by_frontmatter_order_and_url_ties(
 
     # Reverse both tied URL groups to prove tie ordering ignores glob order.
     glob_order = [paths[2], paths[4], paths[0], paths[3], paths[1]]
+
+    def fake_glob(_self: Path, _pattern: str) -> Iterator[Path]:
+        return iter(glob_order)
+
     monkeypatch.setattr(routes.constants, "DOCS_BASE_DIR", tmp_path)
-    monkeypatch.setattr(
-        routes.glob,
-        "glob",
-        lambda _pattern, **_kwargs: [str(path) for path in glob_order],
-    )
+    monkeypatch.setattr(routes.Path, "glob", fake_glob)
 
     generated = routes.generate_doc_routes("components", "docs/components/")
 

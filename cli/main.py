@@ -367,7 +367,7 @@ def patch_rxconfig(config_path: Path) -> None:
         config_path.write_text(patched)
         print("✓ Updated rxconfig.py with Buridan UI Tailwind config.")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - best-effort config edit; fall back to manual instructions
         print(f"Warning: Could not parse rxconfig.py ({e}). Please configure manually.")
 
 

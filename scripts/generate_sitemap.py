@@ -1,7 +1,7 @@
-import os
 import sys
+from pathlib import Path
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.utils.routes import (
     BASE_UI_COMPONENTS,
@@ -37,8 +37,7 @@ def generate_sitemap() -> str:
 
 
 if __name__ == "__main__":
-    output_path = os.path.join(os.path.dirname(__file__), "..", "assets", "sitemap.xml")
+    output_path = Path(__file__).parent.parent / "assets" / "sitemap.xml"
     sitemap = generate_sitemap()
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write(sitemap)
+    output_path.write_text(sitemap, encoding="utf-8")
     print(f"sitemap.xml written to {output_path}")

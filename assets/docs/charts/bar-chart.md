@@ -463,7 +463,7 @@ def barchart_v5():
 
     formatted_data = [
         {
-            "date": datetime.strptime(item["date"], "%Y-%m-%d").strftime("%b %d"),
+            "date": date.fromisoformat(item["date"]).strftime("%b %d"),
             "desktop": item["desktop"],
             "mobile": item["mobile"],
         }

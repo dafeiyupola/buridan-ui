@@ -60,7 +60,7 @@ def dynamic_load_components(dirs: list[str]) -> Registry:
                             or isinstance(obj, ComponentNamespace)
                         ):
                             registry[name.lower()] = (obj, name)
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001 - a broken example module must not abort generation
                 print(
                     f"Warning: Could not import from module {module_path} ({type(e).__name__}): {e}",
                     file=sys.stderr,

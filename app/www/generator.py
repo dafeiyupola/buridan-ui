@@ -54,8 +54,7 @@ def generate_docs_library() -> list[constants.DocDataStruct]:
         url_path = "docs/" + "/".join(url_path_parts).replace(".md", "")
 
         # Read the markdown content
-        with open(md_file_path) as f:
-            md_content = f.read()
+        md_content = md_file_path.read_text()
 
         md_data, md_content = parse_frontmatter(md_content)
 
