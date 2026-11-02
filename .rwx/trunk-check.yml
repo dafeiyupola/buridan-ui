@@ -105,6 +105,11 @@ tasks:
     use: [deps, trunk-tools]
     env:
       EVENT_TYPE: ${{ init.event-type }}
+    # Uncached: a same-head re-trigger of these workflows (a bot comment fired
+    # mid-review) served green statuses in ~530ms — cache replays, too fast to
+    # have executed. A required status must never be a replayed verdict, so
+    # the lint re-executes on every leg; the upstream tool and deps caches stay.
+    cache: false
     run: |
       set -euo pipefail
       git fetch origin main

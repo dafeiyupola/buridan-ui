@@ -51,6 +51,11 @@ tasks:
 
   - key: validate
     use: [deps]
+    # Uncached: a same-head re-trigger of these workflows (a bot comment fired
+    # mid-review) served green statuses in ~530ms — cache replays, too fast to
+    # have executed. A required status must never be a replayed verdict, so
+    # the validation re-executes on every leg; the upstream deps cache stays.
+    cache: false
     run: |
       set -euo pipefail
       uv run python scripts/generate_anatomy.py --check

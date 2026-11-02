@@ -4,19 +4,27 @@
 # "Not Ready" until impacted targets are uploaded for its head commit. This
 # repo is a single deployable unit, so every PR declares impactsAllTargets.
 #
-# Do NOT add path filters or an `if:` here: a PR that skips this never uploads
-# and the queue would hold it forever. Deliberately not a required status.
+# Do NOT add path filters here: a PR that skips this never uploads and the
+# queue would hold it forever. Deliberately not a required status.
+#
+# The upload task carries the author gate its production reference
+# (elviskahoro/sdk-python-attio/.rwx/pytest.yml) calls the only author control:
+# vault grants match repo + ref, never author. The repo is public, so arbitrary
+# PR branches are in the token's threat model. PR legs from any other author
+# skip the upload with a green status and stay at "Not Ready" until handled —
+# the same posture the GitHub workflow documents for fork and Dependabot PRs.
 #
 # TRUNK_API_KEY lives in its own `buridan-ui-trunk` vault (org-wide Trunk
 # token; never add another secret to it). Grants must include
 # `elviskahoro/buridan-ui:**`, `*/*` and `:main` (branch globs do not cross
 # `/`). cache: false + cache-key: excluded keep the token out of the cache
-# fingerprint and make every run actually upload.
+# fingerprint and make every executed leg actually upload.
 on:
   github:
     pull_request:
       init:
         commit-sha: ${{ event.git.sha }}
+        pr-author: ${{ event.github.pull_request.pull_request.user.login }}
         pr-number: ${{ event.github.pull_request.pull_request.number }}
         target-branch: ${{ event.github.pull_request.pull_request.base.ref }}
       status-checks:
@@ -28,6 +36,12 @@ base:
 
 tasks:
   - key: upload
+    # The only author control there is (vault grants match repo + ref, never
+    # author). RWX documents no ordering between a task's `if:` and its env:
+    # secret resolution, so whether a skipped task touches the vault is
+    # unverifiable; what holds regardless: a skipped task never executes its
+    # script, so the token cannot reach code on skipped legs.
+    if: ${{ init.pr-author == 'elviskahoro' }}
     cache: false
     env:
       TRUNK_API_KEY:
