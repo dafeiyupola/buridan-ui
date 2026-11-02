@@ -36,7 +36,14 @@ def _find_button(component: Component) -> Component | None:
     if getattr(component, "tag", None) == "button":
         return component
 
-    for child in getattr(component, "children", []):
+    # ``attach_tooltip`` passes the button via ``Tooltip.Trigger(render_=...)``
+    # rather than as a child, so check that prop before the children.
+    # The prop is wrapped in a ``LiteralComponentVar``; unwrap it.
+    rendered = getattr(getattr(component, "render_", None), "_var_value", None)
+    candidates = [rendered] if isinstance(rendered, Component) else []
+    candidates.extend(getattr(component, "children", []))
+
+    for child in candidates:
         button = _find_button(child)
         if button is not None:
             return button
