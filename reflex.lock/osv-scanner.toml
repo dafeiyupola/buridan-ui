@@ -1,0 +1,4 @@
+[[IgnoredVulns]]
+id = "GHSA-g3hv-75wg-m249"
+ignoreUntil = 2027-02-01
+reason = "minimatch <11.0.1 DoS needs attacker-controlled globs; only @react-router/fs-routes uses it, with repo-controlled route patterns at build time. Its ^10 requirement breaks on minimatch 11 (no makeRe export), so retry once fs-routes supports 11."

@@ -8,3 +8,10 @@ line_length: false
 spaces: false
 url: false
 whitespace: false
+# Table column alignment is formatting, not correctness (see header comment).
+MD060: false
+# Docs pages carry a frontmatter `title:` and also open with an H1.
+MD025:
+  front_matter_title: ""
+# CHANGELOG/LICENSE/README/agent files intentionally don't open with an H1.
+MD041: false

@@ -38,7 +38,7 @@ def gh_get(path: str, token: str | None) -> list[dict] | None:
         headers["Authorization"] = f"Bearer {token}"
     req = Request(url, headers=headers)
     try:
-        with urlopen(req) as resp:
+        with urlopen(req) as resp:  # noqa: S310  # nosec B310 - fixed https API URL
             return json.loads(resp.read())
     except HTTPError as e:
         if e.code == 403:

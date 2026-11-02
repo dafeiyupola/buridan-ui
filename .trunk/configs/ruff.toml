@@ -59,7 +59,6 @@ select = [
   "UP",
 ]
 ignore = [
-  "ANN101",
   "B008",
   "C901",
   "D100",
@@ -120,14 +119,36 @@ convention = "google"
 
 # assert is pytest's normal check mechanism, not a production safety bypass.
 # Mocks of Reflex/Python callables take and return Any.
-"tests/**" = ["S101", "ANN401"]
+"tests/**" = [
+  "S101",
+  "ANN001",
+  "ANN002",
+  "ANN003",
+  "ANN201",
+  "ANN202",
+  "ANN401",
+  "PLR2004",
+  "PT018",
+  "RUF001",
+]
 
 # --- Reflex UI code ---
 # Reflex event handlers are called positionally; value=<bool> breaks handlers
 # whose parameter isn't named `value`, and component source ships verbatim.
 # A004: the input component is named `input`, shadowing the builtin.
 # RUF012: mutable class-level defaults are how Reflex components declare props.
-"components/**" = ["FBT003", "A001", "A004", "RUF012"]
+"components/**" = [
+  "FBT003",
+  "A001",
+  "A004",
+  "RUF012",
+  "ANN001",
+  "ANN002",
+  "ANN003",
+  "ANN201",
+  "ANN202",
+  "ANN206",
+]
 # FBT003: ClientStateVar.create(name, default) is Reflex's API and the repo
 # passes defaults positionally. Scoped so first-party logic under app/ stays gated.
 "app/hooks.py" = ["FBT003"]
@@ -136,14 +157,19 @@ convention = "google"
 "scripts/linear_cli.py" = ["FBT003"]
 # A004: these compose the `input` component from components/ui.
 "app/anatomy_src/**" = ["A004"]
-"app/examples/**" = ["A004"]
+"app/examples/**" = ["A004", "INP001"]
 "app/templates/**" = ["A004"]
 # Example modules are discovered by directory scan and imported dynamically
 # (app/www/parser.py), so they need no __init__.py. A004 as above.
-"app/www/library/examples/**" = ["INP001", "A001", "A004", "S311"]
+"app/www/library/examples/**" = ["INP001", "A001", "A004", "S311", "PLR2004"]
 # ClientStateVar handles are intentionally capitalized.
-"app/www/library/charts/**" = ["N806", "S311"]
+"app/www/library/charts/**" = ["N806", "S311", "INP001"]
+# Namespace-package directories imported by path/module name; adding
+# __init__.py would change how Reflex page modules and the CLI are discovered.
+"app/pages/**" = ["INP001"]
 
 # --- Developer tooling ---
 # Generation scripts don't need full type annotations.
 "scripts/**" = ["ANN001", "ANN202"]
+# cli/ is run as a script directory, not an importable package.
+"cli/**" = ["INP001"]

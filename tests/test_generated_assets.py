@@ -1,5 +1,4 @@
-"""
-Tests to verify that all source markdown files in docs/ have been correctly
+"""Tests to verify that all source markdown files in docs/ have been correctly
 processed into their expected outputs:
   - assets/docs/   → markdown files (underscores → hyphens)
   - assets/social/ → .webp social cards.
@@ -37,8 +36,7 @@ def all_source_md_files():
 
 
 def expected_markdown_output_path(md_file: pathlib.Path) -> pathlib.Path:
-    """
-    Mirror a docs/ source path into assets/docs/, converting underscores to
+    """Mirror a docs/ source path into assets/docs/, converting underscores to
     hyphens in every path component (matching generator.py behaviour).
     """
     relative = md_file.relative_to(DOCS_DIR)
@@ -53,8 +51,7 @@ def expected_ui_component_doc_path(component_source: pathlib.Path) -> pathlib.Pa
 
 
 def expected_social_card_path(md_file: pathlib.Path) -> pathlib.Path:
-    """
-    Derive the expected .webp path for a docs/ source file, matching
+    """Derive the expected .webp path for a docs/ source file, matching
     social_cards generator behaviour (stem with underscores → hyphens).
     """
     filename = md_file.stem.replace("_", "-") + ".webp"
@@ -134,8 +131,7 @@ class TestMarkdownGeneration:
         ids=lambda f: str(f.relative_to(DOCS_DIR)),
     )
     def test_no_unresolved_delimiters(self, md_file):
-        """
-        Generated markdown must contain no unresolved --component-- delimiters,
+        """Generated markdown must contain no unresolved --component-- delimiters,
         which would indicate a registry lookup failure during generation.
         """
         output = expected_markdown_output_path(md_file)
@@ -155,8 +151,7 @@ class TestMarkdownGeneration:
         ids=lambda f: str(f.relative_to(DOCS_DIR)),
     )
     def test_frontmatter_stripped(self, md_file):
-        """
-        If the source file has YAML frontmatter, the generated output must not
+        """If the source file has YAML frontmatter, the generated output must not
         start with '---' (the generator strips it).
         """
         if not has_frontmatter(md_file):
@@ -197,8 +192,7 @@ class TestMarkdownGeneration:
         )
 
     def test_no_extra_output_files(self):
-        """
-        Every file in assets/docs/ should trace back to a source file in docs/.
+        """Every file in assets/docs/ should trace back to a source file in docs/.
         Catches stale outputs from deleted source files.
         """
         expected_outputs = {expected_markdown_output_path(f) for f in _all_md}
@@ -323,8 +317,7 @@ class TestSocialCardGeneration:
         ids=lambda f: str(f.relative_to(DOCS_DIR)),
     )
     def test_doc_social_card_is_webp(self, md_file):
-        """
-        Social card files should be valid WEBP images — checked by magic bytes
+        """Social card files should be valid WEBP images — checked by magic bytes
         (no Pillow dependency needed at test time).
         WEBP files start with b'RIFF' at offset 0 and b'WEBP' at offset 8.
         """
