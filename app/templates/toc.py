@@ -169,6 +169,9 @@ def table_of_content(url: str, toc_data: list[dict]):
     Args:
         toc_data: List of dicts with 'text', 'id', 'level' keys
     """
+    uid = generate_component_id()
+    init_key = f"__tocInit_{uid}"
+    cleanup_key = f"__tocCleanup_{uid}"
     return rx.el.div(
         # rx.script(),
         rx.el.div(
@@ -220,7 +223,13 @@ def table_of_content(url: str, toc_data: list[dict]):
         on_mount=rx.call_script(
             """
                 (function() {
+                    let observer = null;
+                    let abortController = null;
+                    const domWatcher = new MutationObserver(() => {
+                        if (initScrollspy()) domWatcher.disconnect();
+                    });
                     function initScrollspy() {
+                        if (window['__TOC_INIT_KEY__']) return true;
                         const links = document.querySelectorAll('.toc-link');
                         if (!links.length) return false;
                         const sections = Array.from(links)
@@ -228,6 +237,7 @@ def table_of_content(url: str, toc_data: list[dict]):
                             .map(id => document.getElementById(id))
                             .filter(Boolean);
                         if (!sections.length) return false;
+                        abortController = new AbortController();
                         function setActive(id) {
                             links.forEach(l => l.removeAttribute('data-active'));
                             const active = Array.from(links).find(
@@ -243,7 +253,7 @@ def table_of_content(url: str, toc_data: list[dict]):
                                 if (target) target.scrollIntoView({ behavior: 'instant' });
                                 setActive(id);
                                 history.pushState(null, '', `#${id}`);
-                            });
+                            }, { signal: abortController.signal });
                         });
                         document.querySelectorAll('h1 a, h2 a').forEach(anchor => {
                             anchor.addEventListener('click', (e) => {
@@ -253,9 +263,9 @@ def table_of_content(url: str, toc_data: list[dict]):
                                 if (target) target.scrollIntoView({ behavior: 'instant' });
                                 setActive(id);
                                 history.pushState(null, '', `#${id}`);
-                            });
+                            }, { signal: abortController.signal });
                         });
-                        const observer = new IntersectionObserver((entries) => {
+                        observer = new IntersectionObserver((entries) => {
                             entries.forEach(entry => {
                                 if (entry.isIntersecting) setActive(entry.target.id);
                             });
@@ -266,14 +276,26 @@ def table_of_content(url: str, toc_data: list[dict]):
                             const target = document.getElementById(hash);
                             if (target) target.scrollIntoView({ behavior: 'instant' });
                         }
+                        window['__TOC_INIT_KEY__'] = true;
                         return true;
                     }
-                    const domWatcher = new MutationObserver(() => {
-                        if (initScrollspy()) domWatcher.disconnect();
-                    });
-                    domWatcher.observe(document.body, { childList: true, subtree: true });
-                    initScrollspy();
+                    window['__TOC_CLEANUP_KEY__'] = () => {
+                        if (abortController) abortController.abort();
+                        if (observer) observer.disconnect();
+                        domWatcher.disconnect();
+                        delete window['__TOC_INIT_KEY__'];
+                        delete window['__TOC_CLEANUP_KEY__'];
+                    };
+                    if (!initScrollspy()) {
+                        domWatcher.observe(document.body, { childList: true, subtree: true });
+                    }
                 })();
-            """,
+            """.replace("__TOC_INIT_KEY__", init_key).replace(
+                "__TOC_CLEANUP_KEY__",
+                cleanup_key,
+            ),
+        ),
+        on_unmount=rx.call_script(
+            f"if (window['{cleanup_key}']) window['{cleanup_key}']();",
         ),
     )
