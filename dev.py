@@ -170,19 +170,16 @@ def run_reflex(env, pages):
     return port
 
 
-def select_mode_pages(mode: str, sections: dict[str, list[str]]) -> list[str] | None:
-    """Run the prompts for `mode`; None means the user backed out."""
+def _select_pages(mode: str, sections: dict[str, list[str]]) -> list[str] | None:
     if mode == "pages":
         return select_pages(sections)
-
-    if mode in ("sections", "section-pages"):
+    if mode in {"sections", "section-pages"}:
         selected_sections = select_sections(sections)
         if selected_sections is None:
             return None
         if mode == "sections":
             return expand_sections(selected_sections, sections)
         return select_pages_from_sections(selected_sections, sections)
-
     return []
 
 
@@ -206,7 +203,7 @@ def main() -> None:
         print("Exiting")
         return
 
-    selected_pages = select_mode_pages(mode, sections)
+    selected_pages = _select_pages(mode, sections)
     if selected_pages is None:
         print("Exiting")
         return
