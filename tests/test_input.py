@@ -34,7 +34,7 @@ def _capture_input_props(monkeypatch: pytest.MonkeyPatch) -> dict:
     """Capture props passed to the underlying Reflex input component."""
     captured = {}
 
-    def create(cls: type, *children: Any, **props: Any) -> dict:
+    def create(cls: type, *children: Any, **props: Any) -> dict[str, Any]:
         captured.update(props)
         return props
 

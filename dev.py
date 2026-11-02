@@ -35,7 +35,8 @@ def build_index() -> dict[str, list[str]]:
 
 
 def expand_sections(
-    selected_sections: list[str], sections: dict[str, list[str]]
+    selected_sections: list[str],
+    sections: dict[str, list[str]],
 ) -> list[str]:
     pages: list[str] = []
     for section in selected_sections:
@@ -104,7 +105,8 @@ def select_sections(sections: dict[str, list[str]]) -> list[str] | None:
 
 
 def select_pages_from_sections(
-    selected_sections: list[str], sections: dict[str, list[str]]
+    selected_sections: list[str],
+    sections: dict[str, list[str]],
 ) -> list[str] | None:
     choices: list[str | questionary.Separator] = []
 
