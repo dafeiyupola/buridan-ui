@@ -5,6 +5,7 @@ import pathlib
 import re
 from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 import reflex as rx
 
@@ -155,16 +156,20 @@ class DocParser:
         obj: object,
         inspect_obj: object,
     ) -> rx.Component:
+        # Registry values are functions, classes, methods or ComponentNamespace
+        # instances; `Any` is the only annotation that fits `inspect.getsource`.
+        source_obj: Any = obj
         if "demo" in cmd:
-            src = inspect.getsource(obj).strip()
-            return demo_wrapper(obj(), src)
+            src = inspect.getsource(source_obj).strip()
+            return demo_wrapper(source_obj(), src)
 
-        src = (
-            inspect.getsource(inspect.getmodule(inspect_obj))
-            if "_file" in cmd
-            else inspect.getsource(obj)
-        ).strip()
-        return chart_util_wrapper(source=src)
+        if "_file" in cmd:
+            module = inspect.getmodule(inspect_obj)
+            if module is None:
+                msg = f"Could not determine module for {source_obj!r}"
+                raise TypeError(msg)
+            source_obj = module
+        return chart_util_wrapper(source=inspect.getsource(source_obj).strip())
 
     def _render_install(self, comp_name: str, name: object) -> rx.Component:
         all_deps = get_all_dependencies(comp_name, COMPONENT_REGISTRY)
@@ -176,6 +181,8 @@ class DocParser:
         files_data = []
         for dep in all_deps:
             comp_info = COMPONENT_REGISTRY.get(dep)
+            if comp_info is None:
+                continue
             for f_path in comp_info.get("files", []):
                 try:
                     content = Path(f_path).read_text().strip()

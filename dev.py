@@ -170,7 +170,7 @@ def run_reflex(env, pages):
     return port
 
 
-def select_mode_pages(mode: str, sections: dict) -> list | None:
+def select_mode_pages(mode: str, sections: dict[str, list[str]]) -> list[str] | None:
     """Run the prompts for `mode`; None means the user backed out."""
     if mode == "pages":
         return select_pages(sections)
