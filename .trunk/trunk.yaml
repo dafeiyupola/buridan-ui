@@ -229,6 +229,11 @@ lint:
         - "**/*.openapi.yaml"
         - "**/*.openapi.yml"
 
+    # gha-* rules misfire on RWX task-level env.
+    - linters: [checkov]
+      paths:
+        - .rwx/**
+
     - linters: [ruff]
       paths:
         - "*.ipynb"
