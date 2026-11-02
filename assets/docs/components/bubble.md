@@ -193,7 +193,7 @@ bubble = Bubble()
 
 
 ```python
-from components.ui.bubble import Bubble
+from components.ui.bubble import bubble
 ```
 
 

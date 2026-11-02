@@ -118,7 +118,7 @@ marker.root(
 
 
 ```python
-from components.ui.marker import Marker
+from components.ui.marker import marker
 ```
 
 

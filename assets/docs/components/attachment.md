@@ -275,7 +275,7 @@ attachment = Attachment()
 
 
 ```python
-from components.ui.attachment import Attachment
+from components.ui.attachment import attachment
 ```
 
 

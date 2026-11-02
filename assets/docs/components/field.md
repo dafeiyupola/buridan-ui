@@ -209,7 +209,7 @@ field = Field()
 
 
 ```python
-from components.ui.field import Field
+from components.ui.field import field
 ```
 
 

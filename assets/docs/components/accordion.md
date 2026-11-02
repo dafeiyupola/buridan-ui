@@ -215,7 +215,7 @@ accordion = Accordion()
 
 
 ```python
-from components.ui.accordion import Accordion
+from components.ui.accordion import accordion
 ```
 
 

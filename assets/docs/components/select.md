@@ -395,7 +395,7 @@ select = Select()
 ## Usage
 
 ```python
-from components.ui.select import Select
+from components.ui.select import select
 ```
 
 
