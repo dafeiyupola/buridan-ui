@@ -150,7 +150,3 @@ convention = "google"
 "scripts/**" = ["ANN001", "ANN202", "PLR0911", "PLR0912", "PLR0915"]
 # Typer command bodies branch on many options; refactoring deferred (#134).
 "cli/**" = ["PLR0912", "PLR0915"]
-
-# --- Non-cryptographic randomness ---
-# Component IDs only need uniqueness, not unpredictability.
-"app/www/wrapper.py" = ["S311"]
