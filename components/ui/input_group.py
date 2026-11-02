@@ -140,11 +140,14 @@ class InputGroupButton(CoreComponent):
         size = props.pop("size", "xs")
         props["data_size"] = size
 
-        props["class_name"] = cn(
+        unstyled = props.get("unstyled")
+        wrapper_defaults = cn(
             "flex items-center gap-2 text-sm shadow-none",
             ClassNames.get_button_size(size),
-            props.get("class_name", ""),
         )
+        cls.set_class_name(wrapper_defaults, props)
+        if unstyled is not None:
+            props["unstyled"] = unstyled
 
         return cast("Self", button(*children, **props))
 
@@ -154,10 +157,11 @@ class InputGroupInput(CoreComponent):
     def create(cls, *children, **props) -> Self:
         props.setdefault("type", "text")
         props["data_slot"] = "input-group-control"
-        props["class_name"] = cn(
-            ClassNames.CONTROL_INPUT,
-            props.get("class_name", ""),
-        )
+
+        unstyled = props.get("unstyled")
+        cls.set_class_name(ClassNames.CONTROL_INPUT, props)
+        if unstyled is not None:
+            props["unstyled"] = unstyled
 
         return cast("Self", input(*children, **props))
 
@@ -166,10 +170,11 @@ class InputGroupTextarea(CoreComponent):
     @classmethod
     def create(cls, *children, **props) -> Self:
         props["data_slot"] = "input-group-control"
-        props["class_name"] = cn(
-            ClassNames.CONTROL_TEXTAREA,
-            props.get("class_name", ""),
-        )
+
+        unstyled = props.get("unstyled")
+        cls.set_class_name(ClassNames.CONTROL_TEXTAREA, props)
+        if unstyled is not None:
+            props["unstyled"] = unstyled
 
         return cast("Self", textarea(*children, **props))
 
