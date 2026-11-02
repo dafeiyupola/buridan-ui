@@ -1,17 +1,32 @@
 import sys
 from pathlib import Path
 
+import reflex as rx
+
 ROOT_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
 from components.ui.context_menu import (  # noqa: E402
     ClassNames,
+    ContextMenuCheckboxItem,
+    ContextMenuCheckboxItemIndicator,
+    ContextMenuGroupLabel,
+    ContextMenuItem,
+    ContextMenuRadioItem,
+    ContextMenuRadioItemIndicator,
     ContextMenuRoot,
     ContextMenuShortcut,
     ContextMenuSubmenuRoot,
     ContextMenuSubmenuTrigger,
 )
 from components.ui.core import BaseUIComponent  # noqa: E402
+
+
+class _ContextMenuState(rx.State):  # pyright: ignore[reportUntypedBaseClass]
+    """State exposing Vars for the dynamic ``inset``/``variant`` escape hatch."""
+
+    is_inset: bool = False
+    item_variant: str = "default"
 
 
 def _rendered(component: BaseUIComponent) -> str:
@@ -106,3 +121,123 @@ def test_context_menu_submenu_root_no_longer_declares_dead_render() -> None:
     The audit removes it for parity with the other element-less Roots.
     """
     assert "render_" not in ContextMenuSubmenuRoot.get_props()
+
+
+# ---------------------------------------------------------------------------
+# inset/variant must accept state Vars, not just literals (#83)
+# ---------------------------------------------------------------------------
+
+
+def test_context_menu_item_inset_and_variant_accept_state_vars() -> None:
+    """``if props.get("inset"):`` / ``if props.get("variant"):`` called ``bool()``
+    on a ``Var``, which raises ``VarTypeError`` at app-definition time. The fix
+    switches to presence checks (``"inset" in props``) so a bound state ``Var``
+    is forwarded instead of crashing construction.
+    """
+    item = ContextMenuItem.create(
+        "Delete",
+        inset=_ContextMenuState.is_inset,
+        variant=_ContextMenuState.item_variant,
+    )
+    rendered_props = " ".join(item.render()["props"])
+
+    assert '"data-inset":' in rendered_props
+    assert '"data-variant":' in rendered_props
+
+
+def test_context_menu_item_inset_and_variant_still_accept_literals() -> None:
+    item = ContextMenuItem.create("Delete", inset=True, variant="destructive")
+    rendered_props = " ".join(item.render()["props"])
+
+    assert '"data-inset":true' in rendered_props
+    assert '"data-variant":"destructive"' in rendered_props
+
+
+def test_context_menu_item_inset_false_does_not_trigger_padding_selector() -> None:
+    """``"inset" in props`` forwards ``inset=False`` as ``data-inset="false"``.
+    Since ``data-inset:pl-7`` is a bare presence selector (``&[data-inset]``),
+    it would match that attribute regardless of its value. ``ClassNames.ITEM``
+    must use the value-based ``data-[inset=true]:pl-7`` selector so a falsy
+    ``inset`` never applies the padding.
+    """
+    for class_names in (
+        ClassNames.ITEM,
+        ClassNames.GROUP_LABEL,
+        ClassNames.RADIO_ITEM,
+        ClassNames.CHECKBOX_ITEM,
+        ClassNames.SUBMENU_TRIGGER,
+    ):
+        assert "data-inset:pl-7" not in class_names
+        assert "data-[inset=true]:pl-7" in class_names
+
+    item = ContextMenuItem.create("Delete", inset=False)
+    rendered_props = " ".join(item.render()["props"])
+
+    assert '"data-inset":false' in rendered_props
+
+
+def test_context_menu_group_label_inset_accepts_state_var() -> None:
+    label = ContextMenuGroupLabel.create("Actions", inset=_ContextMenuState.is_inset)
+
+    assert '"data-inset":' in " ".join(label.render()["props"])
+
+
+def test_context_menu_radio_item_inset_accepts_state_var() -> None:
+    radio_item = ContextMenuRadioItem.create(
+        "Option",
+        value="a",
+        inset=_ContextMenuState.is_inset,
+    )
+
+    assert '"data-inset":' in " ".join(radio_item.render()["props"])
+
+
+def test_context_menu_checkbox_item_inset_accepts_state_var() -> None:
+    checkbox_item = ContextMenuCheckboxItem.create(
+        "Option",
+        inset=_ContextMenuState.is_inset,
+    )
+
+    assert '"data-inset":' in " ".join(checkbox_item.render()["props"])
+
+
+def test_context_menu_submenu_trigger_inset_accepts_state_var() -> None:
+    sub_trigger = ContextMenuSubmenuTrigger.create(
+        "More",
+        inset=_ContextMenuState.is_inset,
+    )
+
+    assert '"data-inset":' in " ".join(sub_trigger.render()["props"])
+
+
+# ---------------------------------------------------------------------------
+# bare checkbox/radio indicators must render a default tick (#221)
+# ---------------------------------------------------------------------------
+
+
+def test_context_menu_radio_item_indicator_injects_default_tick_when_bare() -> None:
+    indicator = ContextMenuRadioItemIndicator.create()
+
+    assert len(indicator.children) == 1
+
+
+def test_context_menu_radio_item_indicator_preserves_custom_children() -> None:
+    custom_icon = rx.el.span("custom")
+    indicator = ContextMenuRadioItemIndicator.create(custom_icon)
+
+    assert len(indicator.children) == 1
+    assert indicator.children[0] is custom_icon
+
+
+def test_context_menu_checkbox_item_indicator_injects_default_tick_when_bare() -> None:
+    indicator = ContextMenuCheckboxItemIndicator.create()
+
+    assert len(indicator.children) == 1
+
+
+def test_context_menu_checkbox_item_indicator_preserves_custom_children() -> None:
+    custom_icon = rx.el.span("custom")
+    indicator = ContextMenuCheckboxItemIndicator.create(custom_icon)
+
+    assert len(indicator.children) == 1
+    assert indicator.children[0] is custom_icon
