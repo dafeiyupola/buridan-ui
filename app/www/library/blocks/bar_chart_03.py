@@ -92,7 +92,7 @@ def _chart(show_y_axis: bool) -> rx.Component:
     )
 
 
-def bar_chart_03():
+def bar_chart_03() -> rx.Component:
     return card.root(
         card.header(
             card.title("Average BPM"),

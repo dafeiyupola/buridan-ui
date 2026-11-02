@@ -38,17 +38,17 @@ from app.www.library.charts.line.v8 import linechart_v8
 
 
 @masonry_card(label="Charts")
-def line_chart():
+def line_chart() -> rx.Component:
     return linechart_v8()
 
 
 @masonry_card(label="Charts")
-def doughnut_chart():
+def doughnut_chart() -> rx.Component:
     return doughnutchart_v1()
 
 
 @masonry_card(label="Charts")
-def bar_chart():
+def bar_chart() -> rx.Component:
     return barchart_v1()
 
 

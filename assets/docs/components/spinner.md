@@ -67,7 +67,7 @@ Use the `size-*` utility class to change the size of the spinner.
  
 
 ```python
-def spinner_size():
+def spinner_size() -> rx.Component:
     return rx.el.div(
         spinner(class_name="size-3"),
         spinner(class_name="size-4"),
@@ -84,7 +84,7 @@ Add a spinner to a button to indicate a loading state. Place it before the label
  
 
 ```python
-def spinner_button():
+def spinner_button() -> rx.Component:
     return rx.el.div(
         button(spinner(), "Loading...", disabled=True, size="sm"),
         button(spinner(), "Please wait", disabled=True, size="sm", variant="outline"),
@@ -100,7 +100,7 @@ Add a spinner to a badge to indicate a loading or syncing state.
  
 
 ```python
-def spinner_badge():
+def spinner_badge() -> rx.Component:
     return rx.el.div(
         badge(spinner(), "Syncing"),
         badge(spinner(), "Updating", variant="secondary"),
@@ -116,7 +116,7 @@ Combine `Spinner` with `Marker` and the `shimmer` utility for animated streaming
  
 
 ```python
-def spinner_marker():
+def spinner_marker() -> rx.Component:
     return rx.el.div(
         marker.root(
             marker.icon(spinner()),

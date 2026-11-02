@@ -1,8 +1,10 @@
+import reflex as rx
+
 from components.ui.button import button
 from components.ui.tooltip import tooltip
 
 
-def tooltip_general():
+def tooltip_general() -> rx.Component:
     return tooltip.provider(
         tooltip.root(
             tooltip.trigger(

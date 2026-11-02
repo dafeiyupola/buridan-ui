@@ -13,7 +13,7 @@ data: list[dict[str, Any]] = [
 ]
 
 
-def doughnutchart_v2():
+def doughnutchart_v2() -> rx.Component:
 
     total_visitors = sum(item["visitors"] for item in data)
 

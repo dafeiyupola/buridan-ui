@@ -232,7 +232,7 @@ class SelectItemIndicator(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props):
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "select-item-indicator"
         cls.set_class_name(ClassNames.ITEM_INDICATOR, props)
 
@@ -289,7 +289,7 @@ class SelectIcon(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props):
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "select-icon"
         cls.set_class_name(ClassNames.ICON, props)
 

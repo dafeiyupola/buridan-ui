@@ -55,7 +55,7 @@ class AccordionBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/accordion"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Accordion", package_path="", install=False)
 
 

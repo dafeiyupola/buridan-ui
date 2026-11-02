@@ -111,7 +111,7 @@ A simple text input demonstrating the default appearance and behavior.
 
 
 ```python
-def input_basic_demo():
+def input_basic_demo() -> rx.Component:
     return rx.el.div(
         rx.text("Text Input", class_name="text-sm font-medium mb-2"),
         input(
@@ -128,7 +128,7 @@ An input field optimized for email address entry.
 
 
 ```python
-def input_email():
+def input_email() -> rx.Component:
     return rx.el.div(
         rx.el.p("Email Input", class_name="text-sm font-medium mb-2"),
         input(
@@ -145,7 +145,7 @@ An input field that hides characters for secure password entry.
 
 
 ```python
-def input_password():
+def input_password() -> rx.Component:
     return rx.el.div(
         rx.el.p("Password Input", class_name="text-sm font-medium mb-2"),
         input(
@@ -162,7 +162,7 @@ An example of an input field in a disabled state.
 
 
 ```python
-def input_disabled():
+def input_disabled() -> rx.Component:
     return rx.el.div(
         rx.el.p("Disabled Input", class_name="text-sm font-medium mb-2"),
         input(
@@ -180,7 +180,7 @@ An input field for selecting and uploading files.
 
 
 ```python
-def input_file_input():
+def input_file_input() -> rx.Component:
     return rx.el.div(
         rx.el.p("File Input", class_name="text-sm font-medium mb-2"),
         input(
@@ -196,7 +196,7 @@ An input field with a custom width and styling.
 
 
 ```python
-def input_custom_input():
+def input_custom_input() -> rx.Component:
     return rx.el.div(
         rx.el.p("Custom Width", class_name="text-sm font-medium mb-2"),
         input(

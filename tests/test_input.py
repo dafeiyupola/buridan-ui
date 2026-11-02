@@ -30,11 +30,11 @@ class _InputTestState(rx.State):  # pyright: ignore[reportUntypedBaseClass]
         self.b = b
 
 
-def _capture_input_props(monkeypatch) -> dict:
+def _capture_input_props(monkeypatch: pytest.MonkeyPatch) -> dict:
     """Capture props passed to the underlying Reflex input component."""
     captured = {}
 
-    def create(cls, *children, **props):
+    def create(cls: type, *children: Any, **props: Any) -> dict[str, Any]:
         captured.update(props)
         return props
 
@@ -64,7 +64,7 @@ def _capture_typed_create_props(
     return captured
 
 
-def test_input_uses_default_classes(monkeypatch) -> None:
+def test_input_uses_default_classes(monkeypatch: pytest.MonkeyPatch) -> None:
     captured = _capture_input_props(monkeypatch)
 
     InputComponent.create()
@@ -72,7 +72,9 @@ def test_input_uses_default_classes(monkeypatch) -> None:
     assert ClassNames.INPUT in str(captured["class_name"])
 
 
-def test_input_merges_custom_classes_with_defaults(monkeypatch) -> None:
+def test_input_merges_custom_classes_with_defaults(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     captured = _capture_input_props(monkeypatch)
 
     InputComponent.create(class_name="custom-input")
@@ -82,7 +84,9 @@ def test_input_merges_custom_classes_with_defaults(monkeypatch) -> None:
     assert "custom-input" in class_name
 
 
-def test_input_unstyled_keeps_custom_classes_without_defaults(monkeypatch) -> None:
+def test_input_unstyled_keeps_custom_classes_without_defaults(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     captured = _capture_input_props(monkeypatch)
 
     InputComponent.create(class_name="custom-input", unstyled=True)
@@ -91,7 +95,7 @@ def test_input_unstyled_keeps_custom_classes_without_defaults(monkeypatch) -> No
     assert "unstyled" not in captured
 
 
-def test_input_defaults_type_and_data_slot(monkeypatch) -> None:
+def test_input_defaults_type_and_data_slot(monkeypatch: pytest.MonkeyPatch) -> None:
     captured = _capture_input_props(monkeypatch)
 
     InputComponent.create()
@@ -100,7 +104,9 @@ def test_input_defaults_type_and_data_slot(monkeypatch) -> None:
     assert captured["data_slot"] == "input"
 
 
-def test_input_preserves_explicit_type_and_data_slot(monkeypatch) -> None:
+def test_input_preserves_explicit_type_and_data_slot(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     captured = _capture_input_props(monkeypatch)
 
     InputComponent.create(type="email", data_slot="custom-input")

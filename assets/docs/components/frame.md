@@ -187,7 +187,7 @@ A basic frame with a header and two panels.
 
 
 ```python
-def frame_basic():
+def frame_basic() -> rx.Component:
     return frame.root(
         frame.header(
             frame.title("Section header"),
@@ -212,7 +212,7 @@ Set the `stacked` prop to `True` to get the panels stacked.
 
 
 ```python
-def frame_stacked():
+def frame_stacked() -> rx.Component:
     return frame.root(
         frame.header(
             frame.title("Section header"),
@@ -238,7 +238,7 @@ Set the `dense` prop to `True` to get minimal frame padding.
 
 
 ```python
-def frame_dense():
+def frame_dense() -> rx.Component:
     return frame.root(
         frame.header(
             frame.title("Section header"),
@@ -265,7 +265,7 @@ Set the `variant` prop to `ghost` to remove the frame outer border.
 
 
 ```python
-def frame_no_border():
+def frame_no_border() -> rx.Component:
     return frame.root(
         frame.header(
             frame.title("No Outer Border"),

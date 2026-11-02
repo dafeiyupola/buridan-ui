@@ -1,4 +1,4 @@
-from typing import Annotated, Literal, Self
+from typing import Annotated, Literal, Self, cast
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -31,7 +31,7 @@ class PopoverBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/popover"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Popover", package_path="", install=False)
 
 
@@ -161,10 +161,10 @@ class PopoverArrow(PopoverBaseComponent):
 
 class PopoverHeader(Div):
     @classmethod
-    def create(cls, *children, **props):
+    def create(cls, *children, **props) -> Self:
         props.setdefault("data-slot", "popover-header")
         props["class_name"] = cn(ClassNames.HEADER, props.get("class_name", ""))
-        return super().create(*children, **props)
+        return cast("Self", super().create(*children, **props))
 
 
 class PopoverTitle(PopoverBaseComponent):

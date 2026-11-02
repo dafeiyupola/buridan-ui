@@ -226,7 +226,7 @@ Use `variant` to change the visual treatment of the bubble.
 
 
 ```python
-def bubble_with_variants():
+def bubble_with_variants() -> rx.Component:
     return rx.el.div(
         bubble.root(
             bubble.content("This is the default primary bubble."),
@@ -307,7 +307,7 @@ Use `align` on `bubble.root` to align the bubble to the start or end of the conv
 
 
 ```python
-def bubble_alignment_demo():
+def bubble_alignment_demo() -> rx.Component:
     return rx.el.div(
         bubble.root(
             bubble.content(
@@ -348,7 +348,7 @@ bubble.group
 
 
 ```python
-def bubble_group_demo():
+def bubble_group_demo() -> rx.Component:
     return rx.el.div(
         bubble.root(
             bubble.content("Can you tell me what's the issue?"),
@@ -391,7 +391,7 @@ You can turn a bubble into a link or button by using the passing the interactive
 
 
 ```python
-def bubble_link_button_demo():
+def bubble_link_button_demo() -> rx.Component:
     return rx.el.div(
         bubble.root(
             bubble.content("How can I help you today?"),
@@ -445,7 +445,7 @@ Use `bubble.reactions` for bubble reactions. You can use it to display reactions
 
 
 ```python
-def bubble_reactions_demo():
+def bubble_reactions_demo() -> rx.Component:
     return rx.el.div(
         bubble.root(
             bubble.content("I don't need tests, I know my code works."),
@@ -510,7 +510,7 @@ Long bubble content can be composed with [`Collapsible`](/docs/components/collap
 
 
 ```python
-def bubble_collapsible_demo():
+def bubble_collapsible_demo() -> rx.Component:
     return rx.el.div(
         bubble.root(
             bubble.content("How can I help you today?"),
@@ -552,7 +552,7 @@ Wrap a bubble in a [`Tooltip`](/docs/components/tooltip) to reveal metadata on h
 
 
 ```python
-def bubble_tooltip_demo():
+def bubble_tooltip_demo() -> rx.Component:
     return rx.el.div(
         bubble.root(
             bubble.content("Did you remove the stale route?"),
@@ -596,7 +596,7 @@ Pair a bubble with a [`Popover`](/docs/components/popover) to surface more infor
 
 
 ```python
-def bubble_popover_demo():
+def bubble_popover_demo() -> rx.Component:
     return rx.el.div(
         bubble.root(
             bubble.content("Run the build script."),

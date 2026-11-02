@@ -166,7 +166,7 @@ Use `shimmer-color-<color>` to set the highlight color explicitly. It accepts th
 
 
 ```python
-def shimmer_color():
+def shimmer_color() -> rx.Component:
     return rx.el.div(
         rx.el.p(
             "Generating response",
@@ -187,7 +187,7 @@ Use `shimmer-duration-<number>` to set the duration of one sweep in milliseconds
 
 
 ```python
-def shimmer_duration():
+def shimmer_duration() -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.p("Generating response...", class_name="shimmer"),
@@ -213,7 +213,7 @@ Use `shimmer-spread-<number>` to set the width of the highlight band using the s
 
 
 ```python
-def shimmer_spread():
+def shimmer_spread() -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.p("Generating response...", class_name="shimmer shimmer-spread-4"),
@@ -236,7 +236,7 @@ Use `shimmer-angle-<number>` to set the tilt of the highlight band in degrees. T
 
 
 ```python
-def shimmer_angle():
+def shimmer_angle() -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.p("Generating response...", class_name="shimmer"),
@@ -259,7 +259,7 @@ Use `shimmer-reverse` to sweep the highlight in the opposite direction.
 
 
 ```python
-def shimmer_reverse():
+def shimmer_reverse() -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.p("Generating response...", class_name="shimmer shimmer-reverse"),
@@ -277,7 +277,7 @@ Use `shimmer-once` to play a single sweep instead of looping, useful as a reveal
 
 
 ```python
-def shimmer_once():
+def shimmer_once() -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.p(
@@ -310,7 +310,7 @@ Use `shimmer-none` to turn the effect off and render the text normally. It works
 
 
 ```python
-def shimmer_none():
+def shimmer_none() -> rx.Component:
     return rx.el.div(
         rx.el.p("Generating response...", class_name="shimmer md:shimmer-none"),
         rx.el.p("shimmer md:shimmer-none", class_name="font-mono text-xs"),

@@ -249,7 +249,7 @@ class SelectItemIndicator(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props):
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "select-item-indicator"
         cls.set_class_name(ClassNames.ITEM_INDICATOR, props)
 
@@ -306,7 +306,7 @@ class SelectIcon(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props):
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "select-icon"
         cls.set_class_name(ClassNames.ICON, props)
 
@@ -433,7 +433,7 @@ Use `align_item_with_trigger` on `select.positioner()` to control whether the se
 
 
 ```python
-def select_align_with_items():
+def select_align_with_items() -> rx.Component:
 
     return rx.el.div(
         rx.el.div(
@@ -494,7 +494,7 @@ Use `select.group` to organize items into sections, `select.group_label` to labe
 
 
 ```python
-def select_groups():
+def select_groups() -> rx.Component:
     fruits = [
         {"label": "Apple", "value": "apple"},
         {"label": "Banana", "value": "banana"},
@@ -556,7 +556,7 @@ Use `select.scroll_up_arrow` and `select.scroll_down_arrow` to provide navigatio
 
 
 ```python
-def select_with_scroll_arrows():
+def select_with_scroll_arrows() -> rx.Component:
     north_america = [
         {"label": "Eastern Standard Time", "value": "est"},
         {"label": "Central Standard Time", "value": "cst"},

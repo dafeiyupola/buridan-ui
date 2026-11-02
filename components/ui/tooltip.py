@@ -43,7 +43,7 @@ class TooltipBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/tooltip"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Tooltip", package_path="", install=False)
 
 

@@ -15,7 +15,7 @@ SAMPLE_COMMAND = "uv run buridan add sample_block"
 
 
 @example_utils.block_card
-def sample_block():
+def sample_block() -> Any:
     return example_utils.rx.el.div("content")
 
 

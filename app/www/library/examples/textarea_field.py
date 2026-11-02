@@ -1,8 +1,10 @@
+import reflex as rx
+
 from components.ui.field import field
 from components.ui.textarea import textarea
 
 
-def textarea_field():
+def textarea_field() -> rx.Component:
     return field.root(
         field.label(
             "Message",

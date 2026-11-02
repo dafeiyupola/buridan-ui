@@ -13,9 +13,9 @@ data = [
 ]
 
 
-def areachart_v9():
+def areachart_v9() -> rx.Component:
 
-    def gradient(id_: str, color: str):
+    def gradient(id_: str, color: str) -> rx.Component:
         return rx.el.svg.linear_gradient(
             rx.el.svg.stop(stop_color=f"var(--{color})", offset="5%", stop_opacity=0.8),
             rx.el.svg.stop(

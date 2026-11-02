@@ -236,7 +236,7 @@ def button_size() -> rx.Component:
 
 
 ```python
-def button_default():
+def button_default() -> rx.Component:
     return button("Button")
 ```
 
@@ -245,7 +245,7 @@ def button_default():
 
 
 ```python
-def button_secondary():
+def button_secondary() -> rx.Component:
     return button("Secondary", variant="secondary")
 ```
 
@@ -254,7 +254,7 @@ def button_secondary():
 
 
 ```python
-def button_outline():
+def button_outline() -> rx.Component:
     return button("Outline", variant="outline")
 ```
 
@@ -263,7 +263,7 @@ def button_outline():
 
 
 ```python
-def button_ghost():
+def button_ghost() -> rx.Component:
     return button("Ghost", variant="ghost")
 ```
 
@@ -272,7 +272,7 @@ def button_ghost():
 
 
 ```python
-def button_link():
+def button_link() -> rx.Component:
     return button("Link", variant="link")
 ```
 
@@ -281,7 +281,7 @@ def button_link():
 
 
 ```python
-def button_destructive():
+def button_destructive() -> rx.Component:
     return button("Destructive", variant="destructive")
 ```
 
@@ -290,7 +290,7 @@ def button_destructive():
 
 
 ```python
-def button_icon():
+def button_icon() -> rx.Component:
     return button(
         hi("CircleArrowUp01Icon", class_name="size-4"),
         variant="outline",

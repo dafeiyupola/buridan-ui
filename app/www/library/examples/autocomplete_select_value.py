@@ -3,7 +3,7 @@ import reflex as rx
 from components.ui.autocomplete import autocomplete
 
 
-def autocomplete_select_value():
+def autocomplete_select_value() -> rx.Component:
     return autocomplete(
         items=["feature", "fix", "bug", "docs", "internal", "mobile"],
         placeholder="Search and select...",

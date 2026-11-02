@@ -74,7 +74,7 @@ class AccordionBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/accordion"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Accordion", package_path="", install=False)
 
 
@@ -245,7 +245,7 @@ A basic accordion that shows one item at a time. The first item is open by defau
 
 
 ```python
-def accordion_basic():
+def accordion_basic() -> rx.Component:
     return rx.el.div(
         accordion.root(
             accordion.item(

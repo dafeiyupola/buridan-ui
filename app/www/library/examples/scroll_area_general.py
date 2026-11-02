@@ -3,7 +3,7 @@ import reflex as rx
 from components.ui.scroll_area import scroll_area
 
 
-def scroll_area_general():
+def scroll_area_general() -> rx.Component:
     """A basic scroll area example."""
     return rx.el.div(
         scroll_area(

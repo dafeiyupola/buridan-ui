@@ -7,14 +7,14 @@ import questionary
 DOCS_DIR = Path("docs")
 
 
-def build_index():
+def build_index() -> dict[str, list[str]]:
     """Builds:
     {
         "getting-started": ["introduction", "installation"],
         "components": ["button", "input"]
     }.
     """
-    sections = {}
+    sections: dict[str, list[str]] = {}
 
     for file in DOCS_DIR.glob("**/*.md"):
         rel = file.relative_to(DOCS_DIR)
@@ -34,15 +34,18 @@ def build_index():
     return sections
 
 
-def expand_sections(selected_sections, sections):
-    pages = []
+def expand_sections(
+    selected_sections: list[str],
+    sections: dict[str, list[str]],
+) -> list[str]:
+    pages: list[str] = []
     for section in selected_sections:
         for page in sections.get(section, []):
             pages.append(f"{section}/{page}")
     return pages
 
 
-def select_env():
+def select_env() -> str | None:
     env = questionary.select(
         "Run mode:",
         choices=["dev", "prod"],
@@ -54,7 +57,7 @@ def select_env():
     return env
 
 
-def select_mode():
+def select_mode() -> str | None:
     mode = questionary.select(
         "What do you want to select?",
         choices=[
@@ -70,7 +73,7 @@ def select_mode():
     return mode
 
 
-def select_pages(sections):
+def select_pages(sections: dict[str, list[str]]) -> list[str] | None:
     choices: list[str | questionary.Separator] = []
 
     for section, pages in sections.items():
@@ -89,7 +92,7 @@ def select_pages(sections):
     return result
 
 
-def select_sections(sections):
+def select_sections(sections: dict[str, list[str]]) -> list[str] | None:
     result = questionary.checkbox(
         "Select sections:",
         choices=list(sections.keys()),
@@ -101,7 +104,10 @@ def select_sections(sections):
     return result
 
 
-def select_pages_from_sections(selected_sections, sections):
+def select_pages_from_sections(
+    selected_sections: list[str],
+    sections: dict[str, list[str]],
+) -> list[str] | None:
     choices: list[str | questionary.Separator] = []
 
     for section in selected_sections:
@@ -123,7 +129,7 @@ def select_pages_from_sections(selected_sections, sections):
     return result
 
 
-def run_reflex(env, pages):
+def run_reflex(env: str, pages: list[str] | None) -> str | None:
     """Runs Reflex and prints correct URLs ONLY after the actual port is known."""
     if env == "dev":
         os.environ["BURIDAN_DEV_MODE"] = "true"
@@ -145,7 +151,7 @@ def run_reflex(env, pages):
         text=True,
     )
 
-    port = None
+    port: str | None = None
 
     if process.stdout is None:
         msg = "reflex process was started without stdout capture"

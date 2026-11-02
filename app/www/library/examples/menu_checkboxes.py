@@ -1,3 +1,4 @@
+import reflex as rx
 from reflex.experimental import ClientStateVar
 
 from components.ui.button import button
@@ -8,7 +9,7 @@ show_activity_bar = ClientStateVar.create("show_activity_bar", False)
 show_panel = ClientStateVar.create("show_panel", False)
 
 
-def menu_checkboxes():
+def menu_checkboxes() -> rx.Component:
     return menu.root(
         menu.trigger(render_=button("Open", variant="outline")),
         menu.portal(

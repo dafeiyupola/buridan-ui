@@ -6,7 +6,7 @@ from components.ui.button import button
 from components.ui.popover import popover
 
 
-def bubble_popover_demo():
+def bubble_popover_demo() -> rx.Component:
     return rx.el.div(
         bubble.root(
             bubble.content("Run the build script."),

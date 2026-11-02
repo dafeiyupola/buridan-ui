@@ -76,7 +76,7 @@ class ToggleBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/toggle"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Toggle", package_path="", install=False)
 
 
@@ -143,7 +143,7 @@ Use `toggle` for a pressable on/off control. Control icon behavior with `icon_va
 
 
 ```python
-def toggle_general():
+def toggle_general() -> rx.Component:
     return rx.el.div(
         toggle(
             hi(
@@ -196,7 +196,7 @@ Use `default_pressed=True` to set the default pressed state of a toggle.
 
 
 ```python
-def toggle_pressed_state():
+def toggle_pressed_state() -> rx.Component:
     return toggle(hi("TextItalicIcon", class_name="size-4"), default_pressed=True)
 ```
 
@@ -206,7 +206,7 @@ Set `disabled=True` to disable a toggle.
 
 
 ```python
-def toggle_disabled():
+def toggle_disabled() -> rx.Component:
     return toggle(hi("TextUnderlineIcon", class_name="size-4"), disabled=True)
 ```
 

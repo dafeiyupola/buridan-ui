@@ -44,7 +44,7 @@ class ScrollAreaBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/scroll-area"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="ScrollArea", package_path="", install=False)
 
 
@@ -212,7 +212,7 @@ A simple vertical scroll area.
 
 
 ```python
-def scroll_area_general():
+def scroll_area_general() -> rx.Component:
     """A basic scroll area example."""
     return rx.el.div(
         scroll_area(
@@ -231,7 +231,7 @@ Use `scroll_area.scrollbar()` with `orientation="horizontal"` for horizontal scr
 
 
 ```python
-def scroll_area_horizontal():
+def scroll_area_horizontal() -> rx.Component:
     return scroll_area.root(
         scroll_area.viewport(
             scroll_area.content(

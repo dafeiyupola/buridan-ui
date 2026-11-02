@@ -3,7 +3,7 @@ import reflex as rx
 from components.ui.skeleton import skeleton_component
 
 
-def skeleton_table():
+def skeleton_table() -> rx.Component:
     """Skeleton table matching shadcn SkeletonTable layout."""
     return rx.el.div(
         *[

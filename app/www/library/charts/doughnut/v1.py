@@ -11,7 +11,7 @@ data = [
 ]
 
 
-def doughnutchart_v1():
+def doughnutchart_v1() -> rx.Component:
 
     return card.root(
         card.header(

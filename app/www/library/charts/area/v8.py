@@ -13,10 +13,10 @@ data = [
 ]
 
 
-def areachart_v8():
+def areachart_v8() -> rx.Component:
     series = [("desktop", "Desktop", "--chart-1"), ("mobile", "Mobile", "--chart-2")]
 
-    def create_gradient(var_name):
+    def create_gradient(var_name: str) -> rx.Component:
         return rx.el.svg.linear_gradient(
             rx.el.svg.stop(
                 stop_color=f"var({var_name})",

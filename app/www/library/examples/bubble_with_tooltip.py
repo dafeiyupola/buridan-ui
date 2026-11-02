@@ -6,7 +6,7 @@ from components.ui.button import button
 from components.ui.tooltip import tooltip
 
 
-def bubble_tooltip_demo():
+def bubble_tooltip_demo() -> rx.Component:
     return rx.el.div(
         bubble.root(
             bubble.content("Did you remove the stale route?"),

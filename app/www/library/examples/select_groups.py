@@ -1,7 +1,9 @@
+import reflex as rx
+
 from components.ui.select import select
 
 
-def select_groups():
+def select_groups() -> rx.Component:
     fruits = [
         {"label": "Apple", "value": "apple"},
         {"label": "Banana", "value": "banana"},

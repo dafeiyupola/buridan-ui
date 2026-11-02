@@ -1,7 +1,9 @@
+import reflex as rx
+
 from components.ui.heatmap import heatmap
 
 
-def heatmap_blue_linear():
+def heatmap_blue_linear() -> rx.Component:
     data = [
         {"date": "2025-01-05", "value": 2},
         {"date": "2025-01-12", "value": 9},

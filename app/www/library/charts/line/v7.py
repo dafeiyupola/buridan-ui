@@ -7,7 +7,7 @@ from components.charts.chart_tooltip import chart_tooltip, chart_tooltip_content
 from components.ui.card import card
 
 
-def linechart_v7():
+def linechart_v7() -> rx.Component:
     from reflex.experimental import ClientStateVar
 
     data: list[dict[str, Any]] = [

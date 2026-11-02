@@ -12,7 +12,7 @@ Pie Charts are ideal for showing changes over time or the magnitude of multiple 
 A minimal example showing proportional data distribution in a circular format.
 
 ```python
-def piechart_v1():
+def piechart_v1() -> rx.Component:
 
     return card.root(
         card.header(
@@ -64,7 +64,7 @@ def piechart_v1():
 Displays labels that appear dynamically when hovering over chart segments.
 
 ```python
-def piechart_v2():
+def piechart_v2() -> rx.Component:
 
     return card.root(
         card.header(
@@ -118,7 +118,7 @@ def piechart_v2():
 Shows labels positioned inside each pie segment for compact presentation.
 
 ```python
-def piechart_v3():
+def piechart_v3() -> rx.Component:
 
     return card.root(
         card.header(
@@ -176,7 +176,7 @@ def piechart_v3():
 Adds a built-in legend for easy segment identification and reference.
 
 ```python
-def piechart_v4():
+def piechart_v4() -> rx.Component:
 
     return card.root(
         card.header(
@@ -229,7 +229,7 @@ def piechart_v4():
 Renders the pie chart with a hollow center for a modern doughnut style.
 
 ```python
-def piechart_v5():
+def piechart_v5() -> rx.Component:
 
     return card.root(
         card.header(
@@ -282,7 +282,7 @@ def piechart_v5():
 Demonstrates interactive segment highlighting and selection states.
 
 ```python
-def piechart_v6():
+def piechart_v6() -> rx.Component:
 
     return card.root(
         card.header(

@@ -12,7 +12,7 @@ Radar Charts are ideal for showing changes over time or the magnitude of multipl
 A minimal example showing multivariate data in a radial layout with filled areas.
 
 ```python
-def radar_v1():
+def radar_v1() -> rx.Component:
 
     return card.root(
         card.header(
@@ -63,7 +63,7 @@ def radar_v1():
 Displays data points with visible markers along the radar lines for clarity.
 
 ```python
-def radar_v2():
+def radar_v2() -> rx.Component:
 
     return card.root(
         card.header(
@@ -115,7 +115,7 @@ def radar_v2():
 Visualizes multiple data series layered on top of each other for comparison.
 
 ```python
-def radar_v3():
+def radar_v3() -> rx.Component:
 
     return card.root(
         card.header(
@@ -173,7 +173,7 @@ def radar_v3():
 Shows only the outline strokes without filled areas for a cleaner look.
 
 ```python
-def radar_v4():
+def radar_v4() -> rx.Component:
 
     return card.root(
         card.header(
@@ -231,7 +231,7 @@ def radar_v4():
 Uses circular grid lines instead of polygon shapes for the background.
 
 ```python
-def radar_v5():
+def radar_v5() -> rx.Component:
 
     return card.root(
         card.header(
@@ -283,7 +283,7 @@ def radar_v5():
 Renders the grid with filled background sections for enhanced visual contrast.
 
 ```python
-def radar_v6():
+def radar_v6() -> rx.Component:
 
     return card.root(
         card.header(

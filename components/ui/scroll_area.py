@@ -25,7 +25,7 @@ class ScrollAreaBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/scroll-area"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="ScrollArea", package_path="", install=False)
 
 

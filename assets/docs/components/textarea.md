@@ -80,7 +80,7 @@ A standard multiline text area for general text input.
 
 
 ```python
-def textarea_basic_demo():
+def textarea_basic_demo() -> rx.Component:
     return textarea(placeholder="Type your message here.", class_name="max-w-xs")
 ```
 
@@ -90,7 +90,7 @@ Use `field.root`, `field.label`, and `field.description` together with a form co
 
 
 ```python
-def textarea_field():
+def textarea_field() -> rx.Component:
     return field.root(
         field.label(
             "Message",
@@ -113,7 +113,7 @@ Use the `disabled` prop on textarea to disable user input. Apply `data-disabled`
 
 
 ```python
-def textarea_disabled():
+def textarea_disabled() -> rx.Component:
     return field.root(
         field.label(
             "Message",
@@ -135,7 +135,7 @@ Use the `aria-invalid` prop to mark the textarea as invalid. To style the invali
 
 
 ```python
-def textarea_invalid():
+def textarea_invalid() -> rx.Component:
     return field.root(
         field.label(
             "Message",

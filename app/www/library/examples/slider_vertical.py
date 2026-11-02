@@ -3,7 +3,7 @@ import reflex as rx
 from components.ui.slider import slider
 
 
-def slider_vertical():
+def slider_vertical() -> rx.Component:
     return rx.el.div(
         slider.root(
             slider.control(

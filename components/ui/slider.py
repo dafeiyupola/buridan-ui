@@ -56,7 +56,7 @@ class SliderBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/slider"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Slider", package_path="", install=False)
 
 

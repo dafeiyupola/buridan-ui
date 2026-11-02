@@ -1,7 +1,9 @@
+import reflex as rx
+
 from components.ui.autocomplete import autocomplete
 
 
-def autocomplete_grouping():
+def autocomplete_grouping() -> rx.Component:
     return autocomplete(
         items=[
             {"group": "Fruits", "items": ["Apple", "Banana", "Mango"]},

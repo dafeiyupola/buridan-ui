@@ -53,7 +53,7 @@ while preserving the rest of the client-side state.
 
 
 ```python
-def form_state_pattern_example():
+def form_state_pattern_example() -> rx.Component:
     form_state = cast("Any", ClientStateVar.create("form", {}))
 
     def update_username(v: object) -> object:

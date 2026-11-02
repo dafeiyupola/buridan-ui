@@ -103,7 +103,7 @@ class MenuBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/menu"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
 
         return ImportVar(tag="Menu", package_path="", install=False)
 

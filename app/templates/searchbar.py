@@ -7,7 +7,7 @@ from components.ui.dialog import dialog
 from components.ui.input import input
 
 
-def searchbar():
+def searchbar() -> rx.Component:
     return dialog.root(
         dialog.trigger(
             attach_tooltip(
