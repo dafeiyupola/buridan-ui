@@ -47,6 +47,21 @@ tasks:
     use: [uv-install]
     run: uv sync --frozen --group dev
 
+  # Checksum-pinned node: GHA runners ship it, the rwx/base image may not, and
+  # five test files (seed_codec, heatmap, url_sync_popstate, autocomplete,
+  # render_pre) shell out to node and pytest.skip silently when it's absent —
+  # the status would go green while covering less than the GHA check it
+  # replaces. Fails closed if the tarball at the versioned URL ever changes.
+  - key: node-install
+    use: [code]
+    run: |
+      set -euo pipefail
+      curl -fsSLO https://nodejs.org/dist/v22.23.4/node-v22.23.4-linux-x64.tar.gz
+      echo "b8492284c76a54baf58d61668dd0e41ee0fc98adabf9503d30f05d08f55b4406  node-v22.23.4-linux-x64.tar.gz" | sha256sum -c -
+      mkdir -p "$HOME/.local/lib/nodejs"
+      tar -xzf node-v22.23.4-linux-x64.tar.gz -C "$HOME/.local/lib/nodejs" --strip-components=1
+      echo "$HOME/.local/lib/nodejs/bin" >> "$RWX_ENV/PATH"
+
   - key: pytest
-    use: [deps]
+    use: [deps, node-install]
     run: uv run pytest -q
