@@ -1,4 +1,4 @@
-from typing import Annotated, Literal, Self, cast
+from typing import Annotated, Any, Literal, Self, cast
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -49,7 +49,7 @@ class PopoverRoot(PopoverBaseComponent):
     modal: Var[bool | Literal["trap-focus"]]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "popover"
         return super().create(*children, **props)
 
@@ -68,7 +68,7 @@ class PopoverTrigger(PopoverBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "popover-trigger"
         cls.set_class_name(ClassNames.TRIGGER, props)
         return super().create(*children, **props)
@@ -80,7 +80,7 @@ class PopoverBackdrop(PopoverBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "popover-backdrop"
         cls.set_class_name(ClassNames.BACKDROP, props)
         return super().create(*children, **props)
@@ -124,7 +124,7 @@ class PopoverPositioner(PopoverBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "popover-positioner"
         props.setdefault("side_offset", 4)
         cls.set_class_name(ClassNames.POSITIONER, props)
@@ -141,7 +141,7 @@ class PopoverPopup(PopoverBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "popover-popup"
         cls.set_class_name(ClassNames.POPUP, props)
         return super().create(*children, **props)
@@ -153,7 +153,7 @@ class PopoverArrow(PopoverBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "popover-arrow"
         cls.set_class_name(ClassNames.ARROW, props)
         return super().create(*children, **props)
@@ -161,7 +161,7 @@ class PopoverArrow(PopoverBaseComponent):
 
 class PopoverHeader(Div):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props.setdefault("data-slot", "popover-header")
         props["class_name"] = cn(ClassNames.HEADER, props.get("class_name", ""))
         return cast("Self", super().create(*children, **props))
@@ -173,7 +173,7 @@ class PopoverTitle(PopoverBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "popover-title"
         cls.set_class_name(ClassNames.TITLE, props)
         return super().create(*children, **props)
@@ -185,7 +185,7 @@ class PopoverDescription(PopoverBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "popover-description"
         cls.set_class_name(ClassNames.DESCRIPTION, props)
         return super().create(*children, **props)
@@ -197,7 +197,7 @@ class PopoverClose(PopoverBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "popover-close"
         cls.set_class_name(ClassNames.CLOSE, props)
         return super().create(*children, **props)

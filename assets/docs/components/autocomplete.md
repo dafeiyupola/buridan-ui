@@ -456,7 +456,7 @@ class BuridanAutocomplete(Component):
         }
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["root_class"] = cn(ClassNames.ROOT, props.pop("root_class", ""))
         props["input_class"] = cn(ClassNames.INPUT, props.pop("input_class", ""))
         props["popup_class"] = cn(ClassNames.POPUP, props.pop("popup_class", ""))

@@ -17,7 +17,7 @@ buridan add avatar
 ### Manual Installation
 
 ```python
-from typing import Annotated, Self
+from typing import Annotated, Any, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -50,7 +50,7 @@ class AvatarRoot(AvatarBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         size = props.pop("size", "default")
         props["data-slot"] = "avatar"
         props["data-size"] = size
@@ -66,7 +66,7 @@ class AvatarImage(AvatarBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "avatar-image"
 
         cls.set_class_name(ClassNames.IMAGE, props)
@@ -79,7 +79,7 @@ class AvatarFallback(AvatarBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "avatar-fallback"
 
         cls.set_class_name(ClassNames.FALLBACK, props)
@@ -88,7 +88,7 @@ class AvatarFallback(AvatarBaseComponent):
 
 class AvatarBadge(CoreComponent, Span):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "avatar-badge"
 
         cls.set_class_name(ClassNames.BADGE, props)
@@ -97,7 +97,7 @@ class AvatarBadge(CoreComponent, Span):
 
 class AvatarGroup(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "avatar-group"
 
         cls.set_class_name(ClassNames.GROUP, props)
@@ -106,7 +106,7 @@ class AvatarGroup(CoreComponent, Div):
 
 class AvatarGroupCount(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "avatar-group-count"
 
         cls.set_class_name(ClassNames.GROUP_COUNT, props)

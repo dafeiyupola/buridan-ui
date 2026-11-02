@@ -17,7 +17,7 @@ buridan add tabs
 ### Manual Installation
 
 ```python
-from typing import Annotated, Literal, Self
+from typing import Annotated, Any, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -95,7 +95,7 @@ class TabsRoot(TabsBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "tabs"
         cls.set_class_name(ClassNames.ROOT, props)
         return super().create(*children, **props)
@@ -108,7 +108,7 @@ class TabsList(TabsBaseComponent):
     variant: Var[Literal["default", "line"]]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "tabs-list"
         if "variant" in props:
             props["data-variant"] = props.pop("variant")
@@ -126,7 +126,7 @@ class TabsTab(TabsBaseComponent):
     disabled: Var[bool]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "tabs-trigger"
         cls.set_class_name(ClassNames.TAB, props)
         return super().create(*children, **props)
@@ -137,7 +137,7 @@ class TabsIndicator(TabsBaseComponent):
     render_before_hydration: Var[bool]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "tabs-indicator"
         cls.set_class_name(ClassNames.INDICATOR, props)
         return super().create(*children, **props)
@@ -149,7 +149,7 @@ class TabsPanel(TabsBaseComponent):
     keep_mounted: Var[bool]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "tabs-content"
         cls.set_class_name(ClassNames.PANEL, props)
         return super().create(*children, **props)
