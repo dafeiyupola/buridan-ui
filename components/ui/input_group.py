@@ -3,8 +3,6 @@ from typing import Literal, Self, cast
 from reflex.components.component import ComponentNamespace
 from reflex_components_core.el import (
     Div as ElDiv,
-)
-from reflex_components_core.el import (
     Span as ElSpan,
 )
 

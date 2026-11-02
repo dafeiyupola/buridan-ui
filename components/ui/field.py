@@ -145,7 +145,9 @@ class FieldSeparator(elements.Div):
             f"{ClassNames.FIELD_SEPARATOR} {props.get('class_name', '')}".strip()
         )
 
-        inner_elements: list[Component] = [separator(class_name="absolute inset-0 top-1/2")]
+        inner_elements: list[Component] = [
+            separator(class_name="absolute inset-0 top-1/2"),
+        ]
         if children:
             inner_elements.append(
                 elements.Span.create(

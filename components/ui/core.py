@@ -34,7 +34,7 @@ class CoreComponent(Component):
     # pure pass-through so components relying on the element base's `create`
     # are unaffected.
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         return super().create(*children, **props)
 
     @classmethod

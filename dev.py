@@ -147,7 +147,9 @@ def run_reflex(env, pages):
 
     port = None
 
-    assert process.stdout is not None
+    if process.stdout is None:
+        msg = "reflex process was started without stdout capture"
+        raise RuntimeError(msg)
     for line in process.stdout:
         print(line, end="")
 

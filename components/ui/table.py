@@ -1,6 +1,6 @@
 from typing import Any, Literal, Self
 
-from reflex.components.component import Component, ComponentNamespace
+from reflex.components.component import ComponentNamespace
 from reflex.vars.base import Var
 from reflex_components_core.core.foreach import foreach
 from reflex_components_core.el import (
@@ -101,7 +101,7 @@ class HighLevelTable(TableRoot):
         columns: list[dict[str, Any]] | None = None,
         striped: bool = False,
         **props,
-    ) -> Component:
+    ) -> Self:
 
         if columns is None and isinstance(data, list) and len(data) > 0:
             columns = [
