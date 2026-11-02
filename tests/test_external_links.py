@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from typing import Any, cast
 
 ROOT_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT_DIR))
@@ -23,7 +24,7 @@ def test_external_link_uses_document_navigation_and_preserves_attributes() -> No
     assert 'target:"_blank"' in str(link)
     assert 'rel:"noopener noreferrer"' in str(link)
     assert "no-underline" in str(link.class_name)
-    assert "https://github.com/LineIndent/ui" in str(link.to)
+    assert "https://github.com/LineIndent/ui" in str(cast("Any", link).to)
 
 
 def test_external_blank_link_defaults_to_safe_rel() -> None:
@@ -50,7 +51,7 @@ def test_markdown_component_map_receives_runtime_href_as_native_link_props() -> 
         "[External](https://example.com/docs)",
         component_map=markdown_component_map,
     )
-    markdown_component = markdown.children[0]
+    markdown_component = cast("Any", markdown.children[0])
     link_component = markdown_component.get_component("a")
     link_renderer = str(markdown_component.format_component_map()["a"])
 

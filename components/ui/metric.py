@@ -1,4 +1,4 @@
-from typing import Literal, Self, cast
+from typing import Any, Literal, Self, cast
 
 import reflex as rx
 from reflex.components.component import ComponentNamespace
@@ -57,7 +57,10 @@ class HighLevelMetric(MetricRoot):
                         rx.el.div(
                             rx.el.div(
                                 rx.el.span(trend),
-                                class_name=cn(ClassNames.TREND_BADGE, trend_color),
+                                class_name=cn(
+                                    ClassNames.TREND_BADGE,
+                                    cast("Var[Any]", trend_color),
+                                ),
                             ),
                             class_name=ClassNames.TREND_CONTAINER,
                         ),

@@ -22,8 +22,14 @@ def test_cn_composes_clsx_and_tailwind_merge_for_all_inputs() -> None:
     )
 
 
+def _cn_imports(*args: str):
+    var_data = core.cn(*args)._get_all_var_data()  # noqa: SLF001  # pyright: ignore[reportPrivateUsage]
+    assert var_data is not None
+    return {name: list(refs) for name, refs in var_data.imports}
+
+
 def test_cn_registers_named_imports_from_mit_packages() -> None:
-    imports = dict(core.cn("p-2", "p-4")._get_all_var_data().imports)
+    imports = _cn_imports("p-2", "p-4")
 
     assert imports["clsx@2.1.1"][0].tag == "clsx"
     assert imports["tailwind-merge@3.7.0"][0].tag == "twMerge"
@@ -42,7 +48,7 @@ def test_frontend_dependencies_use_replacement_packages() -> None:
 
 def test_cn_imports_declare_explicit_package_roots() -> None:
     """Keep root-level imports explicit for both class-merging packages."""
-    imports = dict(core.cn("p-2", "p-4")._get_all_var_data().imports)
+    imports = _cn_imports("p-2", "p-4")
 
     assert imports["clsx@2.1.1"][0].package_path == ""
     assert imports["tailwind-merge@3.7.0"][0].package_path == ""

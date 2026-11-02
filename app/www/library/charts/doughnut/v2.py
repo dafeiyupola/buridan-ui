@@ -1,8 +1,10 @@
+from typing import Any
+
 import reflex as rx
 
 from components.ui.card import card
 
-data = [
+data: list[dict[str, Any]] = [
     {"browser": "chrome", "visitors": 275, "fill": "var(--chart-1)"},
     {"browser": "safari", "visitors": 200, "fill": "var(--chart-2)"},
     {"browser": "firefox", "visitors": 187, "fill": "var(--chart-3)"},

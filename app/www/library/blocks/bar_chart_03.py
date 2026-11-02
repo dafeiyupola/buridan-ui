@@ -1,10 +1,12 @@
+from typing import Any
+
 import reflex as rx
 from reflex.experimental import ClientStateVar
 
 from components.charts.chart_tooltip import chart_tooltip, chart_tooltip_content
 from components.ui.card import card
 
-data = [
+data: list[dict[str, Any]] = [
     {"date": "Jan 23", "Running": 167, "Cycling": 145},
     {"date": "Feb 23", "Running": 125, "Cycling": 110},
     {"date": "Mar 23", "Running": 156, "Cycling": 149},

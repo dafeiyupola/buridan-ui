@@ -3,9 +3,8 @@ import importlib
 import inspect
 import pathlib
 import re
-from collections.abc import Callable
 from pathlib import Path
-from typing import cast
+from typing import TYPE_CHECKING, Any, cast
 
 import reflex as rx
 
@@ -24,6 +23,9 @@ from app.www.wrapper import (
     tooltip_wrapper,
     usage_wrapper,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 def get_all_dependencies(name: str, registry: dict) -> list[str]:
@@ -119,10 +121,10 @@ class DocParser:
 
     def __init__(
         self,
-        registry: dict[str, Callable] | None = None,
+        registry: dict[str, Any] | None = None,
         dynamic_load_dirs: list[str] | None = None,
     ) -> None:
-        self.registry = registry or {}
+        self.registry: dict[str, Any] = registry or {}
         root = pathlib.Path(__file__).resolve().parents[2]
         for d in dynamic_load_dirs or []:
             load_dir = pathlib.Path(d)

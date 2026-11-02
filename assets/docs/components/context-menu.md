@@ -17,7 +17,7 @@ buridan add context_menu
 ### Manual Installation
 
 ```python
-from typing import Literal, Self
+from typing import Annotated, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -72,10 +72,10 @@ class ContextMenuRoot(ContextMenuBaseComponent):
 
     default_open: Var[bool]
     open: Var[bool]
-    on_open_change: EventHandler[passthrough_event_spec(bool, dict)]
+    on_open_change: Annotated[EventHandler, passthrough_event_spec(bool, dict)]
     actions_ref: Var[str]
     close_parent_on_esc: Var[bool]
-    on_open_change_complete: EventHandler[passthrough_event_spec(bool)]
+    on_open_change_complete: Annotated[EventHandler, passthrough_event_spec(bool)]
     disabled: Var[bool]
     loop_focus: Var[bool]
     orientation: Var[LiteralMenuOrientation]
@@ -215,7 +215,7 @@ class ContextMenuRadioGroup(ContextMenuBaseComponent):
 
     default_value: Var[str | int]
     value: Var[str | int]
-    on_value_change: EventHandler[passthrough_event_spec(str | int, dict)]
+    on_value_change: Annotated[EventHandler, passthrough_event_spec(str | int, dict)]
     disabled: Var[bool]
     render_: Var[Component]
 
@@ -265,7 +265,7 @@ class ContextMenuCheckboxItem(ContextMenuBaseComponent):
     label: Var[str]
     default_checked: Var[bool]
     checked: Var[bool]
-    on_checked_change: EventHandler[passthrough_event_spec(bool, dict)]
+    on_checked_change: Annotated[EventHandler, passthrough_event_spec(bool, dict)]
     close_on_click: Var[bool]
     native_button: Var[bool]
     disabled: Var[bool]
@@ -299,9 +299,9 @@ class ContextMenuSubmenuRoot(ContextMenuBaseComponent):
 
     default_open: Var[bool]
     open: Var[bool]
-    on_open_change: EventHandler[passthrough_event_spec(bool, dict)]
+    on_open_change: Annotated[EventHandler, passthrough_event_spec(bool, dict)]
     close_parent_on_esc: Var[bool]
-    on_open_change_complete: EventHandler[passthrough_event_spec(bool)]
+    on_open_change_complete: Annotated[EventHandler, passthrough_event_spec(bool)]
     disabled: Var[bool]
     loop_focus: Var[bool]
     orientation: Var[LiteralMenuOrientation]
