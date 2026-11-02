@@ -1,132 +1,224 @@
-"""Tests for the `input_group` namespace's `unstyled` contract (issue #167).
+"""Regression tests for the ``input_group`` controls' ``unstyled`` contract.
 
-`InputGroupInput`, `InputGroupTextarea`, and `InputGroupButton` used to
-pre-bake their default classes into `props["class_name"]` via `cn()` before
-delegating to `input()`/`textarea()`/`button()`, bypassing
-`CoreComponent.set_class_name` entirely. `unstyled=True` therefore never
-dropped the group-control defaults, unlike `input_group.root`/`addon`/`text`,
-which already routed through `set_class_name`.
+``InputGroupInput``, ``InputGroupTextarea``, and ``InputGroupButton`` used to
+pre-bake their default classes into ``props["class_name"]`` via ``cn()``
+*before* delegating to ``input()``/``textarea()``/``button()``, so
+``CoreComponent.set_class_name``'s ``unstyled=True`` branch (``core.py``) was
+unreachable for them: the wrapper classes were already merged into what the
+inner component treated as "the caller's class_name". ``input_group.root``,
+``.addon``, and ``.text`` already routed through ``set_class_name`` correctly
+(see https://github.com/elviskahoro/buridan-ui/issues/167).
 
-These tests pin the fix: the control wrappers merge their own defaults via
-`set_class_name` and forward `unstyled` to the inner component so its
-defaults are dropped too.
+The fix routes the wrapper-level defaults through ``cls.set_class_name(...)``
+and re-forwards ``unstyled`` into the inner ``input()``/``textarea()``/
+``button()`` call so each layer independently honors the escape hatch.
+
+Note: ``Button.create`` (``components/ui/button.py``) does not itself
+consult ``unstyled`` when merging its own default/variant/size classes -
+that is a separate, pre-existing bug in ``button.py`` and is out of scope
+here. The button tests below only assert that the ``input_group.button``
+*wrapper* classes honor ``unstyled``.
 """
 
-import json
 import sys
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
+import reflex as rx  # noqa: E402
+
 from components.ui.input import ClassNames as InputClassNames  # noqa: E402
-from components.ui.input_group import ClassNames, input_group  # noqa: E402
-from components.ui.textarea import ClassNames as TextAreaClassNames  # noqa: E402
+from components.ui.input_group import (  # noqa: E402
+    ClassNames,
+    InputGroupButton,
+    InputGroupInput,
+    InputGroupTextarea,
+)
+from components.ui.textarea import ClassNames as TextareaClassNames  # noqa: E402
+
+
+class _UnstyledState(rx.State):  # pyright: ignore[reportUntypedBaseClass]
+    """State exposing a boolean Var for the dynamic ``unstyled`` escape hatch."""
+
+    flag: bool = False
+
 
 # ---------------------------------------------------------------------------
-# input_group.input
+# InputGroupInput
 # ---------------------------------------------------------------------------
 
 
-def test_input_group_input_unstyled_strips_all_defaults() -> None:
-    comp = input_group.input(class_name="custom-input", unstyled=True)
+def test_input_group_input_uses_default_classes() -> None:
+    control = InputGroupInput.create()
+    class_name = str(control.class_name)
 
-    assert str(comp.class_name) == "custom-input"
-
-
-def test_input_group_input_unstyled_does_not_leak_onto_dom() -> None:
-    comp = input_group.input(class_name="custom-input", unstyled=True)
-    rendered = json.dumps(comp.render())
-
-    assert "unstyled" not in rendered
+    assert ClassNames.CONTROL_INPUT in class_name
+    assert InputClassNames.INPUT in class_name
 
 
-def test_input_group_input_default_merges_control_and_input_classes() -> None:
-    comp = input_group.input(class_name="custom-input")
-    class_name = str(comp.class_name)
+def test_input_group_input_merges_custom_class_name() -> None:
+    control = InputGroupInput.create(class_name="custom-input")
+    class_name = str(control.class_name)
 
     assert ClassNames.CONTROL_INPUT in class_name
     assert InputClassNames.INPUT in class_name
     assert "custom-input" in class_name
 
 
-def test_input_group_input_preserves_type_and_data_slot() -> None:
-    comp = input_group.input()
+def test_input_group_input_unstyled_keeps_only_custom_class() -> None:
+    control = InputGroupInput.create(class_name="custom-input", unstyled=True)
 
-    rendered_props = " ".join(comp.render()["props"])
+    assert str(control.class_name) == "custom-input"
+
+
+def test_input_group_input_unstyled_without_custom_class_is_empty() -> None:
+    control = InputGroupInput.create(unstyled=True)
+
+    assert str(control.class_name) == ""
+
+
+def test_input_group_input_unstyled_not_rendered_to_dom() -> None:
+    control = InputGroupInput.create(class_name="custom-input", unstyled=True)
+    rendered_props = " ".join(control.render()["props"])
+
+    assert "unstyled" not in rendered_props
+
+
+def test_input_group_input_var_unstyled_toggles_classes_dynamically() -> None:
+    control = InputGroupInput.create(
+        class_name="custom-input",
+        unstyled=_UnstyledState.flag,
+    )
+    class_name = str(control.class_name)
+
+    # The class_name is gated on the Var via a ternary (rx.cond), not stripped.
+    assert "?" in class_name
+    assert "custom-input" in class_name
+    assert ClassNames.CONTROL_INPUT in class_name
+    assert InputClassNames.INPUT in class_name
+
+
+def test_input_group_input_defaults_type_and_data_slot() -> None:
+    control = InputGroupInput.create()
+    rendered_props = " ".join(control.render()["props"])
+
     assert 'type:"text"' in rendered_props
     assert '"data-slot":"input-group-control"' in rendered_props
 
 
 # ---------------------------------------------------------------------------
-# input_group.textarea
+# InputGroupTextarea
 # ---------------------------------------------------------------------------
 
 
-def test_input_group_textarea_unstyled_strips_all_defaults() -> None:
-    comp = input_group.textarea(class_name="custom-textarea", unstyled=True)
-
-    assert str(comp.class_name) == "custom-textarea"
-
-
-def test_input_group_textarea_unstyled_does_not_leak_onto_dom() -> None:
-    comp = input_group.textarea(class_name="custom-textarea", unstyled=True)
-    rendered = json.dumps(comp.render())
-
-    assert "unstyled" not in rendered
-
-
-def test_input_group_textarea_default_merges_control_and_textarea_classes() -> None:
-    comp = input_group.textarea(class_name="custom-textarea")
-    class_name = str(comp.class_name)
+def test_input_group_textarea_uses_default_classes() -> None:
+    control = InputGroupTextarea.create()
+    class_name = str(control.class_name)
 
     assert ClassNames.CONTROL_TEXTAREA in class_name
-    assert TextAreaClassNames.ROOT in class_name
+    assert TextareaClassNames.ROOT in class_name
+
+
+def test_input_group_textarea_merges_custom_class_name() -> None:
+    control = InputGroupTextarea.create(class_name="custom-textarea")
+    class_name = str(control.class_name)
+
+    assert ClassNames.CONTROL_TEXTAREA in class_name
+    assert TextareaClassNames.ROOT in class_name
     assert "custom-textarea" in class_name
 
 
-def test_input_group_textarea_preserves_data_slot() -> None:
-    comp = input_group.textarea()
+def test_input_group_textarea_unstyled_keeps_only_custom_class() -> None:
+    control = InputGroupTextarea.create(class_name="custom-textarea", unstyled=True)
 
-    rendered_props = " ".join(comp.render()["props"])
+    assert str(control.class_name) == "custom-textarea"
+
+
+def test_input_group_textarea_unstyled_without_custom_class_is_empty() -> None:
+    control = InputGroupTextarea.create(unstyled=True)
+
+    assert str(control.class_name) == ""
+
+
+def test_input_group_textarea_unstyled_not_rendered_to_dom() -> None:
+    control = InputGroupTextarea.create(class_name="custom-textarea", unstyled=True)
+    rendered_props = " ".join(control.render()["props"])
+
+    assert "unstyled" not in rendered_props
+
+
+def test_input_group_textarea_defaults_data_slot() -> None:
+    control = InputGroupTextarea.create()
+    rendered_props = " ".join(control.render()["props"])
+
     assert '"data-slot":"input-group-control"' in rendered_props
 
 
 # ---------------------------------------------------------------------------
-# input_group.button
+# InputGroupButton
 # ---------------------------------------------------------------------------
 
-
-def test_input_group_button_unstyled_drops_wrapper_defaults() -> None:
-    comp = input_group.button("x", class_name="custom-button", unstyled=True)
-    class_name = str(comp.class_name)
-
-    assert "flex items-center gap-2 text-sm shadow-none" not in class_name
-    assert ClassNames.get_button_size("xs") not in class_name
+_WRAPPER_MARKER = "shadow-none"
+_SIZE_XS_MARKER = "rounded-[calc(var(--radius)-3px)]"
+_BUTTON_DEFAULT_MARKER = "group/button"
 
 
-def test_input_group_button_default_merges_wrapper_and_size_classes() -> None:
-    comp = input_group.button("x", class_name="custom-button")
-    class_name = str(comp.class_name)
+def test_input_group_button_uses_default_classes() -> None:
+    control = InputGroupButton.create("Send")
+    class_name = str(control.class_name)
 
-    assert "flex items-center gap-2 text-sm shadow-none" in class_name
-    assert ClassNames.get_button_size("xs") in class_name
-    assert "custom-button" in class_name
+    assert _WRAPPER_MARKER in class_name
+    assert _SIZE_XS_MARKER in class_name
+    # Button's own defaults (components/ui/button.py) still merge in; the
+    # input_group wrapper is not responsible for those.
+    assert _BUTTON_DEFAULT_MARKER in class_name
 
 
-def test_input_group_button_preserves_type_and_data_size() -> None:
-    comp = input_group.button("x")
+def test_input_group_button_merges_custom_class_name() -> None:
+    control = InputGroupButton.create("Send", class_name="custom-btn")
+    class_name = str(control.class_name)
 
-    rendered_props = " ".join(comp.render()["props"])
+    assert _WRAPPER_MARKER in class_name
+    assert "custom-btn" in class_name
+
+
+def test_input_group_button_unstyled_omits_wrapper_defaults() -> None:
+    """The wrapper-level defaults (this file's bug) honor ``unstyled``.
+
+    ``Button.create`` itself does not yet consult ``unstyled`` when merging
+    its own ``DEFAULT_CLASS_NAME``/variant/size classes (``components/ui/
+    button.py``) - that is a separate, pre-existing bug and out of scope for
+    this fix, so ``_BUTTON_DEFAULT_MARKER`` is still expected here.
+    """
+    control = InputGroupButton.create("Send", class_name="custom-btn", unstyled=True)
+    class_name = str(control.class_name)
+
+    assert "custom-btn" in class_name
+    assert _WRAPPER_MARKER not in class_name
+    assert _SIZE_XS_MARKER not in class_name
+    assert _BUTTON_DEFAULT_MARKER in class_name
+
+
+def test_input_group_button_unstyled_not_rendered_to_dom() -> None:
+    control = InputGroupButton.create("Send", class_name="custom-btn", unstyled=True)
+    rendered_props = " ".join(control.render()["props"])
+
+    assert "unstyled" not in rendered_props
+
+
+def test_input_group_button_defaults_type_variant_and_size() -> None:
+    control = InputGroupButton.create("Send")
+    rendered_props = " ".join(control.render()["props"])
+
     assert 'type:"button"' in rendered_props
     assert '"data-size":"xs"' in rendered_props
 
 
-def test_input_group_button_honors_explicit_size() -> None:
-    comp = input_group.button("x", size="icon-sm")
-    class_name = str(comp.class_name)
+def test_input_group_button_preserves_explicit_size() -> None:
+    control = InputGroupButton.create("Send", size="icon-sm")
+    class_name = str(control.class_name)
+    rendered_props = " ".join(control.render()["props"])
 
-    assert ClassNames.get_button_size("icon-sm") in class_name
-
-    rendered_props = " ".join(comp.render()["props"])
     assert '"data-size":"icon-sm"' in rendered_props
+    assert "size-8" in class_name
