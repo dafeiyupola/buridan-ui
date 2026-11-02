@@ -1,4 +1,4 @@
-# Ports .github/workflows/tests.yml.
+# CI test suite.
 # Not path-filtered: a path-filtered required check does not report on every
 # PR and would deadlock the Trunk Merge Queue. PR and queue/main pushes share
 # one status-check name so a single check covers both.
