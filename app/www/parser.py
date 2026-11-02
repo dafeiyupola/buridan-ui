@@ -5,6 +5,7 @@ import pathlib
 import re
 from collections.abc import Callable
 from pathlib import Path
+from typing import cast
 
 import reflex as rx
 
@@ -35,6 +36,76 @@ def get_all_dependencies(name: str, registry: dict) -> list[str]:
 
     resolve(name)
     return deps
+
+
+def _render_demo(obj: object) -> rx.Component:
+    component = cast("Callable[[], rx.Component]", obj)
+    src = inspect.getsource(component).strip()
+    return demo_wrapper(component(), src)
+
+
+def _render_code(cmd: str, obj: object, inspect_obj: object) -> rx.Component:
+    target = inspect.getmodule(inspect_obj) if "_file" in cmd else obj
+    if target is None:
+        msg = "could not resolve a module for the component"
+        raise TypeError(msg)
+    src = inspect.getsource(cast("Callable[..., object]", target)).strip()
+
+    return chart_util_wrapper(source=src)
+
+
+def _render_install(name: object) -> rx.Component:
+    comp_name = str(name).lower()
+    all_deps = get_all_dependencies(comp_name, COMPONENT_REGISTRY)
+    if not all_deps:
+        return render_parse_error(
+            f"Component '{name}' not found in registry",
+        )
+
+    files_data = []
+    for dep in all_deps:
+        comp_info = COMPONENT_REGISTRY[dep]
+        for f_path in comp_info.get("files", []):
+            try:
+                content = Path(f_path).read_text().strip()
+                files_data.append((f_path, content))
+            except (OSError, UnicodeError) as e:
+                return render_parse_error(f"Error reading {f_path}: {e}")
+
+    # `buridan add` takes component names as bare positional args;
+    # qualifying the name with a `component` sub-keyword would be
+    # looked up as a component name itself and trigger a spurious
+    # registry warning, so render only the bare component name.
+    cli_cmd = f"uv run buridan add {comp_name}"
+    return cli_and_manual_installation_wrapper(cli_cmd, files_data)
+
+
+def _render_usage(import_name: str, file_path: str) -> rx.Component:
+    module_stem = pathlib.Path(file_path).stem if file_path else "component"
+    return usage_wrapper(
+        f"from components.ui.{module_stem} import {import_name}",
+    )
+
+
+def _render_anatomy(name: object) -> rx.Component:
+    from app.registry.anatomy import ANATOMY
+
+    src = ANATOMY.get(str(name).lower())
+    if not src:
+        return render_parse_error(f"No anatomy found for '{name}'")
+    return rx.el.div(
+        rx.el.code(
+            src,
+            style={
+                "white-space": "pre",
+                "color": "var(--foreground)",
+                "font-size": "13px",
+                "padding": "1rem 0.75rem",
+                "display": "block",
+            },
+        ),
+        class_name="overflow-x-auto overflow-y-auto scrollbar-none w-full mt-4 mb-8 rounded-[1rem] outline outline-input flex-1 min-h-0 flex flex-col bg-secondary dark:bg-card",
+    )
 
 
 class DocParser:
@@ -108,73 +179,18 @@ class DocParser:
             except (TypeError, ValueError):
                 file_path = ""
 
-            if "tooltip" in cmd:
-                return tooltip_wrapper()
-
-            if "demo" in cmd:
-                src = inspect.getsource(obj).strip()
-                return demo_wrapper(obj(), src)
-
-            if "code" in cmd:
-                src = (
-                    inspect.getsource(inspect.getmodule(inspect_obj))
-                    if "_file" in cmd
-                    else inspect.getsource(obj)
-                ).strip()
-
-                return chart_util_wrapper(source=src)
-
-            if cmd == "install":
-                comp_name = str(name).lower()
-                all_deps = get_all_dependencies(comp_name, COMPONENT_REGISTRY)
-                if not all_deps:
-                    return render_parse_error(
-                        f"Component '{name}' not found in registry",
-                    )
-
-                files_data = []
-                for dep in all_deps:
-                    comp_info = COMPONENT_REGISTRY.get(dep)
-                    for f_path in comp_info.get("files", []):
-                        try:
-                            content = Path(f_path).read_text().strip()
-                            files_data.append((f_path, content))
-                        except Exception as e:
-                            return render_parse_error(f"Error reading {f_path}: {e}")
-
-                # `buridan add` takes component names as bare positional args;
-                # qualifying the name with a `component` sub-keyword would be
-                # looked up as a component name itself and trigger a spurious
-                # registry warning, so render only the bare component name.
-                cli_cmd = f"uv run buridan add {comp_name}"
-                return cli_and_manual_installation_wrapper(cli_cmd, files_data)
-
-            if cmd == "usage":
-                import_name = preferred_name
-                module_stem = pathlib.Path(file_path).stem if file_path else "component"
-                return usage_wrapper(
-                    f"from components.ui.{module_stem} import {import_name}",
-                )
-
-            if cmd == "anatomy":
-                from app.registry.anatomy import ANATOMY
-
-                src = ANATOMY.get(str(name).lower())
-                if not src:
-                    return render_parse_error(f"No anatomy found for '{name}'")
-                return rx.el.div(
-                    rx.el.code(
-                        src,
-                        style={
-                            "white-space": "pre",
-                            "color": "var(--foreground)",
-                            "font-size": "13px",
-                            "padding": "1rem 0.75rem",
-                            "display": "block",
-                        },
-                    ),
-                    class_name="overflow-x-auto overflow-y-auto scrollbar-none w-full mt-4 mb-8 rounded-[1rem] outline outline-input flex-1 min-h-0 flex flex-col bg-secondary dark:bg-card",
-                )
+            # Ordered: tooltip/demo/code are substring matches, the rest exact.
+            handlers: list[tuple[bool, Callable[[], rx.Component]]] = [
+                ("tooltip" in cmd, tooltip_wrapper),
+                ("demo" in cmd, lambda: _render_demo(obj)),
+                ("code" in cmd, lambda: _render_code(cmd, obj, inspect_obj)),
+                (cmd == "install", lambda: _render_install(name)),
+                (cmd == "usage", lambda: _render_usage(preferred_name, file_path)),
+                (cmd == "anatomy", lambda: _render_anatomy(name)),
+            ]
+            for matched, handler in handlers:
+                if matched:
+                    return handler()
 
             return render_parse_error(f"Unknown command: {cmd}")
         except Exception as e:
