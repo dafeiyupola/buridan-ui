@@ -64,12 +64,12 @@ def _render_install(name: object) -> rx.Component:
 
     files_data = []
     for dep in all_deps:
-        comp_info = COMPONENT_REGISTRY.get(dep)
+        comp_info = COMPONENT_REGISTRY[dep]
         for f_path in comp_info.get("files", []):
             try:
                 content = Path(f_path).read_text().strip()
                 files_data.append((f_path, content))
-            except Exception as e:
+            except (OSError, UnicodeError) as e:
                 return render_parse_error(f"Error reading {f_path}: {e}")
 
     # `buridan add` takes component names as bare positional args;
