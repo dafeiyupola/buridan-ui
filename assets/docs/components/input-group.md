@@ -20,6 +20,7 @@ buridan add input_group
 from typing import Literal, Self, cast
 
 from reflex.components.component import ComponentNamespace
+from reflex.vars.base import Var
 from reflex_components_core.el import (
     Div as ElDiv,
     Span as ElSpan,
@@ -86,6 +87,23 @@ class ClassNames:
             "icon-sm": "size-8 p-0 has-[>svg]:p-0",
         }
         return variants.get(size, variants["xs"])
+
+
+def _set_control_class_name(
+    cls: type[CoreComponent],
+    default_class_name: str | Var[str],
+    props: dict[str, object],
+) -> None:
+    """Merge defaults via `set_class_name`, then forward `unstyled` onward.
+
+    `set_class_name` pops `unstyled` off `props` once it has decided this
+    wrapper's own defaults. The inner `input()`/`textarea()`/`button()` call
+    has its own defaults to drop, so `unstyled` must survive to reach it.
+    """
+    unstyled = props.get("unstyled")
+    cls.set_class_name(default_class_name, props)
+    if unstyled is not None:
+        props["unstyled"] = unstyled
 
 
 class InputGroupRoot(CoreComponent, ElDiv):
@@ -159,11 +177,11 @@ class InputGroupButton(CoreComponent):
         size = props.pop("size", "xs")
         props["data_size"] = size
 
-        props["class_name"] = cn(
+        wrapper_defaults = cn(
             "flex items-center gap-2 text-sm shadow-none",
             ClassNames.get_button_size(size),
-            props.get("class_name", ""),
         )
+        _set_control_class_name(cls, wrapper_defaults, props)
 
         return cast("Self", button(*children, **props))
 
@@ -173,10 +191,7 @@ class InputGroupInput(CoreComponent):
     def create(cls, *children, **props) -> Self:
         props.setdefault("type", "text")
         props["data_slot"] = "input-group-control"
-        props["class_name"] = cn(
-            ClassNames.CONTROL_INPUT,
-            props.get("class_name", ""),
-        )
+        _set_control_class_name(cls, ClassNames.CONTROL_INPUT, props)
 
         return cast("Self", input(*children, **props))
 
@@ -185,10 +200,7 @@ class InputGroupTextarea(CoreComponent):
     @classmethod
     def create(cls, *children, **props) -> Self:
         props["data_slot"] = "input-group-control"
-        props["class_name"] = cn(
-            ClassNames.CONTROL_TEXTAREA,
-            props.get("class_name", ""),
-        )
+        _set_control_class_name(cls, ClassNames.CONTROL_TEXTAREA, props)
 
         return cast("Self", textarea(*children, **props))
 
