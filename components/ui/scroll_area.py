@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Self, cast
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.utils.imports import ImportVar
@@ -35,7 +35,7 @@ class ScrollAreaRoot(ScrollAreaBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "scroll-area"
         cls.set_class_name(ClassNames.ROOT, props)
         return super().create(*children, **props)
@@ -47,7 +47,7 @@ class ScrollAreaViewport(ScrollAreaBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "scroll-area-viewport"
         cls.set_class_name(ClassNames.VIEWPORT, props)
         return super().create(*children, **props)
@@ -59,7 +59,7 @@ class ScrollAreaContent(ScrollAreaBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "scroll-area-content"
         cls.set_class_name(ClassNames.CONTENT, props)
         return super().create(*children, **props)
@@ -75,7 +75,7 @@ class ScrollAreaScrollbar(ScrollAreaBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "scroll-area-scrollbar"
         orientation = props.get("orientation", "vertical")
 
@@ -98,7 +98,7 @@ class ScrollAreaThumb(ScrollAreaBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "scroll-area-thumb"
         cls.set_class_name(ClassNames.THUMB, props)
         return super().create(*children, **props)
@@ -110,7 +110,7 @@ class ScrollAreaCorner(ScrollAreaBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "scroll-area-corner"
         cls.set_class_name(ClassNames.CORNER, props)
         return super().create(*children, **props)
@@ -124,20 +124,23 @@ class HighLevelScrollArea(ScrollAreaRoot):
     _scrollbar_props = {"orientation", "keep_mounted"}
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         scrollbar_props = {k: props.pop(k) for k in cls._scrollbar_props & props.keys()}
 
-        return ScrollAreaRoot.create(
-            ScrollAreaViewport.create(
-                ScrollAreaContent.create(
-                    *children,
+        return cast(
+            "Self",
+            ScrollAreaRoot.create(
+                ScrollAreaViewport.create(
+                    ScrollAreaContent.create(
+                        *children,
+                    ),
                 ),
+                ScrollAreaScrollbar.create(
+                    ScrollAreaThumb.create(),
+                    **scrollbar_props,
+                ),
+                **props,
             ),
-            ScrollAreaScrollbar.create(
-                ScrollAreaThumb.create(),
-                **scrollbar_props,
-            ),
-            **props,
         )
 
 

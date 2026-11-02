@@ -17,7 +17,7 @@ buridan add toggle
 ### Manual Installation
 
 ```python
-from typing import Literal
+from typing import Literal, Self
 
 from reflex.components.component import Component
 from reflex.event import EventHandler, passthrough_event_spec
@@ -93,7 +93,7 @@ class Toggle(ToggleBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         variant = props.pop("variant", "default")
         size = props.pop("size", "default")
         data_slot = props.pop("data_slot", "toggle")

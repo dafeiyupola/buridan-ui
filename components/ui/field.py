@@ -1,6 +1,6 @@
-from typing import Literal
+from typing import Literal, Self, cast
 
-from reflex.components.component import ComponentNamespace
+from reflex.components.component import Component, ComponentNamespace
 from reflex.vars.base import Var
 from reflex_components_core.el import elements
 
@@ -44,43 +44,43 @@ class ClassNames:
 
 class FieldSet(elements.Fieldset):
     @classmethod
-    def create(cls, *children, **props) -> elements.Fieldset:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "field-set"
         props["class_name"] = (
             f"{ClassNames.FIELD_SET} {props.get('class_name', '')}".strip()
         )
-        return super().create(*children, **props)
+        return cast("Self", super().create(*children, **props))
 
 
 class FieldLegend(elements.Legend):
     variant: Var[LiteralLegendVariant]
 
     @classmethod
-    def create(cls, *children, **props) -> elements.Legend:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "field-legend"
         variant = props.pop("variant", "legend")
         props["data-variant"] = variant
         props["class_name"] = (
             f"{ClassNames.FIELD_LEGEND} {props.get('class_name', '')}".strip()
         )
-        return super().create(*children, **props)
+        return cast("Self", super().create(*children, **props))
 
 
 class FieldGroup(elements.Div):
     @classmethod
-    def create(cls, *children, **props) -> elements.Div:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "field-group"
         props["class_name"] = (
             f"{ClassNames.FIELD_GROUP} {props.get('class_name', '')}".strip()
         )
-        return super().create(*children, **props)
+        return cast("Self", super().create(*children, **props))
 
 
 class FieldRoot(elements.Div):
     orientation: Var[LiteralOrientation]
 
     @classmethod
-    def create(cls, *children, **props) -> elements.Div:
+    def create(cls, *children, **props) -> Self:
         props["role"] = "group"
         props["data-slot"] = "field"
 
@@ -93,59 +93,59 @@ class FieldRoot(elements.Div):
             f"{ClassNames.FIELD_ROOT_BASE} {orientation_styles} {props.get('class_name', '')}".strip()
         )
 
-        return super().create(*children, **props)
+        return cast("Self", super().create(*children, **props))
 
 
 class FieldContent(elements.Div):
     @classmethod
-    def create(cls, *children, **props) -> elements.Div:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "field-content"
         props["class_name"] = (
             f"{ClassNames.FIELD_CONTENT} {props.get('class_name', '')}".strip()
         )
-        return super().create(*children, **props)
+        return cast("Self", super().create(*children, **props))
 
 
 class FieldLabel(elements.Label):
     @classmethod
-    def create(cls, *children, **props) -> elements.Label:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "field-label"
         props["class_name"] = (
             f"{ClassNames.FIELD_LABEL} {props.get('class_name', '')}".strip()
         )
-        return super().create(*children, **props)
+        return cast("Self", super().create(*children, **props))
 
 
 class FieldTitle(elements.Div):
     @classmethod
-    def create(cls, *children, **props) -> elements.Div:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "field-label"
         props["class_name"] = (
             f"{ClassNames.FIELD_TITLE} {props.get('class_name', '')}".strip()
         )
-        return super().create(*children, **props)
+        return cast("Self", super().create(*children, **props))
 
 
 class FieldDescription(elements.P):
     @classmethod
-    def create(cls, *children, **props) -> elements.P:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "field-description"
         props["class_name"] = (
             f"{ClassNames.FIELD_DESCRIPTION} {props.get('class_name', '')}".strip()
         )
-        return super().create(*children, **props)
+        return cast("Self", super().create(*children, **props))
 
 
 class FieldSeparator(elements.Div):
     @classmethod
-    def create(cls, *children, **props) -> elements.Div:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "field-separator"
         props["data-content"] = "true" if children else "false"
         props["class_name"] = (
             f"{ClassNames.FIELD_SEPARATOR} {props.get('class_name', '')}".strip()
         )
 
-        inner_elements = [separator(class_name="absolute inset-0 top-1/2")]
+        inner_elements: list[Component] = [separator(class_name="absolute inset-0 top-1/2")]
         if children:
             inner_elements.append(
                 elements.Span.create(
@@ -154,18 +154,18 @@ class FieldSeparator(elements.Div):
                     class_name="relative mx-auto block w-fit bg-background px-2 text-muted-foreground",
                 ),
             )
-        return super().create(*inner_elements, **props)
+        return cast("Self", super().create(*inner_elements, **props))
 
 
 class FieldError(elements.Div):
     @classmethod
-    def create(cls, *children, **props) -> elements.Div:
+    def create(cls, *children, **props) -> Self:
         props["role"] = "alert"
         props["data-slot"] = "field-error"
         props["class_name"] = (
             f"{ClassNames.FIELD_ERROR} {props.get('class_name', '')}".strip()
         )
-        return super().create(*children, **props)
+        return cast("Self", super().create(*children, **props))
 
 
 class Field(ComponentNamespace):

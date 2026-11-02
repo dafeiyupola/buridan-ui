@@ -1,3 +1,5 @@
+from typing import Self
+
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
 from reflex.utils.imports import ImportVar
@@ -51,7 +53,7 @@ class CheckboxRoot(CheckboxBaseComponent):
     render_: Component
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "checkbox"
         cls.set_class_name(ClassNames.ROOT, props)
         return super().create(*children, **props)
@@ -61,7 +63,7 @@ class CheckboxIndicator(CheckboxBaseComponent):
     tag = "Checkbox.Indicator"
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         if len(children) == 0:
             children = (hi("Tick02Icon"),)
         props["data-slot"] = "checkbox-indicator"

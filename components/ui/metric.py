@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Self
 
 import reflex as rx
 from reflex.components.component import Component, ComponentNamespace
@@ -18,9 +18,9 @@ class ClassNames:
     TREND_BADGE = "flex flex-row items-center gap-x-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider"
 
 
-class MetricRoot(Div, CoreComponent):
+class MetricRoot(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Component:
+    def create(cls, *children, **props) -> Self:
         cls.set_class_name(ClassNames.ROOT, props)
         return super().create(*children, **props)
 

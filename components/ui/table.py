@@ -1,4 +1,4 @@
-from typing import Any, Literal
+from typing import Any, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.vars.base import Var
@@ -32,63 +32,63 @@ class ClassNames:
     CAPTION = "mt-4 text-sm text-muted-foreground"
 
 
-class TableRoot(Div, CoreComponent):
+class TableRoot(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Component:
+    def create(cls, *children, **props) -> Self:
 
         cls.set_class_name(ClassNames.ROOT, props)
 
-        table_props = {
+        table_props: dict[str, Any] = {
             "class_name": ClassNames.TABLE,
         }
         return super().create(Table.create(*children, **table_props), **props)
 
 
-class TableHeader(Thead, CoreComponent):
+class TableHeader(CoreComponent, Thead):
     @classmethod
-    def create(cls, *children, **props) -> Component:
+    def create(cls, *children, **props) -> Self:
         cls.set_class_name(ClassNames.HEADER, props)
         return super().create(*children, **props)
 
 
-class TableBody(Tbody, CoreComponent):
+class TableBody(CoreComponent, Tbody):
     @classmethod
-    def create(cls, *children, **props) -> Component:
+    def create(cls, *children, **props) -> Self:
         cls.set_class_name(ClassNames.BODY, props)
         return super().create(*children, **props)
 
 
-class TableFooter(Tfoot, CoreComponent):
+class TableFooter(CoreComponent, Tfoot):
     @classmethod
-    def create(cls, *children, **props) -> Component:
+    def create(cls, *children, **props) -> Self:
         cls.set_class_name(ClassNames.FOOTER, props)
         return super().create(*children, **props)
 
 
-class TableRow(Tr, CoreComponent):
+class TableRow(CoreComponent, Tr):
     @classmethod
-    def create(cls, *children, **props) -> Component:
+    def create(cls, *children, **props) -> Self:
         cls.set_class_name(ClassNames.ROW, props)
         return super().create(*children, **props)
 
 
-class TableHead(Th, CoreComponent):
+class TableHead(CoreComponent, Th):
     @classmethod
-    def create(cls, *children, **props) -> Component:
+    def create(cls, *children, **props) -> Self:
         cls.set_class_name(ClassNames.HEAD, props)
         return super().create(*children, **props)
 
 
-class TableCell(Td, CoreComponent):
+class TableCell(CoreComponent, Td):
     @classmethod
-    def create(cls, *children, **props) -> Component:
+    def create(cls, *children, **props) -> Self:
         cls.set_class_name(ClassNames.CELL, props)
         return super().create(*children, **props)
 
 
-class TableCaption(Caption, CoreComponent):
+class TableCaption(CoreComponent, Caption):
     @classmethod
-    def create(cls, *children, **props) -> Component:
+    def create(cls, *children, **props) -> Self:
         cls.set_class_name(ClassNames.CAPTION, props)
         return super().create(*children, **props)
 

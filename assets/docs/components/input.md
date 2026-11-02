@@ -17,7 +17,7 @@ buridan add input
 ### Manual Installation
 
 ```python
-from typing import cast
+from typing import Self, cast
 
 from reflex.components.component import ComponentNamespace
 from reflex.vars.base import Var
@@ -44,9 +44,9 @@ class ClassNames:
     )
 
 
-class InputComponent(BaseInput, CoreComponent):
+class InputComponent(CoreComponent, BaseInput):
     @classmethod
-    def create(cls, *children, **props) -> BaseInput:
+    def create(cls, *children, **props) -> Self:
         props.setdefault("data_slot", "input")
 
         if "type" not in props:
@@ -72,7 +72,7 @@ class InputComponent(BaseInput, CoreComponent):
                 )
 
             typed_cls = CheckboxInput if input_type == "checkbox" else ValueNumberInput
-            return cast("BaseInput", typed_cls.create(*children, **props))
+            return cast("Self", typed_cls.create(*children, **props))
 
         return super().create(*children, **props)
 
