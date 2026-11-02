@@ -1,3 +1,4 @@
+import contextlib
 import os
 import subprocess
 from pathlib import Path
@@ -152,7 +153,7 @@ def run_reflex(env, pages):
 
         # Detect actual runtime port from Reflex output
         if "App running at:" in line:
-            try:
+            with contextlib.suppress(Exception):
                 port = line.split("http://localhost:")[1].split("/")[0]
 
                 # Print correct clickable URLs ONLY when server is ready
@@ -162,9 +163,6 @@ def run_reflex(env, pages):
                     print("\nLoading specified URLs:")
                     for page in pages:
                         print(f"{base_url}/{page}")
-
-            except Exception:
-                pass
 
     return port
 
