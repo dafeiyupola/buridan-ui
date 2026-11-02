@@ -352,10 +352,10 @@ merge:
   # gh pr checks lists check-runs from any app, so it covers app-posted checks
   # such as pullfrog-approval too.
   #
-  # The first three are GitHub Actions check-runs (job names) posted by
-  # .github/workflows/trunk-check.yml, tests.yml, and validate-assets.yml.
-  # GitHub Actions posts the same job name for pull_request and push events, so
-  # the queue sees identical names on PRs and on its trunk-merge/** branches.
+  # The first three are RWX statuses ("RWX: <status-check name>") posted by
+  # .rwx/trunk-check.yml, tests.yml, and validate-assets.yml. Each shares one
+  # status-check name across pull_request and push events, so the queue sees
+  # identical names on PRs and on its trunk-merge/** branches.
   #
   # pullfrog-approval (Pullfrog's AI review verdict, posted by the Pullfrog
   # GitHub App; distinct from the `pullfrog` agent-run check) is required on
@@ -372,13 +372,14 @@ merge:
   #
   # Graph mode also gates admission on impacted targets: the queue holds every
   # PR at Not Ready until targets have been uploaded for its head sha.
-  # .github/workflows/trunk-impacted-targets.yml does that on every PR to main
-  # (PUT /v2/impacted-targets, authorized by the TRUNK_API_TOKEN repo secret).
-  # The job stays out of this list on purpose -- the queue waits on the upload
-  # itself, not the check -- but a red Upload Impacted Targets job means no
+  # .rwx/trunk-impacted-targets.yml does that on every PR to main
+  # (PUT /v2/impacted-targets, authorized by TRUNK_API_KEY from the
+  # buridan-ui-trunk RWX vault). The status stays out of this list on purpose
+  # -- the queue waits on the upload itself, not the check -- but a red
+  # RWX: trunk-impacted-targets status means no
   # upload landed and queued PRs stall at Not Ready even with every required
   # status green.
   required_statuses:
-    - Trunk Check
-    - Tests
-    - Generate & Verify Docs and Social Cards
+    - "RWX: trunk-check"
+    - "RWX: tests"
+    - "RWX: docs-and-assets"

@@ -1,4 +1,4 @@
-# Ports .github/workflows/trunk-impacted-targets.yml.
+# Uploads Trunk impacted targets.
 #
 # The Trunk merge queue runs in graph (Parallel) mode and holds every PR at
 # "Not Ready" until impacted targets are uploaded for its head commit. This

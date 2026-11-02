@@ -1,6 +1,6 @@
-# Ports .github/workflows/trunk-check.yml: diff-only Trunk lint gate.
+# Diff-only Trunk lint gate.
 # Not path-filtered (would deadlock the Trunk Merge Queue). No push-to-main
-# run, matching the GitHub workflow.
+# run.
 on:
   github:
     pull_request:
@@ -108,7 +108,7 @@ tasks:
     run: |
       set -euo pipefail
       git fetch origin main
-      # Queue pushes diff against their parent, as in the GitHub workflow. PRs
+      # Queue pushes diff against their parent. PRs
       # diff against the fork point (RWX checks out the PR head, not the merge
       # ref); if main also changed a file the PR touches, rebasing clears any
       # finding main introduced there.
