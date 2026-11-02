@@ -166,12 +166,12 @@ def format_css(config: dict) -> str:
 
 
 def generate_theme_css(seed: str) -> str:
-    def build(dark):
+    def build(*, dark: bool) -> str:
         return format_css(rebuild_theme({**decode_seed(seed), "darkMode": dark}))
 
     return (
-        f":root {{\n{build(False)}\n}}\n\n"
-        f".dark {{\n{build(True)}\n}}\n\n"
+        f":root {{\n{build(dark=False)}\n}}\n\n"
+        f".dark {{\n{build(dark=True)}\n}}\n\n"
         f"{RADIUS_SCALE_BLOCK}"
     )
 
