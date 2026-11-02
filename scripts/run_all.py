@@ -1,8 +1,8 @@
-import os
 import subprocess
 import sys
+from pathlib import Path
 
-SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
+SCRIPTS_DIR = Path(__file__).resolve().parent
 
 SCRIPT_SEQUENCE = [
     ["generate_registry.py"],
@@ -20,15 +20,15 @@ def main() -> None:
 
     for command_args in SCRIPT_SEQUENCE:
         script_name = command_args[0]
-        script_path = os.path.join(SCRIPTS_DIR, script_name)
+        script_path = SCRIPTS_DIR / script_name
 
-        if not os.path.exists(script_path):
+        if not script_path.exists():
             print(f"❌ Pipeline Aborted: Script '{script_name}' could not be located.")
             sys.exit(1)
 
         print(f"Running: {' '.join(command_args)} ...")
 
-        full_command = ["python", script_path, *command_args[1:]]
+        full_command = ["python", str(script_path), *command_args[1:]]
 
         result = subprocess.run(full_command, check=False)
 

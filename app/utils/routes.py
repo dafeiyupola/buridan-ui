@@ -1,5 +1,4 @@
-import glob
-import os
+from pathlib import Path
 from typing import Any
 
 from app.www import constants
@@ -20,9 +19,8 @@ def generate_doc_routes(section_folder: str, base_path: str) -> list[dict[str, A
     """
     routes = []
     docs_path = f"{constants.DOCS_BASE_DIR}/{section_folder}"
-    search_path = os.path.join(docs_path, "**/*.md")
 
-    md_files = glob.glob(search_path, recursive=True)
+    md_files = list(Path(docs_path).glob("**/*.md"))
 
     if not md_files:
         print(f"Warning: No markdown files found in '{docs_path}'")
@@ -30,8 +28,7 @@ def generate_doc_routes(section_folder: str, base_path: str) -> list[dict[str, A
 
     for file_path in md_files:
         try:
-            with open(file_path, encoding="utf-8") as f:
-                content = f.read()
+            content = file_path.read_text(encoding="utf-8")
         except FileNotFoundError:
             continue
 
@@ -41,7 +38,7 @@ def generate_doc_routes(section_folder: str, base_path: str) -> list[dict[str, A
             continue
 
         # Create a URL slug from the file path relative to the section folder.
-        relative_path = os.path.relpath(file_path, docs_path)
+        relative_path = file_path.relative_to(docs_path).as_posix()
         path_slug = relative_path.replace(".md", "").replace("_", "-")
 
         route_info = {

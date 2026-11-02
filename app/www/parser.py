@@ -55,9 +55,10 @@ class DocParser:
             try:
                 load_dir.relative_to(root)
             except ValueError as exc:
-                raise ValueError(
-                    f"Dynamic load directory {d!r} resolves outside project root {root}",
-                ) from exc
+                msg = (
+                    f"Dynamic load directory {d!r} resolves outside project root {root}"
+                )
+                raise ValueError(msg) from exc
 
             for py in load_dir.rglob("*.py"):
                 if py.name.startswith("__"):
@@ -108,77 +109,106 @@ class DocParser:
             except (TypeError, ValueError):
                 file_path = ""
 
-            if "tooltip" in cmd:
-                return tooltip_wrapper()
-
-            if "demo" in cmd:
-                src = inspect.getsource(obj).strip()
-                return demo_wrapper(obj(), src)
-
-            if "code" in cmd:
-                src = (
-                    inspect.getsource(inspect.getmodule(inspect_obj))
-                    if "_file" in cmd
-                    else inspect.getsource(obj)
-                ).strip()
-
-                return chart_util_wrapper(source=src)
-
-            if cmd == "install":
-                comp_name = str(name).lower()
-                all_deps = get_all_dependencies(comp_name, COMPONENT_REGISTRY)
-                if not all_deps:
-                    return render_parse_error(
-                        f"Component '{name}' not found in registry",
-                    )
-
-                files_data = []
-                for dep in all_deps:
-                    comp_info = COMPONENT_REGISTRY.get(dep)
-                    for f_path in comp_info.get("files", []):
-                        try:
-                            content = Path(f_path).read_text().strip()
-                            files_data.append((f_path, content))
-                        except Exception as e:
-                            return render_parse_error(f"Error reading {f_path}: {e}")
-
-                # `buridan add` takes component names as bare positional args;
-                # qualifying the name with a `component` sub-keyword would be
-                # looked up as a component name itself and trigger a spurious
-                # registry warning, so render only the bare component name.
-                cli_cmd = f"uv run buridan add {comp_name}"
-                return cli_and_manual_installation_wrapper(cli_cmd, files_data)
-
-            if cmd == "usage":
-                import_name = preferred_name
-                module_stem = pathlib.Path(file_path).stem if file_path else "component"
-                return usage_wrapper(
-                    f"from components.ui.{module_stem} import {import_name}",
-                )
-
-            if cmd == "anatomy":
-                from app.registry.anatomy import ANATOMY
-
-                src = ANATOMY.get(str(name).lower())
-                if not src:
-                    return render_parse_error(f"No anatomy found for '{name}'")
-                return rx.el.div(
-                    rx.el.code(
-                        src,
-                        style={
-                            "white-space": "pre",
-                            "color": "var(--foreground)",
-                            "font-size": "13px",
-                            "padding": "1rem 0.75rem",
-                            "display": "block",
-                        },
-                    ),
-                    class_name="overflow-x-auto overflow-y-auto scrollbar-none w-full mt-4 mb-8 rounded-[1rem] outline outline-input flex-1 min-h-0 flex flex-col bg-secondary dark:bg-card",
-                )
-
-            return render_parse_error(f"Unknown command: {cmd}")
-        except Exception as e:
+            return self._render_command(
+                cmd,
+                name,
+                obj,
+                inspect_obj,
+                file_path,
+                preferred_name,
+            )
+        except Exception as e:  # noqa: BLE001 - render an error component, never crash the page
             return render_parse_error(f"Error in {cmd}: {e}")
+
+    def _render_command(
+        self,
+        cmd: str,
+        name: object,
+        obj: object,
+        inspect_obj: object,
+        file_path: str,
+        preferred_name: str,
+    ) -> rx.Component:
+        if "tooltip" in cmd:
+            return tooltip_wrapper()
+
+        if "demo" in cmd or "code" in cmd:
+            return self._render_source(cmd, obj, inspect_obj)
+
+        if cmd == "install":
+            return self._render_install(str(name).lower(), name)
+
+        if cmd == "usage":
+            module_stem = pathlib.Path(file_path).stem if file_path else "component"
+            return usage_wrapper(
+                f"from components.ui.{module_stem} import {preferred_name}",
+            )
+
+        if cmd == "anatomy":
+            return self._render_anatomy(name)
+
+        return render_parse_error(f"Unknown command: {cmd}")
+
+    def _render_source(
+        self,
+        cmd: str,
+        obj: object,
+        inspect_obj: object,
+    ) -> rx.Component:
+        if "demo" in cmd:
+            src = inspect.getsource(obj).strip()
+            return demo_wrapper(obj(), src)
+
+        src = (
+            inspect.getsource(inspect.getmodule(inspect_obj))
+            if "_file" in cmd
+            else inspect.getsource(obj)
+        ).strip()
+        return chart_util_wrapper(source=src)
+
+    def _render_install(self, comp_name: str, name: object) -> rx.Component:
+        all_deps = get_all_dependencies(comp_name, COMPONENT_REGISTRY)
+        if not all_deps:
+            return render_parse_error(
+                f"Component '{name}' not found in registry",
+            )
+
+        files_data = []
+        for dep in all_deps:
+            comp_info = COMPONENT_REGISTRY.get(dep)
+            for f_path in comp_info.get("files", []):
+                try:
+                    content = Path(f_path).read_text().strip()
+                except (OSError, UnicodeDecodeError) as e:
+                    return render_parse_error(f"Error reading {f_path}: {e}")
+                files_data.append((f_path, content))
+
+        # `buridan add` takes component names as bare positional args;
+        # qualifying the name with a `component` sub-keyword would be
+        # looked up as a component name itself and trigger a spurious
+        # registry warning, so render only the bare component name.
+        cli_cmd = f"uv run buridan add {comp_name}"
+        return cli_and_manual_installation_wrapper(cli_cmd, files_data)
+
+    def _render_anatomy(self, name: object) -> rx.Component:
+        from app.registry.anatomy import ANATOMY
+
+        src = ANATOMY.get(str(name).lower())
+        if not src:
+            return render_parse_error(f"No anatomy found for '{name}'")
+        return rx.el.div(
+            rx.el.code(
+                src,
+                style={
+                    "white-space": "pre",
+                    "color": "var(--foreground)",
+                    "font-size": "13px",
+                    "padding": "1rem 0.75rem",
+                    "display": "block",
+                },
+            ),
+            class_name="overflow-x-auto overflow-y-auto scrollbar-none w-full mt-4 mb-8 rounded-[1rem] outline outline-input flex-1 min-h-0 flex flex-col bg-secondary dark:bg-card",
+        )
 
     def parse_and_render(self, content: str) -> list[rx.Component]:
         res = []

@@ -7,7 +7,7 @@ def heatmap_compact():
     data = [
         {
             "date": f"2025-{str(m).zfill(2)}-{str(d).zfill(2)}",
-            "value": random.randint(0, 10),
+            "value": random.randint(0, 10),  # nosec B311
         }
         for m in range(1, 13)
         for d in range(1, 28)

@@ -1,7 +1,7 @@
-import os
 import sys
+from pathlib import Path
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.utils.routes import (
     BASE_UI_COMPONENTS,
@@ -60,8 +60,7 @@ def generate_llms_txt() -> str:
 
 
 if __name__ == "__main__":
-    output_path = os.path.join(os.path.dirname(__file__), "..", "assets", "llms.txt")
+    output_path = Path(__file__).parent.parent / "assets" / "llms.txt"
     content = generate_llms_txt()
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write(content)
+    output_path.write_text(content, encoding="utf-8")
     print(f"llms.txt written to {output_path}")

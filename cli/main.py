@@ -351,7 +351,7 @@ def patch_rxconfig(config_path: Path) -> None:
                 "Warning: Could not automatically update rxconfig.py. Please configure manually.",
             )
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - best-effort config edit; fall back to manual instructions
         print(f"Warning: Could not parse rxconfig.py ({e}). Please configure manually.")
 
 
