@@ -86,9 +86,8 @@ def _cond_state(cond: Any) -> str:  # noqa: ANN401
 
 
 def _is_empty_fragment(component: Any) -> bool:  # noqa: ANN401
-    return bool(
-        type(component).__name__ == "Fragment"
-        and not list(getattr(component, "children", ())),
+    return type(component).__name__ == "Fragment" and not list(
+        getattr(component, "children", ()),
     )
 
 

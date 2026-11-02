@@ -33,7 +33,11 @@ def slugify(text: str) -> str:
     ``Var`` that lowers to JS. The exact transform is preserved so every
     existing in-page anchor across the docs keeps resolving.
     """
-    return str(text).lower().replace(" ", "-")
+    # Despite the `str` annotation, Reflex's markdown `component_map` invokes
+    # this through `render_heading` with a compile-time `Var` wrapping the
+    # text, not a literal `str`; the `str()` call is load-bearing, not
+    # redundant (see test_render_pre_on_mount_trigger_survives_markdown_compilation).
+    return str(text).lower().replace(" ", "-")  # pyrefly: ignore[unnecessary-type-conversion]
 
 
 class HeadingIdRegistry:

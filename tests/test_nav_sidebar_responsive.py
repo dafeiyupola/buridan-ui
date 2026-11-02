@@ -50,7 +50,7 @@ def _mobile_menu_wrapper_class() -> str:
 
 def _sidebar_wrapper_class() -> str:
     """Return the class_name of the docs sidebar's outermost wrapper div."""
-    return str(cast("Component", sidebar()).class_name)
+    return str(sidebar().class_name)
 
 
 def _is_displayed_at(width: int, class_name: str) -> bool:
