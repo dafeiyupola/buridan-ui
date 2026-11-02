@@ -13,7 +13,7 @@ data = [
 ]
 
 
-def areachart_v10():
+def areachart_v10() -> rx.Component:
     series = [("mobile", "Mobile", "--chart-1"), ("desktop", "Desktop", "--chart-2")]
 
     return card.root(

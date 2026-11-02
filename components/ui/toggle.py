@@ -1,4 +1,4 @@
-from typing import Literal, Self
+from typing import Annotated, Literal, Self
 
 from reflex.components.component import Component
 from reflex.event import EventHandler, passthrough_event_spec
@@ -57,7 +57,7 @@ class ToggleBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/toggle"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Toggle", package_path="", install=False)
 
 
@@ -67,7 +67,7 @@ class Toggle(ToggleBaseComponent):
     value: Var[str]
     default_pressed: Var[bool]
     pressed: Var[bool]
-    on_pressed_change: EventHandler[passthrough_event_spec(bool, dict)]
+    on_pressed_change: Annotated[EventHandler, passthrough_event_spec(bool, dict)]
     native_button: Var[bool]
     disabled: Var[bool]
     icon_variant: Var[Stroke | None]

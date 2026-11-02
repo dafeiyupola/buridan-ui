@@ -1,7 +1,9 @@
+import reflex as rx
+
 from components.ui.select import select
 
 
-def select_with_scroll_arrows():
+def select_with_scroll_arrows() -> rx.Component:
     north_america = [
         {"label": "Eastern Standard Time", "value": "est"},
         {"label": "Central Standard Time", "value": "cst"},

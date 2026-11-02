@@ -1,7 +1,9 @@
+import reflex as rx
+
 from components.ui.heatmap import heatmap
 
 
-def heatmap_red_sqrt():
+def heatmap_red_sqrt() -> rx.Component:
     data = [
         {"date": "2025-01-03", "value": 1},
         {"date": "2025-01-10", "value": 50},

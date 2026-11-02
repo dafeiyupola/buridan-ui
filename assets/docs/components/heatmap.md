@@ -19,7 +19,7 @@ buridan add heatmap
 ### Manual Installation
 
 ```python
-from typing import Any
+from typing import Any, Self
 
 from reflex.components.component import Component
 from reflex.utils.imports import ImportVar
@@ -390,7 +390,7 @@ class BuridanHeatmap(Component):
         return {"react": ImportVar(tag="React", is_default=True)}
 
     @classmethod
-    def create(cls, *children, **props):
+    def create(cls, *children, **props) -> Self:
         props.setdefault("show_dow", True)
         props.setdefault("show_months", True)
         props.setdefault("color_mode", "discrete")
@@ -430,7 +430,7 @@ Classic GitHub contribution graph — discrete mode, default green scale.
 
 
 ```python
-def heatmap_github():
+def heatmap_github() -> rx.Component:
     data = []
 
     d = date(2025, 1, 1)
@@ -457,7 +457,7 @@ Set the `interpolation` prop to `linear` and pass in custom colors for continuou
 
 
 ```python
-def heatmap_blue_linear():
+def heatmap_blue_linear() -> rx.Component:
     data = [
         {"date": "2025-01-05", "value": 2},
         {"date": "2025-01-12", "value": 9},
@@ -496,7 +496,7 @@ Set the `interpolation` prop to `sqrt` and pass in custom colors. `sqrt` scaling
 
 
 ```python
-def heatmap_red_sqrt():
+def heatmap_red_sqrt() -> rx.Component:
     data = [
         {"date": "2025-01-03", "value": 1},
         {"date": "2025-01-10", "value": 50},
@@ -534,7 +534,7 @@ Set the `color_mode` prop to `discrete` with a custom 5-level purple color scale
 
 
 ```python
-def heatmap_purple_discrete():
+def heatmap_purple_discrete() -> rx.Component:
     data = [
         {"date": "2025-01-07", "value": 1},
         {"date": "2025-01-14", "value": 2},
@@ -572,7 +572,7 @@ Set the `cell_size` prop to a number to change cell size. Setting the `interpola
 
 
 ```python
-def heatmap_large_cells():
+def heatmap_large_cells() -> rx.Component:
     data = [
         {"date": "2025-10-01", "value": 1},
         {"date": "2025-10-02", "value": 500},
@@ -627,7 +627,7 @@ Set the `show_dow` and `show_months` props to `False` and lower the `cell_size` 
 
 
 ```python
-def heatmap_compact():
+def heatmap_compact() -> rx.Component:
     data = [
         {
             "date": f"2025-{str(m).zfill(2)}-{str(d).zfill(2)}",

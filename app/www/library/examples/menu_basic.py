@@ -1,8 +1,10 @@
+import reflex as rx
+
 from components.ui.button import button
 from components.ui.menu import menu
 
 
-def menu_basic():
+def menu_basic() -> rx.Component:
     return menu.root(
         menu.trigger(render_=button("Open", variant="outline")),
         menu.portal(

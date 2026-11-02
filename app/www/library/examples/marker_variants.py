@@ -3,7 +3,7 @@ import reflex as rx
 from components.ui.marker import marker
 
 
-def marker_variants_demo():
+def marker_variants_demo() -> rx.Component:
     return rx.el.div(
         # Default Marker
         marker.root(

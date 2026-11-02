@@ -17,7 +17,7 @@ buridan add tabs
 ### Manual Installation
 
 ```python
-from typing import Literal, Self
+from typing import Annotated, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -82,7 +82,7 @@ class TabsBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/tabs"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Tabs", package_path="", install=False)
 
 
@@ -90,7 +90,7 @@ class TabsRoot(TabsBaseComponent):
     tag = "Tabs.Root"
     default_value: Var[str | int]
     value: Var[str | int]
-    on_value_change: EventHandler[passthrough_event_spec(str | dict)]
+    on_value_change: Annotated[EventHandler, passthrough_event_spec(str | dict)]
     orientation: Var[LiteralOrientation]
     render_: Var[Component]
 
@@ -196,7 +196,7 @@ tabs.root(
 ## Basic
 
 ```python
-def tabs_basic():
+def tabs_basic() -> rx.Component:
     return rx.el.div(
         tabs.root(
             tabs.list(
@@ -288,7 +288,7 @@ def tabs_line() -> rx.Component:
 Use `orientation="vertical"` for vertical tabs.
 
 ```python
-def tabs_vertical():
+def tabs_vertical() -> rx.Component:
     return rx.el.div(
         tabs.root(
             tabs.list(
@@ -309,7 +309,7 @@ def tabs_vertical():
 Use `disabled=True` to disable a tab.
 
 ```python
-def tabs_disabled():
+def tabs_disabled() -> rx.Component:
     return tabs.root(
         tabs.list(
             tabs.indicator(),

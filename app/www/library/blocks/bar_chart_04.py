@@ -1,6 +1,6 @@
 import reflex as rx
 
-from components.charts.chart_tooltip import chart_tooltip_content
+from components.charts.chart_tooltip import chart_tooltip, chart_tooltip_content
 from components.ui.card import card
 
 data = [
@@ -33,6 +33,7 @@ data = [
 
 def _chart(show_y_axis: bool) -> rx.Component:
     return rx.recharts.bar_chart(
+        chart_tooltip(),
         rx.recharts.cartesian_grid(
             horizontal=True,
             vertical=False,
@@ -67,7 +68,7 @@ def _chart(show_y_axis: bool) -> rx.Component:
     )
 
 
-def bar_chart_04():
+def bar_chart_04() -> rx.Component:
     return card.root(
         card.header(
             card.title("Temperature"),

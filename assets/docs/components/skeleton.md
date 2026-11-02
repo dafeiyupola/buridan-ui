@@ -60,7 +60,7 @@ skeleton()
 
 
 ```python
-def skeleton_general():
+def skeleton_general() -> rx.Component:
     return skeleton_component(class_name="h-8 w-32 rounded-md")
 ```
 
@@ -69,7 +69,7 @@ def skeleton_general():
 
 
 ```python
-def skeleton_card():
+def skeleton_card() -> rx.Component:
     return card.root(
         card.header(
             skeleton_component(class_name="h-4 w-2/3 rounded-md"),
@@ -87,7 +87,7 @@ def skeleton_card():
 
 
 ```python
-def skeleton_table():
+def skeleton_table() -> rx.Component:
     """Skeleton table matching shadcn SkeletonTable layout."""
     return rx.el.div(
         *[

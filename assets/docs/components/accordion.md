@@ -17,7 +17,7 @@ buridan add accordion
 ### Manual Installation
 
 ```python
-from typing import Any, Literal, Self, cast
+from typing import Annotated, Any, Literal, Self, cast
 
 import reflex as rx
 from reflex.components.component import Component, ComponentNamespace
@@ -74,7 +74,7 @@ class AccordionBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/accordion"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Accordion", package_path="", install=False)
 
 
@@ -97,7 +97,7 @@ class AccordionRoot(AccordionBaseComponent):
 
     default_value: Var[list[Any]]
     value: Var[list[Any]]
-    on_value_change: EventHandler[passthrough_event_spec(list[str])]
+    on_value_change: Annotated[EventHandler, passthrough_event_spec(list[str])]
     hidden_until_found: Var[bool]
     multiple: Var[bool]
     disabled: Var[bool]
@@ -117,7 +117,7 @@ class AccordionItem(AccordionBaseComponent):
     tag = "Accordion.Item"
 
     value: Var[str]
-    on_open_change: EventHandler[passthrough_event_spec(bool)]
+    on_open_change: Annotated[EventHandler, passthrough_event_spec(bool)]
     disabled: Var[bool]
     render_: Var[Component]
 
@@ -245,7 +245,7 @@ A basic accordion that shows one item at a time. The first item is open by defau
 
 
 ```python
-def accordion_basic():
+def accordion_basic() -> rx.Component:
     return rx.el.div(
         accordion.root(
             accordion.item(

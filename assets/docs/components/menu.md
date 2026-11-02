@@ -17,7 +17,7 @@ buridan add menu
 ### Manual Installation
 
 ```python
-from typing import Literal, Self
+from typing import Annotated, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -122,7 +122,7 @@ class MenuBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/menu"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
 
         return ImportVar(tag="Menu", package_path="", install=False)
 
@@ -134,9 +134,9 @@ class MenuRoot(MenuBaseComponent):
 
     open: Var[bool]
 
-    on_open_change: EventHandler[passthrough_event_spec(bool, dict)]
+    on_open_change: Annotated[EventHandler, passthrough_event_spec(bool, dict)]
 
-    on_open_change_complete: EventHandler[passthrough_event_spec(bool)]
+    on_open_change_complete: Annotated[EventHandler, passthrough_event_spec(bool)]
 
     close_parent_on_esc: Var[bool]
 
@@ -289,11 +289,11 @@ class MenuSubMenuRoot(MenuBaseComponent):
 
     open: Var[bool]
 
-    on_open_change: EventHandler[passthrough_event_spec(bool, dict)]
+    on_open_change: Annotated[EventHandler, passthrough_event_spec(bool, dict)]
 
     close_parent_on_esc: Var[bool]
 
-    on_open_change_complete: EventHandler[passthrough_event_spec(bool)]
+    on_open_change_complete: Annotated[EventHandler, passthrough_event_spec(bool)]
 
     disabled: Var[bool]
 
@@ -387,7 +387,7 @@ class MenuRadioGroup(MenuBaseComponent):
 
     value: Var[str | int]
 
-    on_value_change: EventHandler[passthrough_event_spec(str | int, dict)]
+    on_value_change: Annotated[EventHandler, passthrough_event_spec(str | int, dict)]
 
     disabled: Var[bool]
 
@@ -445,7 +445,7 @@ class MenuCheckboxItem(MenuBaseComponent):
 
     checked: Var[bool]
 
-    on_checked_change: EventHandler[passthrough_event_spec(bool, dict)]
+    on_checked_change: Annotated[EventHandler, passthrough_event_spec(bool, dict)]
 
     close_on_click: Var[bool]
 
@@ -571,7 +571,7 @@ A basic dropdown menu with labels and separators.
 
 
 ```python
-def menu_basic():
+def menu_basic() -> rx.Component:
     return menu.root(
         menu.trigger(render_=button("Open", variant="outline")),
         menu.portal(
@@ -628,7 +628,7 @@ Use `menu.submenu_root` to nest secondary actions.
 
 
 ```python
-def menu_submenu():
+def menu_submenu() -> rx.Component:
     return menu.root(
         menu.trigger(render_=button("Open", variant="outline")),
         menu.portal(
@@ -741,7 +741,7 @@ Use `menu.checkbox_item` for toggles.
 
 
 ```python
-def menu_checkboxes():
+def menu_checkboxes() -> rx.Component:
     return menu.root(
         menu.trigger(render_=button("Open", variant="outline")),
         menu.portal(

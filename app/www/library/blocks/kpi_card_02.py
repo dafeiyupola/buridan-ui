@@ -1,9 +1,11 @@
+from typing import Any
+
 import reflex as rx
 
 from components.charts.chart_tooltip import chart_tooltip, chart_tooltip_content
 from components.ui.card import card
 
-data = [
+data: list[dict[str, Any]] = [
     {"date": "Jan 23", "users": 234, "sessions": 1432, "churn": 5.2},
     {"date": "Feb 23", "users": 431, "sessions": 1032, "churn": 4.3},
     {"date": "Mar 23", "users": 543, "sessions": 1089, "churn": 5.1},
@@ -18,7 +20,7 @@ data = [
     {"date": "Dec 23", "users": 275, "sessions": 873, "churn": 0},
 ]
 
-categories = [
+categories: list[dict[str, Any]] = [
     {
         "name": "Monthly users",
         "key": "users",
@@ -119,7 +121,7 @@ def _kpi_mini_chart(
     )
 
 
-def kpi_card_02():
+def kpi_card_02() -> rx.Component:
     return rx.el.dl(
         *[_kpi_mini_chart(**item) for item in categories],
         class_name="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3",

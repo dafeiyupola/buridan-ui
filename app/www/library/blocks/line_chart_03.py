@@ -123,7 +123,7 @@ def _chart(show_y_axis: bool) -> rx.Component:
     )
 
 
-def _summary_list(items):
+def _summary_list(items: list[tuple[str, str]]) -> rx.Component:
     return rx.el.ul(
         *[
             rx.el.li(
@@ -151,7 +151,7 @@ def _summary_list(items):
     )
 
 
-def line_chart_03():
+def line_chart_03() -> rx.Component:
     return card.root(
         card.header(
             rx.el.p(

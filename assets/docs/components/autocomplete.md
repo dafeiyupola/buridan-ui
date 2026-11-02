@@ -19,7 +19,7 @@ buridan add autocomplete
 ### Manual Installation
 
 ```python
-from typing import Any
+from typing import Annotated, Any, Self
 
 from reflex.components.component import Component
 from reflex.event import EventHandler, passthrough_event_spec
@@ -440,11 +440,11 @@ class BuridanAutocomplete(Component):
 
     separator_class: Var[str]
 
-    set_query_on_select: Var[bool] = True
+    set_query_on_select: Var[bool] = Var.create(True)
 
-    on_change_query: EventHandler[passthrough_event_spec(str)]
+    on_change_query: Annotated[EventHandler, passthrough_event_spec(str)]
 
-    on_select_item: EventHandler[passthrough_event_spec(str)]
+    on_select_item: Annotated[EventHandler, passthrough_event_spec(str)]
 
     def add_custom_code(self) -> list[str]:
         return [BURIDAN_AUTOCOMPLETE_JS]
@@ -456,7 +456,7 @@ class BuridanAutocomplete(Component):
         }
 
     @classmethod
-    def create(cls, *children, **props):
+    def create(cls, *children, **props) -> Self:
         props["root_class"] = cn(ClassNames.ROOT, props.pop("root_class", ""))
         props["input_class"] = cn(ClassNames.INPUT, props.pop("input_class", ""))
         props["popup_class"] = cn(ClassNames.POPUP, props.pop("popup_class", ""))
@@ -509,7 +509,7 @@ A minimal autocomplete with a static list of items.
 
 
 ```python
-def autocomplete_basic():
+def autocomplete_basic() -> rx.Component:
     return autocomplete(
         items=["feature", "fix", "bug", "docs", "internal", "mobile"],
         placeholder="Search tags...",
@@ -523,7 +523,7 @@ Wire up `on_select_item` to capture the selected value.
 
 
 ```python
-def autocomplete_select_value():
+def autocomplete_select_value() -> rx.Component:
     return autocomplete(
         items=["feature", "fix", "bug", "docs", "internal", "mobile"],
         placeholder="Search and select...",
@@ -538,7 +538,7 @@ Pass a `group` key to your data structure to group items together.
 
 
 ```python
-def autocomplete_grouping():
+def autocomplete_grouping() -> rx.Component:
     return autocomplete(
         items=[
             {"group": "Fruits", "items": ["Apple", "Banana", "Mango"]},
@@ -559,7 +559,7 @@ Autocomplete works efficiently with large lists — filtering happens entirely i
 
 
 ```python
-def autocomplete_large_list():
+def autocomplete_large_list() -> rx.Component:
     return autocomplete(
         items=ITEMS,
         placeholder="Search components and charts...",
@@ -573,7 +573,7 @@ Override any part of the component by passing a `*_class` prop. Classes are merg
 
 
 ```python
-def autocomplete_custom_styling():
+def autocomplete_custom_styling() -> rx.Component:
     return autocomplete(
         items=["feature", "fix", "bug", "docs", "internal", "mobile"],
         placeholder="Search tags...",
@@ -591,7 +591,7 @@ When no items match the query, the empty state is shown automatically.
 
 
 ```python
-def autocomplete_empty_state():
+def autocomplete_empty_state() -> rx.Component:
     return autocomplete(
         items=["feature", "fix", "bug"],
         placeholder="Try typing something that won't match...",

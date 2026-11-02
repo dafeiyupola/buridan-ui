@@ -12,7 +12,7 @@ data = [
 ]
 
 
-def linechart_v5():
+def linechart_v5() -> rx.Component:
 
     return card.root(
         card.header(

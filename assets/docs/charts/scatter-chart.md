@@ -13,7 +13,7 @@ A minimal example showing the relationship between two variables with individual
 
 
 ```python
-def scatterchart_v1():
+def scatterchart_v1() -> rx.Component:
 
     return card.root(
         card.header(

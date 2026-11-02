@@ -1,8 +1,10 @@
+import reflex as rx
+
 from components.ui.button import button
 from components.ui.popover import popover
 
 
-def popover_basic():
+def popover_basic() -> rx.Component:
     return popover.root(
         popover.trigger(render_=button("Open Popover", variant="outline")),
         popover.portal(

@@ -1,9 +1,11 @@
+import reflex as rx
+
 from components.ui.timeline import timeline
 
 left_align_date = "sm:group-data-[orientation=vertical]/timeline:absolute sm:group-data-[orientation=vertical]/timeline:-left-32 sm:group-data-[orientation=vertical]/timeline:w-20 sm:group-data-[orientation=vertical]/timeline:text-right"
 
 
-def timeline_left_aligned_dates():
+def timeline_left_aligned_dates() -> rx.Component:
     return timeline.root(
         timeline.item(
             timeline.indicator(),

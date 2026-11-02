@@ -1,8 +1,10 @@
+import reflex as rx
+
 from components.ui.card import card
 from components.ui.skeleton import skeleton_component
 
 
-def skeleton_card():
+def skeleton_card() -> rx.Component:
     return card.root(
         card.header(
             skeleton_component(class_name="h-4 w-2/3 rounded-md"),

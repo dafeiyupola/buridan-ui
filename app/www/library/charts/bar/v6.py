@@ -21,7 +21,7 @@ modified_data = [
 ]
 
 
-def barchart_v6():
+def barchart_v6() -> rx.Component:
 
     return card.root(
         card.header(

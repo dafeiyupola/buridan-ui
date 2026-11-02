@@ -13,7 +13,7 @@ data = [
 ]
 
 
-def barchart_v4():
+def barchart_v4() -> rx.Component:
 
     return card.root(
         card.header(

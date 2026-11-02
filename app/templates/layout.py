@@ -1,4 +1,5 @@
 import functools
+from collections.abc import Callable
 
 import reflex as rx
 
@@ -28,23 +29,20 @@ def layout_decorator(
     title: str,
     description: str,
     ctas: list | None = None,
-):
+) -> Callable[[Callable[..., rx.Component]], Callable[..., rx.Component]]:
     """Decorator to wrap a page function with a sticky navbar,
     a landing header, and page-specific content.
     """
 
-    def decorator(func):
+    def decorator(func: Callable[..., rx.Component]) -> Callable[..., rx.Component]:
         @functools.wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args, **kwargs) -> rx.Component:
             page_content = func(*args, **kwargs)
 
             return rx.el.div(
                 rx.el.div(
                     banner,
-                    rx.el.header(
-                        navbar(),
-                        class_name="sticky top-0 z-50 w-full bg-background",
-                    ),
+                    navbar(),
                     rx.el.main(
                         rx.el.div(
                             rx.el.section(

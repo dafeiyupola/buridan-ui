@@ -12,7 +12,7 @@ stats_data = [
 ]
 
 
-def radar_v5():
+def radar_v5() -> rx.Component:
 
     return card.root(
         card.header(

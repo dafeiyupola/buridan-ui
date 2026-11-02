@@ -17,7 +17,7 @@ buridan add slider
 ### Manual Installation
 
 ```python
-from typing import Literal, Self
+from typing import Annotated, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -75,7 +75,7 @@ class SliderBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/slider"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Slider", package_path="", install=False)
 
 
@@ -88,9 +88,9 @@ class SliderRoot(SliderBaseComponent):
 
     value: Var[int | float | list[int | float]]
 
-    on_value_change: EventHandler[on_value_event_spec]
+    on_value_change: Annotated[EventHandler, on_value_event_spec]
 
-    on_value_committed: EventHandler[on_value_event_spec]
+    on_value_committed: Annotated[EventHandler, on_value_event_spec]
 
     locale: Var[str]
 
@@ -230,7 +230,7 @@ slider.root(
 A basic low-level slider demo.
 
 ```python
-def slider_demo():
+def slider_demo() -> rx.Component:
     return rx.el.div(
         slider.root(
             slider.control(slider.track(slider.indicator(), slider.thumb())),
@@ -245,7 +245,7 @@ def slider_demo():
 Use an array with two values for a range slider.
 
 ```python
-def slider_range():
+def slider_range() -> rx.Component:
     return rx.el.div(
         slider.root(
             slider.control(
@@ -268,7 +268,7 @@ def slider_range():
 Use `orientation="vertical"` for a vertical slider.
 
 ```python
-def slider_vertical():
+def slider_vertical() -> rx.Component:
     return rx.el.div(
         slider.root(
             slider.control(

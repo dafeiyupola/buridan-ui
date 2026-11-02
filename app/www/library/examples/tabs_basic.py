@@ -4,7 +4,7 @@ from components.ui.card import card
 from components.ui.tabs import tabs
 
 
-def tabs_basic():
+def tabs_basic() -> rx.Component:
     return rx.el.div(
         tabs.root(
             tabs.list(

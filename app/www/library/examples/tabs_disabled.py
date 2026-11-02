@@ -1,7 +1,9 @@
+import reflex as rx
+
 from components.ui.tabs import tabs
 
 
-def tabs_disabled():
+def tabs_disabled() -> rx.Component:
     return tabs.root(
         tabs.list(
             tabs.indicator(),

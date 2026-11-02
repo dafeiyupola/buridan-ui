@@ -1,4 +1,5 @@
 from datetime import date
+from typing import Any, cast
 
 import reflex as rx
 
@@ -6,10 +7,10 @@ from components.charts.chart_tooltip import chart_tooltip, chart_tooltip_content
 from components.ui.card import card
 
 
-def barchart_v5():
+def barchart_v5() -> rx.Component:
     from reflex.experimental import ClientStateVar
 
-    data = [
+    data: list[dict[str, Any]] = [
         {"date": "2024-04-01", "desktop": 222, "mobile": 150},
         {"date": "2024-04-02", "desktop": 97, "mobile": 180},
         {"date": "2024-04-03", "desktop": 167, "mobile": 120},
@@ -49,7 +50,7 @@ def barchart_v5():
         for item in data
     ]
 
-    SelectedType = ClientStateVar.create("bar_selected", "mobile")
+    SelectedType = cast("Any", ClientStateVar.create("bar_selected", "mobile"))
 
     return card.root(
         card.header(

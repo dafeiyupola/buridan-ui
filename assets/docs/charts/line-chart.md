@@ -159,7 +159,7 @@ chart_tooltip_content = _ChartTooltipContent()
 A minimal example showing a single series with a smooth line connection.
 
 ```python
-def linechart_v1():
+def linechart_v1() -> rx.Component:
 
     return card.root(
         card.header(
@@ -220,7 +220,7 @@ def linechart_v1():
 Displays data using straight line segments between points.
 
 ```python
-def linechart_v2():
+def linechart_v2() -> rx.Component:
 
     return card.root(
         card.header(
@@ -281,7 +281,7 @@ def linechart_v2():
 Shows data points with labels for clear value identification.
 
 ```python
-def linechart_v3():
+def linechart_v3() -> rx.Component:
 
     return card.root(
         card.header(
@@ -348,7 +348,7 @@ def linechart_v3():
 Visualizes multiple data series on the same chart for comparison.
 
 ```python
-def linechart_v4():
+def linechart_v4() -> rx.Component:
 
     return card.root(
         card.header(
@@ -422,7 +422,7 @@ def linechart_v4():
 Includes a title and labels for comprehensive chart context.
 
 ```python
-def linechart_v5():
+def linechart_v5() -> rx.Component:
 
     return card.root(
         card.header(
@@ -483,7 +483,7 @@ def linechart_v5():
 A clean, stripped-down version focusing on essential data visualization.
 
 ```python
-def linechart_v6():
+def linechart_v6() -> rx.Component:
 
     return card.root(
         card.header(
@@ -537,10 +537,10 @@ def linechart_v6():
 Demonstrates how data or series can update interactively in real-time.
 
 ```python
-def linechart_v7():
+def linechart_v7() -> rx.Component:
     from reflex.experimental import ClientStateVar
 
-    data = [
+    data: list[dict[str, Any]] = [
         {"date": "2024-04-01", "desktop": 222, "mobile": 150},
         {"date": "2024-04-02", "desktop": 97, "mobile": 180},
         {"date": "2024-04-03", "desktop": 167, "mobile": 120},
@@ -583,7 +583,7 @@ def linechart_v7():
         for item in data
     ]
 
-    SelectedType = ClientStateVar.create("selected_line", "mobile")
+    SelectedType = cast("Any", ClientStateVar.create("selected_line", "mobile"))
 
     return card.root(
         card.header(
@@ -663,7 +663,7 @@ def linechart_v7():
 Implements a user-defined legend layout for better presentation control.
 
 ```python
-def linechart_v8():
+def linechart_v8() -> rx.Component:
 
     return card.root(
         card.header(

@@ -29,7 +29,7 @@ scat_data_2 = [
 ]
 
 
-def scatterchart_v1():
+def scatterchart_v1() -> rx.Component:
 
     return card.root(
         card.header(

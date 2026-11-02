@@ -1,4 +1,4 @@
-from typing import ClassVar, Literal, Self
+from typing import Annotated, ClassVar, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -43,7 +43,7 @@ class TooltipBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/tooltip"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Tooltip", package_path="", install=False)
 
 
@@ -54,9 +54,9 @@ class TooltipRoot(TooltipBaseComponent):
 
     default_open: Var[bool]
 
-    on_open_change: EventHandler[passthrough_event_spec(bool, dict)]
+    on_open_change: Annotated[EventHandler, passthrough_event_spec(bool, dict)]
 
-    on_open_change_complete: EventHandler[passthrough_event_spec(bool)]
+    on_open_change_complete: Annotated[EventHandler, passthrough_event_spec(bool)]
 
     track_cursor_axis: Var[LiteralTrackCursorAxis]
 

@@ -1,7 +1,9 @@
+import reflex as rx
+
 from components.ui.autocomplete import autocomplete
 
 
-def autocomplete_custom_styling():
+def autocomplete_custom_styling() -> rx.Component:
     return autocomplete(
         items=["feature", "fix", "bug", "docs", "internal", "mobile"],
         placeholder="Search tags...",

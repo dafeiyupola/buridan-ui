@@ -18,7 +18,7 @@ works = [
 ]
 
 
-def scroll_area_horizontal():
+def scroll_area_horizontal() -> rx.Component:
     return scroll_area.root(
         scroll_area.viewport(
             scroll_area.content(

@@ -1,5 +1,6 @@
 import datetime
 import random
+from typing import Any, cast
 
 import reflex as rx
 from reflex.experimental import ClientStateVar
@@ -8,10 +9,10 @@ from components.charts.chart_tooltip import chart_tooltip, chart_tooltip_content
 from components.ui.card import card
 
 
-def areachart_v5():
+def areachart_v5() -> rx.Component:
 
     start_date = datetime.date(2024, 4, 1)
-    data = [
+    data: list[dict[str, Any]] = [
         {
             "date": (start_date + datetime.timedelta(days=i)).strftime("%b %d"),
             "desktop": random.randint(80, 500),  # nosec B311
@@ -21,9 +22,9 @@ def areachart_v5():
     ]
 
     default_range = "last_3_months"
-    SelectedRange = ClientStateVar.create("area_selected", default_range)
+    SelectedRange = cast("Any", ClientStateVar.create("area_selected", default_range))
 
-    def gradient(id_: str, color: str):
+    def gradient(id_: str, color: str) -> rx.Component:
         return rx.el.svg.linear_gradient(
             rx.el.svg.stop(stop_color=f"var(--{color})", offset="5%", stop_opacity=0.8),
             rx.el.svg.stop(
@@ -38,7 +39,7 @@ def areachart_v5():
             id=id_,
         )
 
-    def area(data_key: str, color: str):
+    def area(data_key: str, color: str) -> rx.Component:
         return rx.recharts.area(
             data_key=data_key,
             fill=f"url(#{data_key})",
@@ -101,13 +102,16 @@ def areachart_v5():
                     custom_attrs={"fontSize": "12px"},
                     interval="preserveStartEnd",
                 ),
-                data=rx.match(
-                    SelectedRange.value,
-                    *[
-                        (range_key, range_data)
-                        for range_key, (_, range_data) in range_options.items()
-                    ],
-                    range_options[default_range][1],
+                data=cast(
+                    "Any",
+                    rx.match(
+                        SelectedRange.value,
+                        *[
+                            (range_key, range_data)
+                            for range_key, (_, range_data) in range_options.items()
+                        ],
+                        range_options[default_range][1],
+                    ),
                 ),
                 width="100%",
                 height=250,

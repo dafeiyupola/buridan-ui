@@ -50,7 +50,7 @@ The fade is applied with `mask-image`, so it dissolves the content itself rather
 
 
 ```python
-def scroll_fade_demo():
+def scroll_fade_demo() -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.div(
@@ -76,7 +76,7 @@ If the content does not overflow, no fade is shown. You can apply `scroll-fade` 
 
 
 ```python
-def scroll_fade_no_fade():
+def scroll_fade_no_fade() -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.div(
@@ -102,7 +102,7 @@ Use `scroll-fade-x` on containers that scroll horizontally, i.e. the element tha
 
 
 ```python
-def scroll_fade_horizontal():
+def scroll_fade_horizontal() -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.div(
@@ -128,7 +128,7 @@ Use edge utilities when only one edge should track the scroll position.
 
 
 ```python
-def scroll_fade_edge():
+def scroll_fade_edge() -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.div(
@@ -199,7 +199,7 @@ The fade depth defaults to 12% of the container, capped at 40px so tall scroller
 
 
 ```python
-def scroll_fade_size():
+def scroll_fade_size() -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.div(
@@ -252,7 +252,7 @@ Use `scroll-fade-none` to remove the fade. It works in any class order, so the t
 
 
 ```python
-def scroll_fade_none():
+def scroll_fade_none() -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.div(

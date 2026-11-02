@@ -199,7 +199,7 @@ timeline.root(
 
 
 ```python
-def timeline_basic():
+def timeline_basic() -> rx.Component:
     return timeline.root(
         timeline.item(
             timeline.indicator(),
@@ -259,7 +259,7 @@ Set the `data-[]` CSS prop to `-left-32` to align dates to the left.
 
 
 ```python
-def timeline_left_aligned_dates():
+def timeline_left_aligned_dates() -> rx.Component:
     return timeline.root(
         timeline.item(
             timeline.indicator(),

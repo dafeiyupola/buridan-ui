@@ -315,7 +315,7 @@ Set `variant="image"` on `attachment.media` and render an `rx.el.img()` inside i
 
 
 ```python
-def attachment_image_demo():
+def attachment_image_demo() -> rx.Component:
     return rx.el.div(
         attachment.group(
             rx.foreach(
@@ -359,7 +359,7 @@ Set `state` to reflect the upload lifecycle. `uploading` and `processing` shimme
 
 
 ```python
-def attachment_states_demo():
+def attachment_states_demo() -> rx.Component:
     return rx.el.div(
         attachment.root(
             attachment.media(hi("Clock01Icon")),
@@ -444,7 +444,7 @@ Use `size` to switch between `default`, `sm`, and `xs`.
 
 
 ```python
-def attachment_sizes_demo():
+def attachment_sizes_demo() -> rx.Component:
     return rx.el.div(
         attachment.root(
             attachment.media(hi("File02Icon")),
@@ -480,7 +480,7 @@ Wrap attachments in `attachment.group` to lay them out in a horizontally scrolla
 
 
 ```python
-def attachment_group_demo():
+def attachment_group_demo() -> rx.Component:
     return rx.el.div(
         attachment.group(
             rx.foreach(
@@ -520,7 +520,7 @@ Add an `attachment.trigger` to make the whole card open a link or dialog. It fil
 
 
 ```python
-def attachment_trigger_dialog_demo():
+def attachment_trigger_dialog_demo() -> rx.Component:
     return rx.el.div(
         dialog.root(
             attachment.root(

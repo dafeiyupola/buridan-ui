@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Self
 
 from reflex.components.component import Component
 from reflex.utils.imports import ImportVar
@@ -369,7 +369,7 @@ class BuridanHeatmap(Component):
         return {"react": ImportVar(tag="React", is_default=True)}
 
     @classmethod
-    def create(cls, *children, **props):
+    def create(cls, *children, **props) -> Self:
         props.setdefault("show_dow", True)
         props.setdefault("show_months", True)
         props.setdefault("color_mode", "discrete")

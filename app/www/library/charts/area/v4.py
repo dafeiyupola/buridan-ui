@@ -13,7 +13,7 @@ data = [
 ]
 
 
-def areachart_v4():
+def areachart_v4() -> rx.Component:
 
     return card.root(
         card.header(
