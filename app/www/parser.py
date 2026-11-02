@@ -3,9 +3,8 @@ import importlib
 import inspect
 import pathlib
 import re
-from collections.abc import Callable
 from pathlib import Path
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, cast
 
 import reflex as rx
 
@@ -18,6 +17,9 @@ from app.www.wrapper import (
     tooltip_wrapper,
     usage_wrapper,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 def get_all_dependencies(name: str, registry: dict) -> list[str]:

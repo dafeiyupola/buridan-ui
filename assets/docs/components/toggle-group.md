@@ -106,7 +106,8 @@ class ToggleGroupRoot(ToggleGroupBaseComponent):
     default_value: Var[list[str | int]]
     value: Var[list[str | int]]
     on_value_change: Annotated[
-        EventHandler, passthrough_event_spec(list[str | int], dict)
+        EventHandler,
+        passthrough_event_spec(list[str | int], dict),
     ]
     multiple: Var[bool]
     disabled: Var[bool]

@@ -182,7 +182,7 @@ def format_css(config: dict) -> str:
 def generate_theme_css(seed: str) -> str:
     def build(*, dark: bool) -> str:
         return format_css(
-            rebuild_theme({**(decode_seed(seed) or {}), "darkMode": dark})
+            rebuild_theme({**(decode_seed(seed) or {}), "darkMode": dark}),
         )
 
     return (

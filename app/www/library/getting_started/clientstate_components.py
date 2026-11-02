@@ -8,12 +8,10 @@ from reflex.experimental import ClientStateVar
 def form_state_pattern_example():
     form_state = cast("Any", ClientStateVar.create("form", {}))
 
+    def update_username(v: object) -> object:
+        return form_state.set_value(form_state.value.merge({"username": v}))
+
     return rx.el.input(
         value=form_state.value.get("username", ""),
-        on_change=cast(
-            "Any",
-            lambda v: form_state.set_value(
-                form_state.value.merge({"username": v}),
-            ),
-        ),
+        on_change=cast("Any", update_username),
     )
