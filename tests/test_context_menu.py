@@ -153,6 +153,22 @@ def test_context_menu_item_inset_and_variant_still_accept_literals() -> None:
     assert '"data-variant":"destructive"' in rendered_props
 
 
+def test_context_menu_item_inset_false_does_not_trigger_padding_selector() -> None:
+    """``"inset" in props`` forwards ``inset=False`` as ``data-inset="false"``.
+    Since ``data-inset:pl-7`` is a bare presence selector (``&[data-inset]``),
+    it would match that attribute regardless of its value. ``ClassNames.ITEM``
+    must use the value-based ``data-[inset=true]:pl-7`` selector so a falsy
+    ``inset`` never applies the padding.
+    """
+    assert "data-inset:pl-7" not in ClassNames.ITEM
+    assert "data-[inset=true]:pl-7" in ClassNames.ITEM
+
+    item = ContextMenuItem.create("Delete", inset=False)
+    rendered_props = " ".join(item.render()["props"])
+
+    assert '"data-inset":false' in rendered_props
+
+
 def test_context_menu_group_label_inset_accepts_state_var() -> None:
     label = ContextMenuGroupLabel.create("Actions", inset=_ContextMenuState.is_inset)
 
