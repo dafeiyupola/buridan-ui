@@ -1,6 +1,4 @@
 import json
-import sys
-from pathlib import Path
 from typing import Any, cast
 
 import pytest
@@ -8,9 +6,6 @@ import reflex as rx
 from reflex.event import EventChain, EventSpec
 from reflex.vars.base import Var
 from reflex_components_core.el.elements.forms import CheckboxInput, ValueNumberInput
-
-ROOT_DIR = Path(__file__).parent.parent
-sys.path.insert(0, str(ROOT_DIR))
 
 from components.ui.input import (
     BaseInput,
@@ -34,7 +29,7 @@ def _capture_input_props(monkeypatch: pytest.MonkeyPatch) -> dict[str, Any]:
     """Capture props passed to the underlying Reflex input component."""
     captured = {}
 
-    def create(cls: type, *children: Any, **props: Any) -> dict[str, Any]:
+    def create(_cls: type, *_children: Any, **props: Any) -> dict[str, Any]:
         captured.update(props)
         return props
 
