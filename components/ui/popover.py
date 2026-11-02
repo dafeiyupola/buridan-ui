@@ -161,7 +161,7 @@ class PopoverArrow(PopoverBaseComponent):
 
 class PopoverHeader(Div):
     @classmethod
-    def create(cls, *children, **props) -> Div:
+    def create(cls, *children, **props) -> Self:
         props.setdefault("data-slot", "popover-header")
         props["class_name"] = cn(ClassNames.HEADER, props.get("class_name", ""))
         return cast("Self", super().create(*children, **props))
