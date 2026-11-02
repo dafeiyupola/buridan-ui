@@ -162,9 +162,9 @@ class ContextMenuItem(ContextMenuBaseComponent):
     @classmethod
     def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-item"
-        if props.get("inset"):
+        if "inset" in props:
             props["data-inset"] = props.pop("inset")
-        if props.get("variant"):
+        if "variant" in props:
             props["data-variant"] = props.pop("variant")
         cls.set_class_name(ClassNames.ITEM, props)
         return super().create(*children, **props)
@@ -204,7 +204,7 @@ class ContextMenuGroupLabel(ContextMenuBaseComponent):
     @classmethod
     def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-label"
-        if props.get("inset"):
+        if "inset" in props:
             props["data-inset"] = props.pop("inset")
         cls.set_class_name(ClassNames.GROUP_LABEL, props)
         return super().create(*children, **props)
@@ -240,7 +240,7 @@ class ContextMenuRadioItem(ContextMenuBaseComponent):
     @classmethod
     def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-radio-item"
-        if props.get("inset"):
+        if "inset" in props:
             props["data-inset"] = props.pop("inset")
         cls.set_class_name(ClassNames.RADIO_ITEM, props)
         return super().create(*children, **props)
@@ -256,6 +256,8 @@ class ContextMenuRadioItemIndicator(ContextMenuBaseComponent):
     def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-radio-item-indicator"
         cls.set_class_name(ClassNames.RADIO_ITEM_INDICATOR, props)
+        if not children:
+            children = (hi("Tick02Icon"),)
         return super().create(*children, **props)
 
 
@@ -275,7 +277,7 @@ class ContextMenuCheckboxItem(ContextMenuBaseComponent):
     @classmethod
     def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-checkbox-item"
-        if props.get("inset"):
+        if "inset" in props:
             props["data-inset"] = props.pop("inset")
         cls.set_class_name(ClassNames.CHECKBOX_ITEM, props)
         return super().create(*children, **props)
@@ -291,6 +293,8 @@ class ContextMenuCheckboxItemIndicator(ContextMenuBaseComponent):
     def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-checkbox-item-indicator"
         cls.set_class_name(ClassNames.CHECKBOX_ITEM_INDICATOR, props)
+        if not children:
+            children = (hi("Tick02Icon"),)
         return super().create(*children, **props)
 
 
@@ -326,7 +330,7 @@ class ContextMenuSubmenuTrigger(ContextMenuBaseComponent):
     @classmethod
     def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-sub-trigger"
-        if props.get("inset"):
+        if "inset" in props:
             props["data-inset"] = props.pop("inset")
         cls.set_class_name(ClassNames.SUBMENU_TRIGGER, props)
         return super().create(
