@@ -169,6 +169,19 @@ def run_reflex(env, pages):
     return port
 
 
+def _select_pages(mode: str, sections: dict) -> list[str] | None:
+    if mode == "pages":
+        return select_pages(sections)
+    if mode in {"sections", "section-pages"}:
+        selected_sections = select_sections(sections)
+        if selected_sections is None:
+            return None
+        if mode == "sections":
+            return expand_sections(selected_sections, sections)
+        return select_pages_from_sections(selected_sections, sections)
+    return []
+
+
 def main() -> None:
     sections = build_index()
 
@@ -189,32 +202,10 @@ def main() -> None:
         print("Exiting")
         return
 
-    selected_pages = []
-
-    if mode == "pages":
-        selected_pages = select_pages(sections)
-        if selected_pages is None:
-            print("Exiting")
-            return
-
-    elif mode == "sections":
-        selected_sections = select_sections(sections)
-        if selected_sections is None:
-            print("Exiting")
-            return
-
-        selected_pages = expand_sections(selected_sections, sections)
-
-    elif mode == "section-pages":
-        selected_sections = select_sections(sections)
-        if selected_sections is None:
-            print("Exiting")
-            return
-
-        selected_pages = select_pages_from_sections(selected_sections, sections)
-        if selected_pages is None:
-            print("Exiting")
-            return
+    selected_pages = _select_pages(mode, sections)
+    if selected_pages is None:
+        print("Exiting")
+        return
 
     confirm = questionary.confirm(
         f"Run reflex in {env} with {len(selected_pages)} pages?",

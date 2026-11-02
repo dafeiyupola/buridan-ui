@@ -136,7 +136,94 @@ def render_anatomy(entries: dict[str, str]) -> str:
     return "\n".join(lines)
 
 
-def main() -> None:
+def _collect_entries(
+    files: list[Path],
+    repo_root: Path,
+    *,
+    skip_import_validation: bool,
+) -> dict[str, str]:
+    entries: dict[str, str] = {}
+    errors: list[str] = []
+
+    for path in files:
+        name = path.stem
+        try:
+            entries[name] = extract_composition_source(path)
+            if not skip_import_validation:
+                validate_by_importing(path, repo_root)
+        except Exception as e:  # noqa: BLE001 -- we want to report *any* failure per-file and continue
+            errors.append(f"{path.name}: {e}")
+
+    if errors:
+        print("Anatomy validation FAILED for:", file=sys.stderr)
+        for e in errors:
+            print(f"  - {e}", file=sys.stderr)
+        sys.exit(1)
+    return entries
+
+
+def _report_missing(missing: list[str]) -> None:
+    if not missing:
+        return
+    print(
+        "No anatomy authored yet for (informational, not failing the build):",
+        file=sys.stderr,
+    )
+    for name in missing:
+        print(f"  - {name}", file=sys.stderr)
+
+
+def _handle_orphans(
+    orphans: list[str],
+    entries: dict[str, str],
+    *,
+    allow_orphans: bool,
+) -> None:
+    if not orphans:
+        return
+    label = "WARNING" if allow_orphans else "ERROR"
+    print(
+        f"{label}: anatomy_src files reference components no longer in COMPONENT_REGISTRY:",
+        file=sys.stderr,
+    )
+    for name in orphans:
+        print(
+            f"  - {name}.py -- delete this file or re-add '{name}' to the registry",
+            file=sys.stderr,
+        )
+    if not allow_orphans:
+        sys.exit(1)
+    for name in orphans:
+        entries.pop(name, None)
+
+
+def _write_or_check(
+    rendered: str,
+    entries: dict[str, str],
+    out_path: Path,
+    *,
+    check: bool,
+) -> None:
+    if check:
+        existing = out_path.read_text(encoding="utf-8") if out_path.exists() else None
+        if existing == rendered:
+            print(
+                "Anatomy is up to date and all compositions import cleanly.",
+                file=sys.stderr,
+            )
+            sys.exit(0)
+        print(
+            "Anatomy is OUT OF DATE. Run without --check to regenerate.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(rendered, encoding="utf-8")
+    print(f"Wrote {len(entries)} anatomy entries to {out_path}", file=sys.stderr)
+
+
+def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -166,7 +253,11 @@ def main() -> None:
         action="store_true",
         help="Don't fail when an anatomy file references a component no longer in COMPONENT_REGISTRY (just warn).",
     )
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = _parse_args()
 
     repo_root = Path(__file__).resolve().parent.parent
     src_dir = repo_root / args.src
@@ -181,23 +272,11 @@ def main() -> None:
         print(f"No anatomy source files found in {src_dir}", file=sys.stderr)
         sys.exit(1)
 
-    entries: dict[str, str] = {}
-    errors: list[str] = []
-
-    for path in files:
-        name = path.stem
-        try:
-            entries[name] = extract_composition_source(path)
-            if not args.skip_import_validation:
-                validate_by_importing(path, repo_root)
-        except Exception as e:  # noqa: BLE001 -- we want to report *any* failure per-file and continue
-            errors.append(f"{path.name}: {e}")
-
-    if errors:
-        print("Anatomy validation FAILED for:", file=sys.stderr)
-        for e in errors:
-            print(f"  - {e}", file=sys.stderr)
-        sys.exit(1)
+    entries = _collect_entries(
+        files,
+        repo_root,
+        skip_import_validation=args.skip_import_validation,
+    )
 
     # Cross-check against the registry: an anatomy file whose component no
     # longer exists in COMPONENT_REGISTRY imports fine (the .py file may
@@ -214,49 +293,12 @@ def main() -> None:
         if name not in NOT_USER_FACING and not is_block(name, registry)
     )
 
-    if missing:
-        print(
-            "No anatomy authored yet for (informational, not failing the build):",
-            file=sys.stderr,
-        )
-        for name in missing:
-            print(f"  - {name}", file=sys.stderr)
-
-    if orphans:
-        label = "WARNING" if args.allow_orphans else "ERROR"
-        print(
-            f"{label}: anatomy_src files reference components no longer in COMPONENT_REGISTRY:",
-            file=sys.stderr,
-        )
-        for name in orphans:
-            print(
-                f"  - {name}.py -- delete this file or re-add '{name}' to the registry",
-                file=sys.stderr,
-            )
-        if not args.allow_orphans:
-            sys.exit(1)
-        for name in orphans:
-            entries.pop(name, None)
+    _report_missing(missing)
+    _handle_orphans(orphans, entries, allow_orphans=args.allow_orphans)
 
     rendered = render_anatomy(entries)
 
-    if args.check:
-        existing = out_path.read_text(encoding="utf-8") if out_path.exists() else None
-        if existing == rendered:
-            print(
-                "Anatomy is up to date and all compositions import cleanly.",
-                file=sys.stderr,
-            )
-            sys.exit(0)
-        print(
-            "Anatomy is OUT OF DATE. Run without --check to regenerate.",
-            file=sys.stderr,
-        )
-        sys.exit(1)
-
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(rendered, encoding="utf-8")
-    print(f"Wrote {len(entries)} anatomy entries to {out_path}", file=sys.stderr)
+    _write_or_check(rendered, entries, out_path, check=args.check)
 
 
 if __name__ == "__main__":

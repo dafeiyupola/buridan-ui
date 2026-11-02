@@ -254,6 +254,27 @@ def _usage_block(name: object, obj: Callable[..., Any], preferred_name: str) -> 
     )
 
 
+def _registry_block(
+    cmd: str,
+    name: object,
+    obj: Callable[..., Any],
+    preferred_name: str,
+    option: object,
+    *,
+    has_option: bool,
+) -> str:
+    if "demo" in cmd:
+        return _demo_block(name, obj)
+    if "code" in cmd:
+        return _code_block(cmd, name, obj, option or "python")
+    if cmd == "install":
+        cli_cmd = str(option) if has_option else f"buridan add {str(name).lower()}"
+        return _install_block(name, obj, cli_cmd)
+    if cmd == "usage":
+        return _usage_block(name, obj, preferred_name)
+    return f"\n> **Warning: Unknown command '{cmd}'**\n"
+
+
 def _process_delimiter(match: re.Match[str], registry: Registry) -> str:
     """Process a single component delimiter match."""
     cmd = match.group(1).lower()
@@ -281,17 +302,14 @@ def _process_delimiter(match: re.Match[str], registry: Registry) -> str:
         return f"\n> **Error: '{name}' not found in registry**\n"
     obj, preferred_name = registry_entry
 
-    if "demo" in cmd:
-        return _demo_block(name, obj)
-    if "code" in cmd:
-        return _code_block(cmd, name, obj, option or "python")
-    if cmd == "install":
-        cli_cmd = str(option) if has_option else f"buridan add {str(name).lower()}"
-        return _install_block(name, obj, cli_cmd)
-    if cmd == "usage":
-        return _usage_block(name, obj, preferred_name)
-
-    return f"\n> **Warning: Unknown command '{cmd}'**\n"
+    return _registry_block(
+        cmd,
+        name,
+        obj,
+        preferred_name,
+        option,
+        has_option=has_option,
+    )
 
 
 def convert_to_pure_markdown(content: str, registry: Registry) -> str:
