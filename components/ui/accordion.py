@@ -1,4 +1,4 @@
-from typing import Any, Literal, Self, cast
+from typing import Annotated, Any, Literal, Self, cast
 
 import reflex as rx
 from reflex.components.component import Component, ComponentNamespace
@@ -78,7 +78,7 @@ class AccordionRoot(AccordionBaseComponent):
 
     default_value: Var[list[Any]]
     value: Var[list[Any]]
-    on_value_change: EventHandler[passthrough_event_spec(list[str])]
+    on_value_change: Annotated[EventHandler, passthrough_event_spec(list[str])]
     hidden_until_found: Var[bool]
     multiple: Var[bool]
     disabled: Var[bool]
@@ -98,7 +98,7 @@ class AccordionItem(AccordionBaseComponent):
     tag = "Accordion.Item"
 
     value: Var[str]
-    on_open_change: EventHandler[passthrough_event_spec(bool)]
+    on_open_change: Annotated[EventHandler, passthrough_event_spec(bool)]
     disabled: Var[bool]
     render_: Var[Component]
 

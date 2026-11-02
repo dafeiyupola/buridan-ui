@@ -1,4 +1,4 @@
-from typing import Self
+from typing import Annotated, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -43,7 +43,7 @@ class AvatarRoot(AvatarBaseComponent):
 class AvatarImage(AvatarBaseComponent):
     tag = "Avatar.Image"
     src: Var[str]
-    on_loading_status_change: EventHandler[passthrough_event_spec(str)]
+    on_loading_status_change: Annotated[EventHandler, passthrough_event_spec(str)]
     render_: Var[Component]
 
     @classmethod

@@ -1,4 +1,5 @@
 from datetime import date
+from typing import Any, cast
 
 import reflex as rx
 
@@ -9,7 +10,7 @@ from components.ui.card import card
 def linechart_v7():
     from reflex.experimental import ClientStateVar
 
-    data = [
+    data: list[dict[str, Any]] = [
         {"date": "2024-04-01", "desktop": 222, "mobile": 150},
         {"date": "2024-04-02", "desktop": 97, "mobile": 180},
         {"date": "2024-04-03", "desktop": 167, "mobile": 120},
@@ -52,7 +53,7 @@ def linechart_v7():
         for item in data
     ]
 
-    SelectedType = ClientStateVar.create("selected_line", "mobile")
+    SelectedType = cast("Any", ClientStateVar.create("selected_line", "mobile"))
 
     return card.root(
         card.header(

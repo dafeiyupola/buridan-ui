@@ -123,7 +123,9 @@ def test_generated_javascript_codecs_match_cli_and_cover_shuffle() -> None:
     if not node:
         pytest.skip("Node.js is required to execute the generated seed codecs")
 
-    generated_browser_js = seed_engine().children[0].children[0].contents._var_value
+    generated_browser_js = cast(
+        "Any", seed_engine().children[0].children[0]
+    ).contents._var_value
     js_checks = r"""
 const cases = [];
 for (let fontIndex = 0; fontIndex < _FR.length; fontIndex++) {

@@ -1,3 +1,5 @@
+from typing import Any
+
 # ---------------------------------------------------------------------------
 # SHADCN COLOR THEMES
 # Sourced from https://ui.shadcn.com/themes
@@ -9,7 +11,7 @@
 # ---------------------------------------------------------------------------
 
 # Base themes — full light + dark palette
-BASE_THEMES = [
+BASE_THEMES: list[dict[str, Any]] = [
     {
         "id": "neutral",
         "label": "Neutral",

@@ -57,7 +57,9 @@ class HighLevelMetric(MetricRoot):
                         rx.el.div(
                             rx.el.div(
                                 rx.el.span(trend),
-                                class_name=cn(ClassNames.TREND_BADGE, trend_color),
+                                class_name=cn(
+                                    ClassNames.TREND_BADGE, cast("Var", trend_color)
+                                ),
                             ),
                             class_name=ClassNames.TREND_CONTAINER,
                         ),

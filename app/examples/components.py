@@ -1,3 +1,5 @@
+from typing import Any
+
 import reflex as rx
 
 from app.examples.utils import masonry_card
@@ -1769,7 +1771,7 @@ def card_twenty_two() -> rx.Component:
 
 @masonry_card(label="Tech")
 def card_twenty_three() -> rx.Component:
-    inventory_data = [
+    inventory_data: list[dict[str, Any]] = [
         {
             "name": "production-db-01",
             "type": "db.m5.large",

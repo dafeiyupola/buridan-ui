@@ -17,7 +17,7 @@ buridan add toggle_group
 ### Manual Installation
 
 ```python
-from typing import Literal, Self
+from typing import Annotated, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -105,7 +105,9 @@ class ToggleGroupRoot(ToggleGroupBaseComponent):
     tag = "ToggleGroup"
     default_value: Var[list[str | int]]
     value: Var[list[str | int]]
-    on_value_change: EventHandler[passthrough_event_spec(list[str | int], dict)]
+    on_value_change: Annotated[
+        EventHandler, passthrough_event_spec(list[str | int], dict)
+    ]
     multiple: Var[bool]
     disabled: Var[bool]
     loop_focus: Var[bool]

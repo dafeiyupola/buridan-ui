@@ -17,14 +17,14 @@ buridan add button_group
 ### Manual Installation
 
 ```python
-from typing import Literal
+from typing import Literal, Self
 
 from reflex.components.component import ComponentNamespace
 from reflex.vars.base import Var
 from reflex_components_core.core.cond import cond
 from reflex_components_core.el import Div
 
-from .core import BaseUIComponent, CoreComponent, cn
+from .core import CoreComponent, cn
 from .separator import SeparatorComponent
 
 
@@ -36,11 +36,11 @@ class ClassNames:
     SEPARATOR = "relative self-stretch bg-input data-[orientation=horizontal]:mx-px data-[orientation=horizontal]:w-auto data-[orientation=vertical]:my-px data-[orientation=vertical]:h-auto"
 
 
-class ButtonGroupRoot(Div, CoreComponent):
+class ButtonGroupRoot(CoreComponent, Div):
     orientation: Var[Literal["horizontal", "vertical"]]
 
     @classmethod
-    def create(cls, *children, **props) -> Div:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "button-group"
         orientation = props.get("orientation", "horizontal")
 
@@ -59,9 +59,9 @@ class ButtonGroupRoot(Div, CoreComponent):
         return super().create(*children, **props)
 
 
-class ButtonGroupText(Div, CoreComponent):
+class ButtonGroupText(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Div:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "button-group-text"
         cls.set_class_name(ClassNames.TEXT, props)
         return super().create(*children, **props)
@@ -69,7 +69,7 @@ class ButtonGroupText(Div, CoreComponent):
 
 class ButtonGroupSeparator(SeparatorComponent):
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "button-group-separator"
 
         if "orientation" not in props:

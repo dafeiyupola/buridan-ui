@@ -17,7 +17,7 @@ buridan add context_menu
 ### Manual Installation
 
 ```python
-from typing import Literal
+from typing import Annotated, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -72,16 +72,16 @@ class ContextMenuRoot(ContextMenuBaseComponent):
 
     default_open: Var[bool]
     open: Var[bool]
-    on_open_change: EventHandler[passthrough_event_spec(bool, dict)]
+    on_open_change: Annotated[EventHandler, passthrough_event_spec(bool, dict)]
     actions_ref: Var[str]
     close_parent_on_esc: Var[bool]
-    on_open_change_complete: EventHandler[passthrough_event_spec(bool)]
+    on_open_change_complete: Annotated[EventHandler, passthrough_event_spec(bool)]
     disabled: Var[bool]
     loop_focus: Var[bool]
     orientation: Var[LiteralMenuOrientation]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu"
         return super().create(*children, **props)
 
@@ -93,7 +93,7 @@ class ContextMenuTrigger(ContextMenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-trigger"
         cls.set_class_name(ClassNames.TRIGGER, props)
         return super().create(*children, **props)
@@ -106,7 +106,7 @@ class ContextMenuPortal(ContextMenuBaseComponent):
     keep_mounted: Var[bool]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-portal"
         cls.set_class_name(ClassNames.PORTAL, props)
         return super().create(*children, **props)
@@ -129,7 +129,7 @@ class ContextMenuPositioner(ContextMenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-positioner"
         cls.set_class_name(ClassNames.POSITIONER, props)
         return super().create(*children, **props)
@@ -142,7 +142,7 @@ class ContextMenuPopup(ContextMenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-content"
         cls.set_class_name(ClassNames.POPUP, props)
         return super().create(*children, **props)
@@ -160,7 +160,7 @@ class ContextMenuItem(ContextMenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-item"
         if props.get("inset"):
             props["data-inset"] = props.pop("inset")
@@ -177,7 +177,7 @@ class ContextMenuSeparator(ContextMenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-separator"
         cls.set_class_name(ClassNames.SEPARATOR, props)
         return super().create(*children, **props)
@@ -189,7 +189,7 @@ class ContextMenuGroup(ContextMenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-group"
         cls.set_class_name(ClassNames.GROUP, props)
         return super().create(*children, **props)
@@ -202,7 +202,7 @@ class ContextMenuGroupLabel(ContextMenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-label"
         if props.get("inset"):
             props["data-inset"] = props.pop("inset")
@@ -215,12 +215,12 @@ class ContextMenuRadioGroup(ContextMenuBaseComponent):
 
     default_value: Var[str | int]
     value: Var[str | int]
-    on_value_change: EventHandler[passthrough_event_spec(str | int, dict)]
+    on_value_change: Annotated[EventHandler, passthrough_event_spec(str | int, dict)]
     disabled: Var[bool]
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-radio-group"
         cls.set_class_name(ClassNames.RADIO_GROUP, props)
         return super().create(*children, **props)
@@ -238,7 +238,7 @@ class ContextMenuRadioItem(ContextMenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-radio-item"
         if props.get("inset"):
             props["data-inset"] = props.pop("inset")
@@ -253,7 +253,7 @@ class ContextMenuRadioItemIndicator(ContextMenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-radio-item-indicator"
         cls.set_class_name(ClassNames.RADIO_ITEM_INDICATOR, props)
         return super().create(*children, **props)
@@ -265,7 +265,7 @@ class ContextMenuCheckboxItem(ContextMenuBaseComponent):
     label: Var[str]
     default_checked: Var[bool]
     checked: Var[bool]
-    on_checked_change: EventHandler[passthrough_event_spec(bool, dict)]
+    on_checked_change: Annotated[EventHandler, passthrough_event_spec(bool, dict)]
     close_on_click: Var[bool]
     native_button: Var[bool]
     disabled: Var[bool]
@@ -273,7 +273,7 @@ class ContextMenuCheckboxItem(ContextMenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-checkbox-item"
         if props.get("inset"):
             props["data-inset"] = props.pop("inset")
@@ -288,7 +288,7 @@ class ContextMenuCheckboxItemIndicator(ContextMenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-checkbox-item-indicator"
         cls.set_class_name(ClassNames.CHECKBOX_ITEM_INDICATOR, props)
         return super().create(*children, **props)
@@ -299,15 +299,15 @@ class ContextMenuSubmenuRoot(ContextMenuBaseComponent):
 
     default_open: Var[bool]
     open: Var[bool]
-    on_open_change: EventHandler[passthrough_event_spec(bool, dict)]
+    on_open_change: Annotated[EventHandler, passthrough_event_spec(bool, dict)]
     close_parent_on_esc: Var[bool]
-    on_open_change_complete: EventHandler[passthrough_event_spec(bool)]
+    on_open_change_complete: Annotated[EventHandler, passthrough_event_spec(bool)]
     disabled: Var[bool]
     loop_focus: Var[bool]
     orientation: Var[LiteralMenuOrientation]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-sub"
         return super().create(*children, **props)
 
@@ -324,7 +324,7 @@ class ContextMenuSubmenuTrigger(ContextMenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-sub-trigger"
         if props.get("inset"):
             props["data-inset"] = props.pop("inset")
@@ -336,9 +336,9 @@ class ContextMenuSubmenuTrigger(ContextMenuBaseComponent):
         )
 
 
-class ContextMenuShortcut(Span, CoreComponent):
+class ContextMenuShortcut(CoreComponent, Span):
     @classmethod
-    def create(cls, *children, **props) -> Span:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "context-menu-shortcut"
         cls.set_class_name(ClassNames.SHORTCUT, props)
         return super().create(*children, **props)

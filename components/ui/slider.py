@@ -1,4 +1,4 @@
-from typing import Literal, Self
+from typing import Annotated, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -69,9 +69,9 @@ class SliderRoot(SliderBaseComponent):
 
     value: Var[int | float | list[int | float]]
 
-    on_value_change: EventHandler[on_value_event_spec]
+    on_value_change: Annotated[EventHandler, on_value_event_spec]
 
-    on_value_committed: EventHandler[on_value_event_spec]
+    on_value_committed: Annotated[EventHandler, on_value_event_spec]
 
     locale: Var[str]
 

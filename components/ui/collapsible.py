@@ -1,4 +1,4 @@
-from typing import Self
+from typing import Annotated, Self
 
 import reflex as rx
 from reflex.components.component import Component, ComponentNamespace
@@ -29,7 +29,7 @@ class CollapsibleRoot(CollapsibleBaseComponent):
 
     default_open: Var[bool]
     open: Var[bool]
-    on_open_change: EventHandler[passthrough_event_spec(bool)]
+    on_open_change: Annotated[EventHandler, passthrough_event_spec(bool)]
     disabled: Var[bool]
     render_: Var[Component]
 

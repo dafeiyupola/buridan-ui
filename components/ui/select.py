@@ -1,4 +1,4 @@
-from typing import Any, Literal, Self
+from typing import Annotated, Any, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -50,13 +50,13 @@ class SelectRoot(SelectBaseComponent):
 
     value: Var[Any]
 
-    on_value_change: EventHandler[passthrough_event_spec(str)]
+    on_value_change: Annotated[EventHandler, passthrough_event_spec(str)]
 
     default_open: Var[bool]
 
     open: Var[bool]
 
-    on_open_change: EventHandler[passthrough_event_spec(bool)]
+    on_open_change: Annotated[EventHandler, passthrough_event_spec(bool)]
 
     actions_ref: Var[str]
 
@@ -72,7 +72,7 @@ class SelectRoot(SelectBaseComponent):
 
     multiple: Var[bool]
 
-    on_open_change_complete: EventHandler[passthrough_event_spec(bool)]
+    on_open_change_complete: Annotated[EventHandler, passthrough_event_spec(bool)]
 
     disabled: Var[bool]
 
