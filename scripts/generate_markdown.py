@@ -194,7 +194,9 @@ def align_table(lines: list[str]) -> list[str]:
     ]
 
 
-def _inspection_target(obj: Any) -> Any:
+def _inspection_target(
+    obj: Callable[..., Any] | ComponentNamespace,
+) -> Callable[..., Any]:
     """Use the class for inspection if obj is an instance (like ComponentNamespace)."""
     if inspect.isclass(obj) or inspect.isfunction(obj) or inspect.ismethod(obj):
         return obj
