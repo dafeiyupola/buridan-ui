@@ -435,8 +435,8 @@ def heatmap_github():
 
     d = date(2025, 1, 1)
     while d <= date(2025, 12, 31):
-        if random.random() > 0.3:
-            data.append({"date": str(d), "value": random.randint(1, 20)})
+        if random.random() > 0.3:  # noqa: S311  # nosec B311 - demo data, not security-sensitive
+            data.append({"date": str(d), "value": random.randint(1, 20)})  # noqa: S311  # nosec B311 - demo data, not security-sensitive
         d += timedelta(days=1)
 
     return heatmap(
@@ -631,7 +631,7 @@ def heatmap_compact():
     data = [
         {
             "date": f"2025-{str(m).zfill(2)}-{str(d).zfill(2)}",
-            "value": random.randint(0, 10),
+            "value": random.randint(0, 10),  # noqa: S311  # nosec B311 - demo data, not security-sensitive
         }
         for m in range(1, 13)
         for d in range(1, 28)
