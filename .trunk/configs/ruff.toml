@@ -114,7 +114,8 @@ order-by-type = true
 convention = "google"
 
 [lint.per-file-ignores]
-# Ignores are scoped to semantically grouped directories, never single files.
+# Ignores are scoped to semantically grouped directories; single files only for
+# a third-party API boundary (see FBT003 below).
 # Reflex-specific ignores apply only to directories of Reflex UI code.
 
 # assert is pytest's normal check mechanism, not a production safety bypass.
@@ -127,6 +128,12 @@ convention = "google"
 # A004: the input component is named `input`, shadowing the builtin.
 # RUF012: mutable class-level defaults are how Reflex components declare props.
 "components/**" = ["FBT003", "A004", "RUF012"]
+# FBT003: ClientStateVar.create(name, default) is Reflex's API and the repo
+# passes defaults positionally. Scoped so first-party logic under app/ stays gated.
+"app/hooks.py" = ["FBT003"]
+"app/www/library/**" = ["FBT003"]
+# FBT003: typer.Option(False, "--flag") is typer's positional-default idiom; dev tooling.
+"scripts/linear_cli.py" = ["FBT003"]
 # A004: these compose the `input` component from components/ui.
 "app/anatomy_src/**" = ["A004"]
 "app/examples/**" = ["A004"]
