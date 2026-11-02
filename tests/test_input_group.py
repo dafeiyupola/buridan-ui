@@ -26,16 +26,16 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
-import reflex as rx
+import reflex as rx  # noqa: E402
 
-from components.ui.input import ClassNames as InputClassNames
-from components.ui.input_group import (
+from components.ui.input import ClassNames as InputClassNames  # noqa: E402
+from components.ui.input_group import (  # noqa: E402
     ClassNames,
     InputGroupButton,
     InputGroupInput,
     InputGroupTextarea,
 )
-from components.ui.textarea import ClassNames as TextareaClassNames
+from components.ui.textarea import ClassNames as TextareaClassNames  # noqa: E402
 
 
 class _UnstyledState(rx.State):  # pyright: ignore[reportUntypedBaseClass]
