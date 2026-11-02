@@ -520,7 +520,7 @@ menu = Menu()
 
 
 ```python
-from components.ui.menu import Menu
+from components.ui.menu import menu
 ```
 
 

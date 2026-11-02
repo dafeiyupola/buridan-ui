@@ -103,7 +103,7 @@ collapsible = Collapsible()
 
 
 ```python
-from components.ui.collapsible import Collapsible
+from components.ui.collapsible import collapsible
 ```
 
 

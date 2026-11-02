@@ -117,7 +117,7 @@ switch = Switch()
 
 
 ```python
-from components.ui.switch import Switch
+from components.ui.switch import switch
 ```
 
 

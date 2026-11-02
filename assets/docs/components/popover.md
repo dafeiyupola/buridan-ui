@@ -245,7 +245,7 @@ popover = Popover()
 
 
 ```python
-from components.ui.popover import Popover
+from components.ui.popover import popover
 ```
 
 

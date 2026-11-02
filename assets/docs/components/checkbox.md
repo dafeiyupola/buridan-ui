@@ -102,7 +102,7 @@ checkbox = Checkbox()
 
 
 ```python
-from components.ui.checkbox import Checkbox
+from components.ui.checkbox import checkbox
 ```
 
 

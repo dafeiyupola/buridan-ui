@@ -8,6 +8,8 @@ import sys
 from collections.abc import Callable
 from typing import Any
 
+from reflex.components.component import ComponentNamespace
+
 # Add the project root to the Python path to allow imports
 ROOT_DIR = pathlib.Path(__file__).parent.parent
 sys.path.append(str(ROOT_DIR))
@@ -17,8 +19,8 @@ DOCS_SOURCE_DIR = ROOT_DIR / "docs"
 MARKDOWN_OUTPUT_DIR = ROOT_DIR / "assets" / "docs"
 DYNAMIC_LOAD_DIRS = ["app/www/library", "components/ui"]
 
-# Maps lowercased names to (object, name as defined) for every loaded callable.
-Registry = dict[str, tuple[Callable[..., Any], str]]
+# Maps lowercased names to (object, name as defined) for every loaded callable or component namespace instance.
+Registry = dict[str, tuple[Any, str]]
 
 
 def dynamic_load_components(dirs: list[str]) -> Registry:
@@ -54,6 +56,8 @@ def dynamic_load_components(dirs: list[str]) -> Registry:
                             or inspect.isclass(obj)
                             or inspect.ismethod(obj)
                             or callable(obj)
+                            # Namespace instances (e.g. `kbd`) aren't callable.
+                            or isinstance(obj, ComponentNamespace)
                         ):
                             registry[name.lower()] = (obj, name)
             except Exception as e:
@@ -190,7 +194,9 @@ def align_table(lines: list[str]) -> list[str]:
     ]
 
 
-def _inspection_target(obj: Callable[..., Any]) -> Callable[..., Any]:
+def _inspection_target(
+    obj: Callable[..., Any] | ComponentNamespace,
+) -> Callable[..., Any]:
     """Use the class for inspection if obj is an instance (like ComponentNamespace)."""
     if inspect.isclass(obj) or inspect.isfunction(obj) or inspect.ismethod(obj):
         return obj

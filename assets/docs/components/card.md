@@ -124,7 +124,7 @@ card = Card()
 
 
 ```python
-from components.ui.card import Card
+from components.ui.card import card
 ```
 
 

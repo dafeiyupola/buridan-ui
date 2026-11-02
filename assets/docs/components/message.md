@@ -159,7 +159,7 @@ message = Message()
 
 
 ```python
-from components.ui.message import Message
+from components.ui.message import message
 ```
 
 

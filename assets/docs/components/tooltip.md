@@ -216,7 +216,7 @@ tooltip = Tooltip()
 
 
 ```python
-from components.ui.tooltip import Tooltip
+from components.ui.tooltip import tooltip
 ```
 
 

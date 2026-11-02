@@ -129,7 +129,7 @@ avatar = Avatar()
 
 
 ```python
-from components.ui.avatar import Avatar
+from components.ui.avatar import avatar
 ```
 
 

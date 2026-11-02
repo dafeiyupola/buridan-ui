@@ -190,7 +190,7 @@ dialog = Dialog()
 
 
 ```python
-from components.ui.dialog import Dialog
+from components.ui.dialog import dialog
 ```
 
 
