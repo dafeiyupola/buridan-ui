@@ -37,7 +37,7 @@ def styled_tab_trigger(label: str, value: str) -> rx.Component:
 
 def generate_component_id() -> str:
     """Generate a unique component ID."""
-    return "".join(random.choices(string.ascii_letters + string.digits, k=10))  # noqa: S311  # nosec B311 - DOM element IDs, uniqueness only
+    return "".join(random.choices(string.ascii_letters + string.digits, k=10))  # noqa: S311  # nosec B311
 
 
 def create_copy_button(content: str) -> rx.Component:

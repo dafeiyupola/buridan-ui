@@ -17,7 +17,7 @@ buridan add slider
 ### Manual Installation
 
 ```python
-from typing import Literal
+from typing import Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -113,7 +113,7 @@ class SliderRoot(SliderBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "slider"
         cls.set_class_name(ClassNames.ROOT, props)
         return super().create(*children, **props)
@@ -125,7 +125,7 @@ class SliderValue(SliderBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "slider-value"
         cls.set_class_name(ClassNames.VALUE, props)
         return super().create(*children, **props)
@@ -137,7 +137,7 @@ class SliderControl(SliderBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "slider-control"
         cls.set_class_name(ClassNames.CONTROL, props)
         return super().create(*children, **props)
@@ -149,7 +149,7 @@ class SliderTrack(SliderBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "slider-track"
         cls.set_class_name(ClassNames.TRACK, props)
         return super().create(*children, **props)
@@ -161,7 +161,7 @@ class SliderIndicator(SliderBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "slider-indicator"
         cls.set_class_name(ClassNames.INDICATOR, props)
         return super().create(*children, **props)
@@ -179,7 +179,7 @@ class SliderThumb(SliderBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "slider-thumb"
         cls.set_class_name(ClassNames.THUMB, props)
         return super().create(*children, **props)
@@ -203,7 +203,7 @@ slider = Slider()
 
 
 ```python
-from components.ui.slider import Slider
+from components.ui.slider import slider
 ```
 
 

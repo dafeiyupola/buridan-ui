@@ -139,6 +139,7 @@ convention = "google"
 # RUF012: mutable class-level defaults are how Reflex components declare props.
 "components/**" = [
   "FBT003",
+  "A001",
   "A004",
   "RUF012",
   "ANN001",
@@ -160,9 +161,9 @@ convention = "google"
 "app/templates/**" = ["A004"]
 # Example modules are discovered by directory scan and imported dynamically
 # (app/www/parser.py), so they need no __init__.py. A004 as above.
-"app/www/library/examples/**" = ["INP001", "A004", "PLR2004"]
+"app/www/library/examples/**" = ["INP001", "A001", "A004", "S311", "PLR2004"]
 # ClientStateVar handles are intentionally capitalized.
-"app/www/library/charts/**" = ["N806", "INP001"]
+"app/www/library/charts/**" = ["N806", "S311", "INP001"]
 # Namespace-package directories imported by path/module name; adding
 # __init__.py would change how Reflex page modules and the CLI are discovered.
 "app/pages/**" = ["INP001"]

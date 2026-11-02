@@ -126,9 +126,10 @@ class DocParser:
             try:
                 load_dir.relative_to(root)
             except ValueError as exc:
-                raise ValueError(
-                    f"Dynamic load directory {d!r} resolves outside project root {root}",
-                ) from exc
+                msg = (
+                    f"Dynamic load directory {d!r} resolves outside project root {root}"
+                )
+                raise ValueError(msg) from exc
 
             for py in load_dir.rglob("*.py"):
                 if py.name.startswith("__"):
@@ -193,7 +194,7 @@ class DocParser:
                     return handler()
 
             return render_parse_error(f"Unknown command: {cmd}")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - render an error component, never crash the page
             return render_parse_error(f"Error in {cmd}: {e}")
 
     def parse_and_render(self, content: str) -> list[rx.Component]:

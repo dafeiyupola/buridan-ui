@@ -14,8 +14,8 @@ def areachart_v5():
     data = [
         {
             "date": (start_date + datetime.timedelta(days=i)).strftime("%b %d"),
-            "desktop": random.randint(80, 500),  # noqa: S311  # nosec B311 - demo data, not security-sensitive
-            "mobile": random.randint(100, 550),  # noqa: S311  # nosec B311 - demo data, not security-sensitive
+            "desktop": random.randint(80, 500),  # nosec B311
+            "mobile": random.randint(100, 550),  # nosec B311
         }
         for i in range(91)
     ]

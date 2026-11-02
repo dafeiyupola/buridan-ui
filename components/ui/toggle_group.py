@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -94,7 +94,7 @@ class ToggleGroupRoot(ToggleGroupBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         variant = props.pop("variant", "default")
         size = props.pop("size", "default")
         spacing = props.pop("spacing", 2)
@@ -124,7 +124,7 @@ class ToggleGroupItem(BaseUIComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         variant = props.pop("variant", None)
         size = props.pop("size", None)
 

@@ -1,4 +1,3 @@
-import contextlib
 import os
 import subprocess
 from pathlib import Path
@@ -72,7 +71,7 @@ def select_mode():
 
 
 def select_pages(sections):
-    choices = []
+    choices: list[str | questionary.Separator] = []
 
     for section, pages in sections.items():
         choices.append(questionary.Separator(f"[{section}]"))
@@ -103,7 +102,7 @@ def select_sections(sections):
 
 
 def select_pages_from_sections(selected_sections, sections):
-    choices = []
+    choices: list[str | questionary.Separator] = []
 
     for section in selected_sections:
         pages = sections.get(section, [])
@@ -148,12 +147,15 @@ def run_reflex(env, pages):
 
     port = None
 
+    if process.stdout is None:
+        msg = "reflex process was started without stdout capture"
+        raise RuntimeError(msg)
     for line in process.stdout:
         print(line, end="")
 
         # Detect actual runtime port from Reflex output
         if "App running at:" in line:
-            with contextlib.suppress(Exception):
+            try:
                 port = line.split("http://localhost:")[1].split("/")[0]
 
                 # Print correct clickable URLs ONLY when server is ready
@@ -163,6 +165,10 @@ def run_reflex(env, pages):
                     print("\nLoading specified URLs:")
                     for page in pages:
                         print(f"{base_url}/{page}")
+
+            except IndexError:
+                # Line mentions localhost but not in the expected URL form.
+                continue
 
     return port
 

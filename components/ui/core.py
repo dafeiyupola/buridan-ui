@@ -1,4 +1,4 @@
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Self
 
 import reflex as rx
 from reflex.components.component import Component
@@ -29,6 +29,13 @@ TW_MERGE = Var(
 class CoreComponent(Component):
     unstyled: Var[bool]
     _merge_default_classes_with_render: ClassVar[bool] = False
+
+    # Typing shim only: keeps subclass `create` overrides compatible. Keep it a
+    # pure pass-through so components relying on the element base's `create`
+    # are unaffected.
+    @classmethod
+    def create(cls, *children: Any, **props: Any) -> Self:
+        return super().create(*children, **props)
 
     @classmethod
     def set_class_name(

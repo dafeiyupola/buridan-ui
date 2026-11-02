@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 import reflex as rx
 
@@ -45,7 +45,7 @@ def linechart_v7():
 
     formatted_data = [
         {
-            "date": datetime.strptime(item["date"], "%Y-%m-%d").strftime("%b %d"),
+            "date": date.fromisoformat(item["date"]).strftime("%b %d"),
             "desktop": item["desktop"],
             "mobile": item["mobile"],
         }

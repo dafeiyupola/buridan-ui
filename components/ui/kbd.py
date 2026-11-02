@@ -1,3 +1,5 @@
+from typing import Self
+
 from reflex.components.component import ComponentNamespace
 from reflex_components_core.el import (
     Div,
@@ -18,18 +20,18 @@ class ClassNames:
     GROUP = "inline-flex items-center gap-1"
 
 
-class KbdRoot(ElKbd, CoreComponent):
+class KbdRoot(CoreComponent, ElKbd):
     @classmethod
-    def create(cls, *children, **props) -> ElKbd:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "kbd"
 
         cls.set_class_name(ClassNames.KBD, props)
         return super().create(*children, **props)
 
 
-class KbdGroupContainer(Div, CoreComponent):
+class KbdGroupContainer(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Div:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "kbd-group"
 
         cls.set_class_name(ClassNames.GROUP, props)
