@@ -418,7 +418,7 @@ Demonstrates how data or series can update interactively in real-time.
 def areachart_v5() -> rx.Component:
 
     start_date = datetime.date(2024, 4, 1)
-    data = [
+    data: list[dict[str, Any]] = [
         {
             "date": (start_date + datetime.timedelta(days=i)).strftime("%b %d"),
             "desktop": random.randint(80, 500),  # nosec B311
@@ -428,7 +428,7 @@ def areachart_v5() -> rx.Component:
     ]
 
     default_range = "last_3_months"
-    SelectedRange = ClientStateVar.create("area_selected", default_range)
+    SelectedRange = cast("Any", ClientStateVar.create("area_selected", default_range))
 
     def gradient(id_: str, color: str) -> rx.Component:
         return rx.el.svg.linear_gradient(
@@ -508,13 +508,16 @@ def areachart_v5() -> rx.Component:
                     custom_attrs={"fontSize": "12px"},
                     interval="preserveStartEnd",
                 ),
-                data=rx.match(
-                    SelectedRange.value,
-                    *[
-                        (range_key, range_data)
-                        for range_key, (_, range_data) in range_options.items()
-                    ],
-                    range_options[default_range][1],
+                data=cast(
+                    "Any",
+                    rx.match(
+                        SelectedRange.value,
+                        *[
+                            (range_key, range_data)
+                            for range_key, (_, range_data) in range_options.items()
+                        ],
+                        range_options[default_range][1],
+                    ),
                 ),
                 width="100%",
                 height=250,

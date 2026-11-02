@@ -17,7 +17,7 @@ buridan add checkbox
 ### Manual Installation
 
 ```python
-from typing import Self
+from typing import Annotated, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -60,7 +60,7 @@ class CheckboxRoot(CheckboxBaseComponent):
 
     default_checked: Var[bool]
     checked: Var[bool]
-    on_checked_change: EventHandler[passthrough_event_spec(bool, dict)]
+    on_checked_change: Annotated[EventHandler, passthrough_event_spec(bool, dict)]
     indeterminate: Var[bool]
     disabled: Var[bool]
     required: Var[bool]

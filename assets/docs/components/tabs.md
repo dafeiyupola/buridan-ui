@@ -17,7 +17,7 @@ buridan add tabs
 ### Manual Installation
 
 ```python
-from typing import Literal, Self
+from typing import Annotated, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -90,7 +90,7 @@ class TabsRoot(TabsBaseComponent):
     tag = "Tabs.Root"
     default_value: Var[str | int]
     value: Var[str | int]
-    on_value_change: EventHandler[passthrough_event_spec(str | dict)]
+    on_value_change: Annotated[EventHandler, passthrough_event_spec(str | dict)]
     orientation: Var[LiteralOrientation]
     render_: Var[Component]
 

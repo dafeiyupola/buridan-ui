@@ -17,7 +17,9 @@ from components.ui.core import (  # noqa: E402
 
 def test_cn_imports_render_from_package_roots() -> None:
     """Imports propagated by cn() must not include trailing slashes."""
-    import_map = dict(cn("p-2")._get_all_var_data().imports)
+    var_data = cn("p-2")._get_all_var_data()
+    assert var_data is not None
+    import_map = dict(var_data.imports)
     expected_imports = {
         PACKAGE_CLSX: "clsx",
         PACKAGE_TAILWIND_MERGE: "twMerge",

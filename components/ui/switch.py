@@ -1,4 +1,4 @@
-from typing import Literal, Self
+from typing import Annotated, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -50,7 +50,7 @@ class SwitchRoot(SwitchBaseComponent):
     name: Var[str]
     default_checked: Var[bool]
     checked: Var[bool]
-    on_checked_change: EventHandler[passthrough_event_spec(bool)]
+    on_checked_change: Annotated[EventHandler, passthrough_event_spec(bool)]
     native_button: Var[bool]
     disabled: Var[bool]
     read_only: Var[bool]

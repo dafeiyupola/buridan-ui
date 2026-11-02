@@ -1,6 +1,7 @@
 import re
 import sys
 from pathlib import Path
+from typing import Any, cast
 
 ROOT_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT_DIR))
@@ -13,7 +14,7 @@ from app.www.library.getting_started.clientstate_components import (  # noqa: E4
 def test_form_state_pattern_merges_username_into_existing_client_state() -> None:
     component = form_state_pattern_example()
 
-    on_change = component.event_triggers["on_change"].events[0]
+    on_change = cast("Any", component.event_triggers["on_change"]).events[0]
     expression = on_change._js_expr
 
     # The current form-state object is spread before the username field is updated.
