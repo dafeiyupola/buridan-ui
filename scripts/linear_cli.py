@@ -88,7 +88,7 @@ def _workflow() -> LinearWorkflow:
     return LinearWorkflow(client.api_key)
 
 
-def _issue_dict(issue: Any) -> dict[str, Any]:
+def _issue_dict(issue: Any) -> dict[str, Any]:  # noqa: ANN401
     """Flatten one issue into the dict shape used by --json output."""
     return {
         "identifier": issue.identifier,

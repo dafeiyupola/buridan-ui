@@ -30,7 +30,7 @@ class _InputTestState(rx.State):  # pyright: ignore[reportUntypedBaseClass]
         self.b = b
 
 
-def _capture_input_props(monkeypatch: pytest.MonkeyPatch) -> dict:
+def _capture_input_props(monkeypatch: pytest.MonkeyPatch) -> dict[str, Any]:
     """Capture props passed to the underlying Reflex input component."""
     captured = {}
 
