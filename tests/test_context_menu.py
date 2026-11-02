@@ -160,8 +160,15 @@ def test_context_menu_item_inset_false_does_not_trigger_padding_selector() -> No
     must use the value-based ``data-[inset=true]:pl-7`` selector so a falsy
     ``inset`` never applies the padding.
     """
-    assert "data-inset:pl-7" not in ClassNames.ITEM
-    assert "data-[inset=true]:pl-7" in ClassNames.ITEM
+    for class_names in (
+        ClassNames.ITEM,
+        ClassNames.GROUP_LABEL,
+        ClassNames.RADIO_ITEM,
+        ClassNames.CHECKBOX_ITEM,
+        ClassNames.SUBMENU_TRIGGER,
+    ):
+        assert "data-inset:pl-7" not in class_names
+        assert "data-[inset=true]:pl-7" in class_names
 
     item = ContextMenuItem.create("Delete", inset=False)
     rendered_props = " ".join(item.render()["props"])
