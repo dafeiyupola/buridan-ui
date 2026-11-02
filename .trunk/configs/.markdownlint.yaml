@@ -15,3 +15,6 @@ MD025:
   front_matter_title: ""
 # CHANGELOG/LICENSE/README/agent files intentionally don't open with an H1.
 MD041: false
+# Same heading text under different parents (per-component docs) is fine.
+MD024:
+  siblings_only: true
