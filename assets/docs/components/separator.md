@@ -17,7 +17,7 @@ buridan add separator
 ### Manual Installation
 
 ```python
-from typing import Literal
+from typing import Literal, Self
 
 from reflex.utils.imports import ImportVar
 from reflex.vars.base import Var
@@ -40,7 +40,7 @@ class SeparatorComponent(BaseUIComponent):
         return ImportVar(tag="Separator", package_path="", install=False)
 
     @classmethod
-    def create(cls, *children, **props) -> "SeparatorComponent":
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "separator"
         if "orientation" not in props:
             props["orientation"] = "horizontal"

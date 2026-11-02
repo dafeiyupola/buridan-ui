@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -60,7 +60,7 @@ class SwitchRoot(SwitchBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "switch"
 
         size = props.pop("size", "default")
@@ -79,7 +79,7 @@ class SwitchThumb(SwitchBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "switch-thumb"
         cls.set_class_name(ClassNames.THUMB, props)
         return super().create(*children, **props)

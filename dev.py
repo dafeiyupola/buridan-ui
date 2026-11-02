@@ -71,7 +71,7 @@ def select_mode():
 
 
 def select_pages(sections):
-    choices = []
+    choices: list[str | questionary.Separator] = []
 
     for section, pages in sections.items():
         choices.append(questionary.Separator(f"[{section}]"))
@@ -102,7 +102,7 @@ def select_sections(sections):
 
 
 def select_pages_from_sections(selected_sections, sections):
-    choices = []
+    choices: list[str | questionary.Separator] = []
 
     for section in selected_sections:
         pages = sections.get(section, [])
@@ -147,6 +147,9 @@ def run_reflex(env, pages):
 
     port = None
 
+    if process.stdout is None:
+        msg = "reflex process was started without stdout capture"
+        raise RuntimeError(msg)
     for line in process.stdout:
         print(line, end="")
 

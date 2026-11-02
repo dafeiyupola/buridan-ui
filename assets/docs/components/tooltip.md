@@ -17,7 +17,7 @@ buridan add tooltip
 ### Manual Installation
 
 ```python
-from typing import ClassVar, Literal
+from typing import ClassVar, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -84,7 +84,7 @@ class TooltipRoot(TooltipBaseComponent):
     disable_hoverable_popup: Var[bool]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "tooltip"
         return super().create(*children, **props)
 
@@ -99,7 +99,7 @@ class TooltipProvider(TooltipBaseComponent):
     timeout: Var[int]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "tooltip-provider"
         return super().create(*children, **props)
 
@@ -115,7 +115,7 @@ class TooltipTrigger(TooltipBaseComponent):
     _merge_default_classes_with_render: ClassVar[bool] = True
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "tooltip-trigger"
         cls.set_class_name(ClassNames.TRIGGER, props)
         return super().create(*children, **props)
@@ -129,7 +129,7 @@ class TooltipPortal(TooltipBaseComponent):
     keep_mounted: Var[bool]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         ##
 
         props["data-slot"] = "tooltip-portal"
@@ -166,7 +166,7 @@ class TooltipPositioner(TooltipBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "tooltip-positioner"
         return super().create(*children, **props)
 
@@ -177,7 +177,7 @@ class TooltipPopup(TooltipBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data_slot"] = "tooltip-popup"
         cls.set_class_name(ClassNames.POPUP, props)
         return super().create(*children, **props)
@@ -187,7 +187,7 @@ class TooltipArrow(TooltipBaseComponent):
     tag = "Tooltip.Arrow"
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "tooltip-arrow"
         cls.set_class_name(ClassNames.ARROW, props)
 

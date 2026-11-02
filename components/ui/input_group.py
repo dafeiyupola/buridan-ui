@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Self, cast
 
 from reflex.components.component import ComponentNamespace
 from reflex_components_core.el import (
@@ -69,9 +69,9 @@ class ClassNames:
         return variants.get(size, variants["xs"])
 
 
-class InputGroupRoot(ElDiv, CoreComponent):
+class InputGroupRoot(CoreComponent, ElDiv):
     @classmethod
-    def create(cls, *children, **props) -> ElDiv:
+    def create(cls, *children, **props) -> Self:
         props["role"] = "group"
         props["data_slot"] = "input-group"
 
@@ -79,9 +79,9 @@ class InputGroupRoot(ElDiv, CoreComponent):
         return super().create(*children, **props)
 
 
-class InputGroupAddon(ElDiv, CoreComponent):
+class InputGroupAddon(CoreComponent, ElDiv):
     @classmethod
-    def create(cls, *children, **props) -> ElDiv:
+    def create(cls, *children, **props) -> Self:
         props["role"] = "group"
         props["data_slot"] = "input-group-addon"
 
@@ -124,16 +124,16 @@ class InputGroupAddon(ElDiv, CoreComponent):
         return [focus_script]
 
 
-class InputGroupText(ElSpan, CoreComponent):
+class InputGroupText(CoreComponent, ElSpan):
     @classmethod
-    def create(cls, *children, **props) -> ElSpan:
+    def create(cls, *children, **props) -> Self:
         cls.set_class_name(ClassNames.TEXT, props)
         return super().create(*children, **props)
 
 
 class InputGroupButton(CoreComponent):
     @classmethod
-    def create(cls, *children, **props):
+    def create(cls, *children, **props) -> Self:
         props.setdefault("type", "button")
         props.setdefault("variant", "ghost")
 
@@ -146,12 +146,12 @@ class InputGroupButton(CoreComponent):
             props.get("class_name", ""),
         )
 
-        return button(*children, **props)
+        return cast("Self", button(*children, **props))
 
 
 class InputGroupInput(CoreComponent):
     @classmethod
-    def create(cls, *children, **props):
+    def create(cls, *children, **props) -> Self:
         props.setdefault("type", "text")
         props["data_slot"] = "input-group-control"
         props["class_name"] = cn(
@@ -159,19 +159,19 @@ class InputGroupInput(CoreComponent):
             props.get("class_name", ""),
         )
 
-        return input(*children, **props)
+        return cast("Self", input(*children, **props))
 
 
 class InputGroupTextarea(CoreComponent):
     @classmethod
-    def create(cls, *children, **props):
+    def create(cls, *children, **props) -> Self:
         props["data_slot"] = "input-group-control"
         props["class_name"] = cn(
             ClassNames.CONTROL_TEXTAREA,
             props.get("class_name", ""),
         )
 
-        return textarea(*children, **props)
+        return cast("Self", textarea(*children, **props))
 
 
 class InputGroupNamespace(ComponentNamespace):

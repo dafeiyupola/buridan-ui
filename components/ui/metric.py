@@ -1,7 +1,7 @@
-from typing import Literal
+from typing import Literal, Self, cast
 
 import reflex as rx
-from reflex.components.component import Component, ComponentNamespace
+from reflex.components.component import ComponentNamespace
 from reflex.vars.base import Var
 from reflex_components_core.el import Div
 
@@ -18,9 +18,9 @@ class ClassNames:
     TREND_BADGE = "flex flex-row items-center gap-x-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider"
 
 
-class MetricRoot(Div, CoreComponent):
+class MetricRoot(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Component:
+    def create(cls, *children, **props) -> Self:
         cls.set_class_name(ClassNames.ROOT, props)
         return super().create(*children, **props)
 
@@ -34,7 +34,7 @@ class HighLevelMetric(MetricRoot):
         trend: Var[str] | str | None = None,
         trend_direction: Var[LiteralTrendDirection] | LiteralTrendDirection = "neutral",
         **props,
-    ) -> Component:
+    ) -> Self:
 
         trend_color = rx.match(
             trend_direction,
@@ -43,26 +43,29 @@ class HighLevelMetric(MetricRoot):
             "text-muted-foreground bg-secondary",
         )
 
-        return MetricRoot.create(
-            rx.el.div(
-                rx.el.p(label, class_name=ClassNames.LABEL),
-                class_name="flex flex-row items-center justify-between w-full",
-            ),
-            rx.el.div(
-                rx.el.p(value, class_name=ClassNames.VALUE),
-                rx.cond(
-                    trend,
-                    rx.el.div(
-                        rx.el.div(
-                            rx.el.span(trend),
-                            class_name=cn(ClassNames.TREND_BADGE, trend_color),
-                        ),
-                        class_name=ClassNames.TREND_CONTAINER,
-                    ),
+        return cast(
+            "Self",
+            MetricRoot.create(
+                rx.el.div(
+                    rx.el.p(label, class_name=ClassNames.LABEL),
+                    class_name="flex flex-row items-center justify-between w-full",
                 ),
-                class_name="flex flex-row items-baseline justify-between w-full",
+                rx.el.div(
+                    rx.el.p(value, class_name=ClassNames.VALUE),
+                    rx.cond(
+                        trend,
+                        rx.el.div(
+                            rx.el.div(
+                                rx.el.span(trend),
+                                class_name=cn(ClassNames.TREND_BADGE, trend_color),
+                            ),
+                            class_name=ClassNames.TREND_CONTAINER,
+                        ),
+                    ),
+                    class_name="flex flex-row items-baseline justify-between w-full",
+                ),
+                **props,
             ),
-            **props,
         )
 
 

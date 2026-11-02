@@ -1,4 +1,4 @@
-from typing import Any, Literal
+from typing import Any, Literal, Self, cast
 
 import reflex as rx
 from reflex.components.component import Component, ComponentNamespace
@@ -88,7 +88,7 @@ class AccordionRoot(AccordionBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "accordion"
         cls.set_class_name(ClassNames.ROOT, props)
         return super().create(*children, **props)
@@ -103,7 +103,7 @@ class AccordionItem(AccordionBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "accordion-item"
         cls.set_class_name(ClassNames.ITEM, props)
         return super().create(*children, **props)
@@ -115,7 +115,7 @@ class AccordionHeader(AccordionBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         # AccordionTrigger.create already wraps its trigger in an AccordionHeader
         # (rendering an <h3>). Wrapping that result in another accordion.header(...)
         # produces Accordion.Header > Accordion.Header > Accordion.Trigger, i.e. an
@@ -138,7 +138,7 @@ class AccordionTrigger(AccordionBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "accordion-trigger"
         cls.set_class_name(ClassNames.TRIGGER, props)
 
@@ -157,7 +157,7 @@ class AccordionTrigger(AccordionBaseComponent):
             **props,
         )
 
-        return AccordionHeader.create(trigger)
+        return cast("Self", AccordionHeader.create(trigger))
 
 
 class AccordionPanel(AccordionBaseComponent):
@@ -168,7 +168,7 @@ class AccordionPanel(AccordionBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> BaseUIComponent:
+    def create(cls, *children, **props) -> Self:
         props["data-slot"] = "accordion-panel"
         inner_class = props.pop("class_name", "")
         cls.set_class_name(ClassNames.PANEL, props)
