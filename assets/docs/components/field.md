@@ -341,7 +341,7 @@ def field_demo() -> rx.Component:
                                         ),
                                     ),
                                     items=months,
-                                    default_value="MM",
+                                    default_value="",
                                 ),
                             ),
                             field.root(
@@ -371,7 +371,7 @@ def field_demo() -> rx.Component:
                                         ),
                                     ),
                                     items=years,
-                                    default_value="YYYY",
+                                    default_value="",
                                 ),
                             ),
                             field.root(
