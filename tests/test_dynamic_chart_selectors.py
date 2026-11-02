@@ -30,10 +30,13 @@ def _assert_select_wiring(
 ) -> None:
     select = _find_select(factory())
 
-    assert select.default_value._var_value == expected_default
-    assert [option.value._var_value for option in select.children] == expected_values
+    assert select.default_value._var_value == expected_default  # noqa: SLF001
+    assert [
+        option.value._var_value  # noqa: SLF001
+        for option in select.children
+    ] == expected_values
     assert "on_change" in select.event_triggers
-    on_change_js = select.event_triggers["on_change"].events[0]._js_expr
+    on_change_js = select.event_triggers["on_change"].events[0]._js_expr  # noqa: SLF001
     assert "_client_state_set" in on_change_js
     assert "target" in on_change_js
     assert "value" in on_change_js
