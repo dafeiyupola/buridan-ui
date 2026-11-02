@@ -3,7 +3,7 @@ import reflex as rx
 from components.ui.heatmap import heatmap
 
 
-def heatmap_large_cells():
+def heatmap_large_cells() -> rx.Component:
     data = [
         {"date": "2025-10-01", "value": 1},
         {"date": "2025-10-02", "value": 500},

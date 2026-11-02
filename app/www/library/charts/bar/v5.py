@@ -6,7 +6,7 @@ from components.charts.chart_tooltip import chart_tooltip, chart_tooltip_content
 from components.ui.card import card
 
 
-def barchart_v5():
+def barchart_v5() -> rx.Component:
     from reflex.experimental import ClientStateVar
 
     data = [

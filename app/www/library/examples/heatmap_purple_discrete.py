@@ -1,7 +1,9 @@
+import reflex as rx
+
 from components.ui.heatmap import heatmap
 
 
-def heatmap_purple_discrete():
+def heatmap_purple_discrete() -> rx.Component:
     data = [
         {"date": "2025-01-07", "value": 1},
         {"date": "2025-01-14", "value": 2},

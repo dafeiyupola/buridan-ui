@@ -130,7 +130,7 @@ Use `variant` to switch between an inline marker, bordered row, and labeled sepa
 
 
 ```python
-def marker_variants_demo():
+def marker_variants_demo() -> rx.Component:
     return rx.el.div(
         # Default Marker
         marker.root(
@@ -163,7 +163,7 @@ Set `role="status"` and include a [`Spinner`](/docs/components/spinner) for stre
 
 
 ```python
-def marker_status_demo():
+def marker_status_demo() -> rx.Component:
     return rx.el.div(
         marker.root(
             marker.icon(spinner()),
@@ -187,7 +187,7 @@ Add the [`shimmer`](/docs/utilities/shimmer) utility class to `marker.content` f
 
 
 ```python
-def marker_shimmer():
+def marker_shimmer() -> rx.Component:
     return rx.el.div(
         marker.root(
             marker.content("Thinking...", class_name="shimmer"),
@@ -209,7 +209,7 @@ Use the `separator` variant for labeled dividers, such as dates or section break
 
 
 ```python
-def marker_separator():
+def marker_separator() -> rx.Component:
     return rx.el.div(
         marker.root(
             marker.content("Today"),
@@ -234,7 +234,7 @@ Use the `border` variant for status rows that should keep the default marker ali
 
 
 ```python
-def marker_border():
+def marker_border() -> rx.Component:
     return rx.el.div(
         marker.root(
             marker.icon(hi("GitBranchIcon")),
@@ -262,7 +262,7 @@ Use `marker.icon` to render an icon alongside the content. Use `flex-col` to sta
 
 
 ```python
-def marker_with_icon():
+def marker_with_icon() -> rx.Component:
     return rx.el.div(
         marker.root(
             marker.icon(hi("GitBranchIcon")),
@@ -289,7 +289,7 @@ Turn a marker into a link or button with.
 
 
 ```python
-def marker_link_button():
+def marker_link_button() -> rx.Component:
     return rx.el.div(
         marker.root(
             rx.el.a(

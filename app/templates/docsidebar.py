@@ -57,7 +57,7 @@ SIDEBAR_SECTIONS = [
 ]
 
 
-def create_menu_item(data: dict):
+def create_menu_item(data: dict) -> rx.Component:
     """Create a single menu item."""
     if is_external_href(data["url"]):
         link = external_link(
@@ -93,7 +93,7 @@ def create_menu_item(data: dict):
     )
 
 
-def create_sidebar_menu_items(routes: list[dict]):
+def create_sidebar_menu_items(routes: list[dict]) -> rx.Component:
     """Create menu items from routes."""
     return rx.el.div(
         *[create_menu_item(route) for route in routes],
@@ -101,7 +101,7 @@ def create_sidebar_menu_items(routes: list[dict]):
     )
 
 
-def create_section_content(section: SidebarSection):
+def create_section_content(section: SidebarSection) -> rx.Component:
     """Create content for a sidebar section."""
     return rx.el.div(
         rx.el.div(
@@ -112,7 +112,7 @@ def create_section_content(section: SidebarSection):
     )
 
 
-def sidebar_section(section: SidebarSection):
+def sidebar_section(section: SidebarSection) -> rx.Component:
     """Create a complete sidebar section with title and content."""
     return rx.el.div(
         rx.el.div(
@@ -130,7 +130,7 @@ def sidebar_section(section: SidebarSection):
     )
 
 
-def sidebar():
+def sidebar() -> rx.Component:
     """Main sidebar component."""
     content = rx.el.div(
         rx.el.div(class_name="py-5"),
@@ -184,7 +184,7 @@ def _mobile_menu_link(route: dict[str, str]) -> rx.Component:
     )
 
 
-def mobile_menu():
+def mobile_menu() -> rx.Component:
     from app.templates.navbar import NAV_LIST
 
     return select.root(

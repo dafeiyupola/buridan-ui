@@ -3,7 +3,7 @@ from reflex.experimental import ClientStateVar
 
 
 # Used in --demo(form_state_pattern_example)--
-def form_state_pattern_example():
+def form_state_pattern_example() -> rx.Component:
     form_state = ClientStateVar.create("form", {})
 
     return rx.el.input(

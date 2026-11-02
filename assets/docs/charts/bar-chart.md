@@ -160,7 +160,7 @@ chart_tooltip_content = _ChartTooltipContent()
 A simple vertical bar chart comparing data categories.
 
 ```python
-def barchart_v1():
+def barchart_v1() -> rx.Component:
 
     return card.root(
         card.header(
@@ -231,7 +231,7 @@ def barchart_v1():
 Display multiple datasets within the same chart for comparison.
 
 ```python
-def barchart_v2():
+def barchart_v2() -> rx.Component:
 
     return card.root(
         card.header(
@@ -287,7 +287,7 @@ def barchart_v2():
 Combine related values by stacking bars for cumulative insights.
 
 ```python
-def barchart_v3():
+def barchart_v3() -> rx.Component:
 
     return card.root(
         card.header(
@@ -361,7 +361,7 @@ def barchart_v3():
 Flip the orientation to show bars horizontally for improved readability.
 
 ```python
-def barchart_v4():
+def barchart_v4() -> rx.Component:
 
     return card.root(
         card.header(
@@ -427,7 +427,7 @@ def barchart_v4():
 Demonstrate dynamic updates or data-driven interactivity in your bar chart.
 
 ```python
-def barchart_v5():
+def barchart_v5() -> rx.Component:
     from reflex.experimental import ClientStateVar
 
     data = [
@@ -547,7 +547,7 @@ def barchart_v5():
 Add a built-in legend for clarity when displaying multiple series.
 
 ```python
-def barchart_v6():
+def barchart_v6() -> rx.Component:
 
     return card.root(
         card.header(
@@ -610,7 +610,7 @@ def barchart_v6():
 Create a fully custom legend layout using Reflex components.
 
 ```python
-def barchart_v7():
+def barchart_v7() -> rx.Component:
 
     return card.root(
         card.header(
@@ -666,7 +666,7 @@ def barchart_v7():
 Show how the chart adapts across different screen sizes and layouts.
 
 ```python
-def barchart_v9():
+def barchart_v9() -> rx.Component:
 
     return card.root(
         card.header(

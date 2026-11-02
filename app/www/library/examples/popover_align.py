@@ -4,7 +4,7 @@ from components.ui.button import button
 from components.ui.popover import popover
 
 
-def popover_aligns():
+def popover_aligns() -> rx.Component:
     sides = [
         "left",
         "top",

@@ -159,7 +159,7 @@ chart_tooltip_content = _ChartTooltipContent()
 A minimal example showing a single series with a smooth gradient fill.
 
 ```python
-def areachart_v1():
+def areachart_v1() -> rx.Component:
 
     return card.root(
         card.header(
@@ -219,7 +219,7 @@ def areachart_v1():
 Displays data using straight line segments between points.
 
 ```python
-def areachart_v2():
+def areachart_v2() -> rx.Component:
 
     return card.root(
         card.header(
@@ -280,7 +280,7 @@ def areachart_v2():
 Renders the chart with stepped transitions, ideal for discrete intervals.
 
 ```python
-def areachart_v3():
+def areachart_v3() -> rx.Component:
 
     return card.root(
         card.header(
@@ -341,7 +341,7 @@ def areachart_v3():
 Visualizes multiple data series stacked on top of each other for cumulative comparison.
 
 ```python
-def areachart_v4():
+def areachart_v4() -> rx.Component:
 
     return card.root(
         card.header(
@@ -415,7 +415,7 @@ def areachart_v4():
 Demonstrates how data or series can update interactively in real-time.
 
 ```python
-def areachart_v5():
+def areachart_v5() -> rx.Component:
 
     start_date = datetime.date(2024, 4, 1)
     data = [
@@ -430,7 +430,7 @@ def areachart_v5():
     default_range = "last_3_months"
     SelectedRange = ClientStateVar.create("area_selected", default_range)
 
-    def gradient(id_: str, color: str):
+    def gradient(id_: str, color: str) -> rx.Component:
         return rx.el.svg.linear_gradient(
             rx.el.svg.stop(stop_color=f"var(--{color})", offset="5%", stop_opacity=0.8),
             rx.el.svg.stop(
@@ -445,7 +445,7 @@ def areachart_v5():
             id=id_,
         )
 
-    def area(data_key: str, color: str):
+    def area(data_key: str, color: str) -> rx.Component:
         return rx.recharts.area(
             data_key=data_key,
             fill=f"url(#{data_key})",
@@ -548,7 +548,7 @@ def areachart_v5():
 Adds a built-in legend for easy series identification.
 
 ```python
-def areachart_v6():
+def areachart_v6() -> rx.Component:
 
     return card.root(
         card.header(
@@ -623,7 +623,7 @@ def areachart_v6():
 Shows full control over axis configuration, labels, and styling.
 
 ```python
-def areachart_v7():
+def areachart_v7() -> rx.Component:
 
     return card.root(
         card.header(
@@ -705,10 +705,10 @@ def areachart_v7():
 Implements a user-defined legend layout for better presentation control.
 
 ```python
-def areachart_v8():
+def areachart_v8() -> rx.Component:
     series = [("desktop", "Desktop", "--chart-1"), ("mobile", "Mobile", "--chart-2")]
 
-    def create_gradient(var_name):
+    def create_gradient(var_name: str) -> rx.Component:
         return rx.el.svg.linear_gradient(
             rx.el.svg.stop(
                 stop_color=f"var({var_name})",
@@ -824,9 +824,9 @@ def areachart_v8():
 Combines stepped transitions with a smooth color gradient for visual emphasis.
 
 ```python
-def areachart_v9():
+def areachart_v9() -> rx.Component:
 
-    def gradient(id_: str, color: str):
+    def gradient(id_: str, color: str) -> rx.Component:
         return rx.el.svg.linear_gradient(
             rx.el.svg.stop(stop_color=f"var(--{color})", offset="5%", stop_opacity=0.8),
             rx.el.svg.stop(
@@ -904,7 +904,7 @@ def areachart_v9():
 A complete example with custom legends, axes, and advanced styling combined.
 
 ```python
-def areachart_v10():
+def areachart_v10() -> rx.Component:
     series = [("mobile", "Mobile", "--chart-1"), ("desktop", "Desktop", "--chart-2")]
 
     return card.root(

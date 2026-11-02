@@ -1,10 +1,12 @@
 import random
 from datetime import date, timedelta
 
+import reflex as rx
+
 from components.ui.heatmap import heatmap
 
 
-def heatmap_github():
+def heatmap_github() -> rx.Component:
     data = []
 
     d = date(2025, 1, 1)

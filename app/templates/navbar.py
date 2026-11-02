@@ -17,11 +17,11 @@ NAV_LIST = [
 ]
 
 
-def icon_wrapper(svg_str: str, class_name: str = "size-5"):
+def icon_wrapper(svg_str: str, class_name: str = "size-5") -> rx.Component:
     return rx.el.div(rx.html(svg_str), class_name=f"flex items-center {class_name}")
 
 
-def separator():
+def separator() -> rx.Component:
     return rx.el.p("︲", class_name="text-muted-foreground/50 font-thin")
 
 

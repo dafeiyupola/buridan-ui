@@ -10,7 +10,7 @@ align_with_item_trigger = ClientStateVar.create("align_with_item_trigger", False
 items = ["apple", "banana", "orange", "grape", "blueberry", "pineapple"]
 
 
-def select_align_with_items():
+def select_align_with_items() -> rx.Component:
 
     return rx.el.div(
         rx.el.div(

@@ -1,3 +1,5 @@
+import reflex as rx
+
 from components.ui.autocomplete import autocomplete
 
 ITEMS = [
@@ -53,7 +55,7 @@ ITEMS = [
 ]
 
 
-def autocomplete_large_list():
+def autocomplete_large_list() -> rx.Component:
     return autocomplete(
         items=ITEMS,
         placeholder="Search components and charts...",

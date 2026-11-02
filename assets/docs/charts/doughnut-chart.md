@@ -12,7 +12,7 @@ Doughnut Charts are ideal for showing changes over time or the magnitude of mult
 A customizable doughnut chart with flexible styling and data visualization options.
 
 ```python
-def doughnutchart_v1():
+def doughnutchart_v1() -> rx.Component:
 
     return card.root(
         card.header(
@@ -86,7 +86,7 @@ def doughnutchart_v1():
 Displays a doughnut chart with centered label text for enhanced data presentation.
 
 ```python
-def doughnutchart_v2():
+def doughnutchart_v2() -> rx.Component:
 
     total_visitors = sum(item["visitors"] for item in data)
 

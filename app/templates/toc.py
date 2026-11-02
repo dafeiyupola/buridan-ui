@@ -83,7 +83,7 @@ def _create_markdown_toc_links(url: str, toc_data: list[dict]) -> rx.Component:
     )
 
 
-def _create_external_tool_links(url: str):
+def _create_external_tool_links(url: str) -> rx.Component:
     """Create links for viewing documentation in external tools."""
     fmt_url = "https://buridan-ui.reflex.run/" + url
     prompt = " ".join(
@@ -93,12 +93,12 @@ Help me understand how to use it. Be ready to explain concepts, give examples, o
     )
 
     def external_tool_item(
-        icon_light,
-        icon_dark,
+        icon_light: str,
+        icon_dark: str,
         tooltip_content: str,
         href: str,
         icon_size: str = "size-4",
-    ):
+    ) -> rx.Component:
         link_component = external_link if is_external_href(href) else rx.el.a
         return tooltip.provider(
             tooltip.root(
@@ -163,7 +163,7 @@ Help me understand how to use it. Be ready to explain concepts, give examples, o
     )
 
 
-def table_of_content(url: str, toc_data: list[dict]):
+def table_of_content(url: str, toc_data: list[dict]) -> rx.Component:
     """Render table of contents.
 
     Args:

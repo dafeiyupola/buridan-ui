@@ -1,7 +1,9 @@
+import reflex as rx
+
 from components.ui.timeline import timeline
 
 
-def timeline_basic():
+def timeline_basic() -> rx.Component:
     return timeline.root(
         timeline.item(
             timeline.indicator(),

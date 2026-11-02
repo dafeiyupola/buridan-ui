@@ -75,7 +75,7 @@ class SliderBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/slider"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Slider", package_path="", install=False)
 
 
@@ -230,7 +230,7 @@ slider.root(
 A basic low-level slider demo.
 
 ```python
-def slider_demo():
+def slider_demo() -> rx.Component:
     return rx.el.div(
         slider.root(
             slider.control(slider.track(slider.indicator(), slider.thumb())),
@@ -245,7 +245,7 @@ def slider_demo():
 Use an array with two values for a range slider.
 
 ```python
-def slider_range():
+def slider_range() -> rx.Component:
     return rx.el.div(
         slider.root(
             slider.control(
@@ -268,7 +268,7 @@ def slider_range():
 Use `orientation="vertical"` for a vertical slider.
 
 ```python
-def slider_vertical():
+def slider_vertical() -> rx.Component:
     return rx.el.div(
         slider.root(
             slider.control(

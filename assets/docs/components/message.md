@@ -192,7 +192,7 @@ Use `message.avatar` to render an avatar next to the message. Set `align="end"` 
 
 
 ```python
-def message_with_avatar():
+def message_with_avatar() -> rx.Component:
     return rx.el.div(
         message.root(
             message.avatar(
@@ -261,7 +261,7 @@ Use `message.group` to stack consecutive messages from the same sender. Render a
 
 
 ```python
-def message_with_group():
+def message_with_group() -> rx.Component:
     return rx.el.div(
         message.group(
             message.root(
@@ -301,7 +301,7 @@ Use `message.header` for a sender name and `message.footer` for metadata such as
 
 
 ```python
-def message_header_footer():
+def message_header_footer() -> rx.Component:
     return rx.el.div(
         message.root(
             message.content(
@@ -339,7 +339,7 @@ Place message-level actions in `message.footer`, such as copy, retry, or feedbac
 
 
 ```python
-def message_with_actions():
+def message_with_actions() -> rx.Component:
     return rx.el.div(
         message.root(
             message.content(
@@ -407,7 +407,7 @@ Use the [`Attachment`](/docs/components/attachment) with the messages to display
 
 
 ```python
-def message_with_attachment():
+def message_with_attachment() -> rx.Component:
     return rx.el.div(
         message.root(
             message.content(

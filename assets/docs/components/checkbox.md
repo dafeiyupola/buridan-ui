@@ -127,7 +127,7 @@ Pair the checkbox with `field.root` and `field.label` for proper layout and labe
 
 
 ```python
-def checkbox_basic():
+def checkbox_basic() -> rx.Component:
     return rx.el.div(
         field.root(
             checkbox.root(

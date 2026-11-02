@@ -1,9 +1,11 @@
 import random
 
+import reflex as rx
+
 from components.ui.heatmap import heatmap
 
 
-def heatmap_compact():
+def heatmap_compact() -> rx.Component:
     data = [
         {
             "date": f"2025-{str(m).zfill(2)}-{str(d).zfill(2)}",

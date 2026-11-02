@@ -9,7 +9,7 @@ open_var = ClientStateVar.create("open_var", False)
 text_val = "The accessibility review found two focus states that were visually too subtle in dark mode.\n\nI checked the dialog, menu, and drawer paths because each one renders focusable controls inside a layered surface.\n\nThe dialog and drawer are fine. The menu needs the hover and focus tokens split so keyboard focus stays visible when the pointer is not involved.\n\nI also recommend keeping the change in the style file instead of the primitive so the other themes can choose their own focus treatment later."
 
 
-def bubble_collapsible_demo():
+def bubble_collapsible_demo() -> rx.Component:
     return rx.el.div(
         bubble.root(
             bubble.content("How can I help you today?"),

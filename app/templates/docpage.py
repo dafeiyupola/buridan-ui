@@ -23,7 +23,7 @@ banner = rx.el.div(
 )
 
 
-def docpage(main_content, toc_content):
+def docpage(main_content: rx.Component, toc_content: rx.Component) -> rx.Component:
     """The template for all documentation pages."""
     return rx.el.div(
         banner,

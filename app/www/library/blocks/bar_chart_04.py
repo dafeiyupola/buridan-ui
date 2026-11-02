@@ -67,7 +67,7 @@ def _chart(show_y_axis: bool) -> rx.Component:
     )
 
 
-def bar_chart_04():
+def bar_chart_04() -> rx.Component:
     return card.root(
         card.header(
             card.title("Temperature"),

@@ -82,7 +82,7 @@ def _chart(show_y_axis: bool) -> rx.Component:
     )
 
 
-def area_chart_01():
+def area_chart_01() -> rx.Component:
     return card.root(
         card.header(
             card.title("Actual costs vs. potential costs"),

@@ -78,7 +78,7 @@ class ToggleGroupBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/toggle-group"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="ToggleGroup", package_path="", install=False)
 
 
@@ -116,7 +116,7 @@ class ToggleGroupItem(BaseUIComponent):
     library = f"{PACKAGE_NAME}/toggle"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Toggle", package_path="", install=False)
 
     value: Var[str]

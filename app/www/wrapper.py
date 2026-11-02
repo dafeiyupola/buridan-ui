@@ -171,7 +171,7 @@ def file_codeblock_full(file_path: str, source: str) -> rx.Component:
     )
 
 
-def chart_util_wrapper(source: str):
+def chart_util_wrapper(source: str) -> rx.Component:
     return rx.el.div(
         rx.el.div(
             rx.el.div(

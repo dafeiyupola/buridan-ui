@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Self
 
 from reflex.components.component import Component
 from reflex.event import EventHandler, passthrough_event_spec
@@ -435,7 +435,7 @@ class BuridanAutocomplete(Component):
         }
 
     @classmethod
-    def create(cls, *children, **props):
+    def create(cls, *children, **props) -> Self:
         props["root_class"] = cn(ClassNames.ROOT, props.pop("root_class", ""))
         props["input_class"] = cn(ClassNames.INPUT, props.pop("input_class", ""))
         props["popup_class"] = cn(ClassNames.POPUP, props.pop("popup_class", ""))

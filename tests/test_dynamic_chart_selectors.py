@@ -1,11 +1,14 @@
 """Regression tests for the interactive chart demo selectors."""
 
+from collections.abc import Callable
+from typing import Any
+
 from app.www.library.charts.area.v5 import areachart_v5
 from app.www.library.charts.bar.v5 import barchart_v5
 from app.www.library.charts.line.v7 import linechart_v7
 
 
-def _find_select(component):
+def _find_select(component: Any) -> Any:
     pending = [component]
     while pending:
         current = pending.pop()
@@ -20,7 +23,11 @@ def _find_select(component):
     raise AssertionError(msg)
 
 
-def _assert_select_wiring(factory, expected_default, expected_values) -> None:
+def _assert_select_wiring(
+    factory: Callable[[], Any],
+    expected_default: str,
+    expected_values: list[str],
+) -> None:
     select = _find_select(factory())
 
     assert select.default_value._var_value == expected_default

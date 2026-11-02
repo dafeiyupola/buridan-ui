@@ -8,7 +8,7 @@ from components.charts.chart_tooltip import chart_tooltip, chart_tooltip_content
 from components.ui.card import card
 
 
-def areachart_v5():
+def areachart_v5() -> rx.Component:
 
     start_date = datetime.date(2024, 4, 1)
     data = [
@@ -23,7 +23,7 @@ def areachart_v5():
     default_range = "last_3_months"
     SelectedRange = ClientStateVar.create("area_selected", default_range)
 
-    def gradient(id_: str, color: str):
+    def gradient(id_: str, color: str) -> rx.Component:
         return rx.el.svg.linear_gradient(
             rx.el.svg.stop(stop_color=f"var(--{color})", offset="5%", stop_opacity=0.8),
             rx.el.svg.stop(
@@ -38,7 +38,7 @@ def areachart_v5():
             id=id_,
         )
 
-    def area(data_key: str, color: str):
+    def area(data_key: str, color: str) -> rx.Component:
         return rx.recharts.area(
             data_key=data_key,
             fill=f"url(#{data_key})",

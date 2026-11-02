@@ -122,7 +122,7 @@ class MenuBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/menu"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
 
         return ImportVar(tag="Menu", package_path="", install=False)
 
@@ -571,7 +571,7 @@ A basic dropdown menu with labels and separators.
 
 
 ```python
-def menu_basic():
+def menu_basic() -> rx.Component:
     return menu.root(
         menu.trigger(render_=button("Open", variant="outline")),
         menu.portal(
@@ -628,7 +628,7 @@ Use `menu.submenu_root` to nest secondary actions.
 
 
 ```python
-def menu_submenu():
+def menu_submenu() -> rx.Component:
     return menu.root(
         menu.trigger(render_=button("Open", variant="outline")),
         menu.portal(
@@ -741,7 +741,7 @@ Use `menu.checkbox_item` for toggles.
 
 
 ```python
-def menu_checkboxes():
+def menu_checkboxes() -> rx.Component:
     return menu.root(
         menu.trigger(render_=button("Open", variant="outline")),
         menu.portal(

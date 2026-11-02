@@ -6,7 +6,7 @@ from components.ui.tooltip import tooltip
 sides = ["left", "top", "bottom", "right"]
 
 
-def tooltip_sides():
+def tooltip_sides() -> rx.Component:
 
     return rx.el.div(
         *[

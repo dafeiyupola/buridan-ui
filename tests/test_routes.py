@@ -2,13 +2,17 @@ import sys
 from collections.abc import Iterator
 from pathlib import Path
 
+import pytest
+
 ROOT_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
 from app.utils import routes
 
 
-def test_components_and_charts_preserve_generated_order(monkeypatch) -> None:
+def test_components_and_charts_preserve_generated_order(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     generated_routes = {
         "getting_started": [],
         "utilities": [],
@@ -34,7 +38,9 @@ def test_components_and_charts_preserve_generated_order(monkeypatch) -> None:
     assert result["charts"] == generated_routes["charts"]
 
 
-def test_resources_and_utilities_remain_sorted_by_title(monkeypatch) -> None:
+def test_resources_and_utilities_remain_sorted_by_title(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     generated_routes = {
         "getting_started": [],
         "utilities": [
@@ -67,8 +73,8 @@ def test_resources_and_utilities_remain_sorted_by_title(monkeypatch) -> None:
 
 
 def test_generate_doc_routes_sorts_by_frontmatter_order_and_url_ties(
-    monkeypatch,
-    tmp_path,
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
 ) -> None:
     docs_path = tmp_path / "components"
     docs_path.mkdir()

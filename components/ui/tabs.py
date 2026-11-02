@@ -63,7 +63,7 @@ class TabsBaseComponent(BaseUIComponent):
     library = f"{PACKAGE_NAME}/tabs"
 
     @property
-    def import_var(self):
+    def import_var(self) -> ImportVar:
         return ImportVar(tag="Tabs", package_path="", install=False)
 
 

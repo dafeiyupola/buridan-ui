@@ -11,7 +11,7 @@ data = [
 ]
 
 
-def piechart_v4():
+def piechart_v4() -> rx.Component:
 
     return card.root(
         card.header(

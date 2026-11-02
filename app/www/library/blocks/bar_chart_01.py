@@ -69,7 +69,7 @@ def _chart(show_y_axis: bool) -> rx.Component:
     )
 
 
-def bar_chart_01():
+def bar_chart_01() -> rx.Component:
     return card.root(
         card.header(
             card.title("Sales overview"),

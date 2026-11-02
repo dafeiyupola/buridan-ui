@@ -4,7 +4,7 @@ from components.icons.hugeicon import hi
 from components.ui.toggle import toggle
 
 
-def toggle_general():
+def toggle_general() -> rx.Component:
     return rx.el.div(
         toggle(
             hi(
