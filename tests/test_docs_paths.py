@@ -41,6 +41,7 @@ def test_parser_loads_absolute_and_repo_relative_directories(
 @pytest.mark.parametrize("absolute", [True, False])
 def test_parser_rejects_load_directories_outside_project_root(
     tmp_path: Path,
+    *,
     absolute: bool,
 ) -> None:
     project_root = Path(constants.__file__).resolve().parents[2]
