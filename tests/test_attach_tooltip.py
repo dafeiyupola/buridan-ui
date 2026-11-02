@@ -12,7 +12,7 @@ producing invalid nested-interactive HTML on every page (duplicate tab stops,
 double focus rings, and duplicated button semantics for screen-reader users).
 """
 
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 
 import pytest
 import reflex as rx
@@ -68,12 +68,14 @@ def test_attach_tooltip_passes_caller_via_render_prop() -> None:
     [light_and_dark_toggle, site_github, searchbar],
     ids=["light_and_dark_toggle", "site_github", "searchbar"],
 )
-def test_navbar_and_searchbar_tooltip_triggers_use_render_prop(factory: object) -> None:
+def test_navbar_and_searchbar_tooltip_triggers_use_render_prop(
+    factory: Callable[[], rx.Component],
+) -> None:
     """Each chrome control that goes through ``attach_tooltip`` must produce a
     ``Tooltip.Trigger`` with the caller's button as its ``render_`` target and zero
     positional children. Guards against refactoring a call site to bypass the helper.
     """
-    comp = factory()  # type: ignore[operator]
+    comp = factory()
 
     triggers = _find_all(comp, TooltipTrigger)
     assert triggers, "expected at least one Tooltip.Trigger in this chrome control"
