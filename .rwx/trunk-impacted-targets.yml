@@ -1,0 +1,53 @@
+# Ports .github/workflows/trunk-impacted-targets.yml.
+#
+# The Trunk merge queue runs in graph (Parallel) mode and holds every PR at
+# "Not Ready" until impacted targets are uploaded for its head commit. This
+# repo is a single deployable unit, so every PR declares impactsAllTargets.
+#
+# Do NOT add path filters or an `if:` here: a PR that skips this never uploads
+# and the queue would hold it forever. Deliberately not a required status.
+#
+# TRUNK_API_KEY lives in its own `buridan-ui-trunk` vault (org-wide Trunk
+# token; never add another secret to it). Grants must include
+# `elviskahoro/buridan-ui:**`, `*/*` and `:main` (branch globs do not cross
+# `/`). cache: false + cache-key: excluded keep the token out of the cache
+# fingerprint and make every run actually upload.
+on:
+  github:
+    pull_request:
+      init:
+        commit-sha: ${{ event.git.sha }}
+        pr-number: ${{ event.github.pull_request.pull_request.number }}
+        target-branch: ${{ event.github.pull_request.pull_request.base.ref }}
+      status-checks:
+        name: trunk-impacted-targets
+
+base:
+  image: ubuntu:24.04
+  config: rwx/base 1.2.0
+
+tasks:
+  - key: upload
+    cache: false
+    env:
+      TRUNK_API_KEY:
+        value: ${{ vaults.buridan-ui-trunk.secrets.TRUNK_API_KEY }}
+        cache-key: excluded
+      # Trunk's internal ID for elviskahoro/buridan-ui (not the queue ID).
+      TRUNK_REPOSITORY_ID: c064fac2-557f-48fd-9979-1f94fa82cb55
+      PR_NUMBER: ${{ init.pr-number }}
+      HEAD_SHA: ${{ init.commit-sha }}
+      TARGET_BRANCH: ${{ init.target-branch }}
+    run: |
+      set -euo pipefail
+      if [ -z "${TRUNK_API_KEY}" ]; then
+        echo "warning: TRUNK_API_KEY is unavailable; skipping upload"
+        exit 0
+      fi
+      status=$(curl -sS -o response.json -w '%{http_code}' \
+        -X PUT https://api.trunk.io/v2/impacted-targets \
+        -H "Authorization: Bearer ${TRUNK_API_KEY}" \
+        -H 'Content-Type: application/json' \
+        -d "{\"repositoryId\":\"${TRUNK_REPOSITORY_ID}\",\"targetBranch\":\"${TARGET_BRANCH}\",\"sha\":\"${HEAD_SHA}\",\"number\":${PR_NUMBER},\"impactsAllTargets\":true}")
+      cat response.json
+      [ "${status}" = "202" ] || { echo "error: Trunk returned HTTP ${status}"; exit 1; }
