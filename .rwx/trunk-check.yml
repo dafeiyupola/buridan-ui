@@ -111,6 +111,9 @@ tasks:
 
   - key: lint
     use: [deps, trunk-tools, code]
+    # Uncached so the required status is never a replayed verdict (a same-head
+    # re-trigger once went green in ~530ms); upstream install caches stay.
+    cache: false
     env:
       EVENT_TYPE: ${{ init.event-type }}
     run: |

@@ -59,6 +59,9 @@ tasks:
 
   - key: validate
     use: [deps, code]
+    # Uncached so the required status is never a replayed verdict (a same-head
+    # re-trigger once went green in ~530ms); upstream install caches stay.
+    cache: false
     run: |
       set -euo pipefail
       uv run python scripts/generate_anatomy.py --check
