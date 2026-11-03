@@ -35,7 +35,6 @@ tasks:
   # Checksum-pinned uv installer: fails closed if the script at the versioned
   # URL ever changes. No packaged uv/install leaf exists in the RWX catalog.
   - key: uv-install
-    use: [code]
     run: |
       set -euo pipefail
       script="$(mktemp)"
@@ -45,12 +44,19 @@ tasks:
       sh "${script}"
       echo "$HOME/.local/bin" >> "$RWX_ENV/PATH"
 
+  # Filtered to the lockfile inputs so this stays cached across ordinary
+  # commits. --no-install-project: sources are outside the filter; `uv run`
+  # installs the project itself.
   - key: deps
-    use: [uv-install]
-    run: uv sync --group dev
+    use: [uv-install, code]
+    filter:
+      - pyproject.toml
+      - uv.lock
+      - .python-version
+    run: uv sync --frozen --no-install-project --group dev
 
   - key: validate
-    use: [deps]
+    use: [deps, code]
     run: |
       set -euo pipefail
       uv run python scripts/generate_anatomy.py --check
