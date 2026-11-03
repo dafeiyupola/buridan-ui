@@ -4,6 +4,8 @@
 on:
   github:
     pull_request:
+      # Matches GHA's prior `pull_request: branches: [main]` scope.
+      if: ${{ event.github.pull_request.pull_request.base.ref == 'main' }}
       init:
         commit-sha: ${{ event.git.sha }}
         event-type: pull_request
@@ -114,14 +116,16 @@ tasks:
     run: |
       set -euo pipefail
       git fetch origin main
-      # Queue pushes diff against their parent. PRs
-      # diff against the fork point (RWX checks out the PR head, not the merge
-      # ref); if main also changed a file the PR touches, rebasing clears any
-      # finding main introduced there.
+      # Queue pushes diff against their parent. PRs and CLI runs diff against
+      # main's fresh tip (not the fork point): RWX checks out the PR head, not
+      # the merge ref, so this matches the merge ref's first parent GHA used
+      # and reports a line main already fixed as a regression, instead of
+      # treating it as pre-existing because it was unchanged since the fork
+      # point.
       if [ "$EVENT_TYPE" = "push" ]; then
         upstream="$(git rev-parse HEAD^1)"
       else
-        upstream="$(git merge-base HEAD origin/main)"
+        upstream="$(git rev-parse origin/main)"
       fi
       # `< /dev/null` and --ci: trunk hangs on interactive prompts without a TTY.
       trunk check --ci --upstream "$upstream" < /dev/null
