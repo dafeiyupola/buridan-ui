@@ -153,7 +153,11 @@ def attachment_media(
     )
 
 
-def attachment_content(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
+def attachment_content(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
 
     return rx.el.div(
         *children,
@@ -163,7 +167,11 @@ def attachment_content(*children: Any, class_name: str = "", **props: Any) -> rx
     )
 
 
-def attachment_title(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
+def attachment_title(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
 
     return rx.el.span(
         *children,
@@ -173,7 +181,11 @@ def attachment_title(*children: Any, class_name: str = "", **props: Any) -> rx.C
     )
 
 
-def attachment_description(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
+def attachment_description(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
 
     return rx.el.span(
         *children,
@@ -183,7 +195,11 @@ def attachment_description(*children: Any, class_name: str = "", **props: Any) -
     )
 
 
-def attachment_actions(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
+def attachment_actions(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
 
     return rx.el.div(
         *children,
@@ -193,7 +209,11 @@ def attachment_actions(*children: Any, class_name: str = "", **props: Any) -> rx
     )
 
 
-def attachment_action(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
+def attachment_action(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
     props.setdefault("variant", "ghost")
 
     props.setdefault("size", "icon-xs")
@@ -224,7 +244,11 @@ def attachment_trigger(
     return component_fn(*children, **props)
 
 
-def attachment_group(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
+def attachment_group(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
 
     return rx.el.div(
         *children,

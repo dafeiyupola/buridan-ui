@@ -122,7 +122,11 @@ def frame_title(*children: Any, class_name: str = "", **props: Any) -> rx.Compon
     )
 
 
-def frame_description(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
+def frame_description(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
     return rx.el.div(
         *children,
         class_name=cn(ClassNames.DESCRIPTION, class_name),

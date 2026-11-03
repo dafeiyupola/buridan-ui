@@ -121,9 +121,9 @@ def high_level_table(
     )
 
     if isinstance(data, Var):
-        body_content = foreach(
-            data,
-            lambda row: TableRow.create(
+
+        def render_row(row: dict[str, Any]) -> TableRow:
+            return TableRow.create(
                 *[
                     TableCell.create(
                         row[col["accessor"]],
@@ -138,8 +138,9 @@ def high_level_table(
                 class_name=cn(
                     "even:bg-secondary/30" if striped else "",
                 ),
-            ),
-        )
+            )
+
+        body_content = foreach(data, render_row)
     else:
         body_content = [
             TableRow.create(
