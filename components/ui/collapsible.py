@@ -1,4 +1,4 @@
-from typing import Annotated, Self
+from typing import Annotated, Any, Self
 
 import reflex as rx
 from reflex.components.component import Component, ComponentNamespace
@@ -34,7 +34,7 @@ class CollapsibleRoot(CollapsibleBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "collapsible"
         cls.set_class_name(ClassNames.ROOT, props)
         return super().create(*children, **props)
@@ -47,7 +47,7 @@ class CollapsibleTrigger(CollapsibleBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "collapsible-trigger"
         cls.set_class_name(ClassNames.TRIGGER, props)
         return super().create(*children, **props)
@@ -61,7 +61,7 @@ class CollapsiblePanel(CollapsibleBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "collapsible-panel"
         inner_class = props.pop("class_name", "")
         cls.set_class_name(ClassNames.PANEL, props)

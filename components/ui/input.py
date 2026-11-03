@@ -1,4 +1,4 @@
-from typing import Self, cast
+from typing import Any, Self, cast
 
 from reflex.components.component import ComponentNamespace
 from reflex.vars.base import Var
@@ -27,7 +27,7 @@ class ClassNames:
 
 class InputComponent(CoreComponent, BaseInput):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props.setdefault("data_slot", "input")
 
         if "type" not in props:

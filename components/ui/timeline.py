@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Any, Literal
 
 import reflex as rx
 from reflex.components.component import ComponentNamespace
@@ -20,10 +20,10 @@ class ClassNames:
 
 
 def timeline_root(
-    *children,
+    *children: Any,
     orientation: LiteralOrientation = "vertical",
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
     return rx.el.div(
         *children,
@@ -35,11 +35,11 @@ def timeline_root(
 
 
 def timeline_item(
-    *children,
+    *children: Any,
     step: int,
     active_step: int,
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
     completed = step <= active_step
 
@@ -53,9 +53,9 @@ def timeline_item(
 
 
 def timeline_header(
-    *children,
+    *children: Any,
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
     return rx.el.div(
         *children,
@@ -66,9 +66,9 @@ def timeline_header(
 
 
 def timeline_title(
-    *children,
+    *children: Any,
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
     return rx.el.h3(
         *children,
@@ -79,9 +79,9 @@ def timeline_title(
 
 
 def timeline_content(
-    *children,
+    *children: Any,
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
     return rx.el.div(
         *children,
@@ -92,9 +92,9 @@ def timeline_content(
 
 
 def timeline_date(
-    *children,
+    *children: Any,
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
     return rx.el.time(
         *children,
@@ -105,9 +105,9 @@ def timeline_date(
 
 
 def timeline_indicator(
-    *children,
+    *children: Any,
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
     return rx.el.div(
         *children,
@@ -120,7 +120,7 @@ def timeline_indicator(
 
 def timeline_separator(
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
     return rx.el.div(
         class_name=cn(ClassNames.SEPARATOR, class_name),

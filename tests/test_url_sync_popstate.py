@@ -203,7 +203,7 @@ def test_url_sync_apply_theme_to_dom_matches_actions_apply_to_root_logic() -> No
 #
 # Mirrors the convention in tests/test_seed_codec.py: guard with
 # shutil.which("node") and pytest.skip when Node is not on PATH. The CI
-# runner (ubuntu-latest, .github/workflows/tests.yml) has Node installed.
+# runner (.rwx/tests.yml) has Node installed.
 # ---------------------------------------------------------------------------
 
 

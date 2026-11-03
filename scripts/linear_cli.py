@@ -151,6 +151,7 @@ def _print_issues(issues: list[Any], *, as_json: bool, verbose: bool = False) ->
 
 @app.command()
 def viewer(
+    *,
     as_json: bool = typer.Option(
         False,
         "--json",
@@ -173,6 +174,7 @@ def viewer(
 
 @app.command()
 def teams(
+    *,
     as_json: bool = typer.Option(
         False,
         "--json",
@@ -206,6 +208,7 @@ def issues(
         max=MAX_PAGE_SIZE,
         help=f"Max issues to fetch (1-{MAX_PAGE_SIZE}, default 25).",
     ),
+    *,
     verbose: bool = typer.Option(
         False,
         "--verbose",
@@ -238,6 +241,7 @@ def issues(
 @app.command()
 def issue(
     identifier: str = typer.Argument(help="Issue identifier, e.g. ENG-123."),
+    *,
     as_json: bool = typer.Option(
         False,
         "--json",
@@ -277,6 +281,7 @@ def search(
         max=MAX_PAGE_SIZE,
         help=f"Max results (1-{MAX_PAGE_SIZE}, default 10).",
     ),
+    *,
     verbose: bool = typer.Option(
         False,
         "--verbose",

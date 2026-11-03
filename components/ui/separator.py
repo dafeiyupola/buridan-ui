@@ -1,4 +1,4 @@
-from typing import Literal, Self
+from typing import Any, Literal, Self
 
 from reflex.utils.imports import ImportVar
 from reflex.vars.base import Var
@@ -21,7 +21,7 @@ class SeparatorComponent(BaseUIComponent):
         return ImportVar(tag="Separator", package_path="", install=False)
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "separator"
         if "orientation" not in props:
             props["orientation"] = "horizontal"

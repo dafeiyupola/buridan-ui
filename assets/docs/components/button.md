@@ -17,7 +17,7 @@ buridan add button
 ### Manual Installation
 
 ```python
-from typing import Literal, Self
+from typing import Any, Literal, Self
 
 from reflex.vars.base import Var
 from reflex_components_core.el import Button as BaseButton
@@ -126,7 +126,7 @@ class Button(CoreComponent, BaseButton):
     size: Var[LiteralButtonSize]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         variant = props.pop("variant", "default")
         size = props.pop("size", "default")
         custom_classes = props.pop("class_name", "")

@@ -17,7 +17,7 @@ buridan add toggle
 ### Manual Installation
 
 ```python
-from typing import Annotated, Literal, Self
+from typing import Annotated, Any, ClassVar, Literal, Self
 
 from reflex.components.component import Component
 from reflex.event import EventHandler, passthrough_event_spec
@@ -44,12 +44,12 @@ class ClassNames:
         "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
     )
 
-    VARIANTS = {
+    VARIANTS: ClassVar[dict[str, str]] = {
         "default": "bg-transparent",
         "outline": "border border-input bg-transparent hover:bg-muted",
     }
 
-    SIZES = {
+    SIZES: ClassVar[dict[str, str]] = {
         "default": (
             "h-8 min-w-8 px-2.5 "
             "has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2"
@@ -65,7 +65,7 @@ class ClassNames:
         ),
     }
 
-    ICON_VARIANT_CLASSES = {
+    ICON_VARIANT_CLASSES: ClassVar[dict[str | None, str]] = {
         "fill": "data-[pressed]:[&_svg]:fill-primary",
         "stroke": "data-[pressed]:[&_svg]:text-primary",
         None: "",
@@ -93,7 +93,7 @@ class Toggle(ToggleBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         variant = props.pop("variant", "default")
         size = props.pop("size", "default")
         data_slot = props.pop("data_slot", "toggle")

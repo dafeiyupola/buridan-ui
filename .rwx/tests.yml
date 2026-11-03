@@ -1,0 +1,74 @@
+# CI test suite.
+# Not path-filtered: a path-filtered required check does not report on every
+# PR and would deadlock the Trunk Merge Queue. PR and queue/main pushes share
+# one status-check name so a single check covers both.
+on:
+  github:
+    pull_request:
+      # Matches GHA's prior `pull_request: branches: [main]` scope.
+      if: ${{ event.github.pull_request.pull_request.base.ref == 'main' }}
+      init:
+        commit-sha: ${{ event.git.sha }}
+      status-checks:
+        name: tests
+    push:
+      - if: ${{ event.git.branch == 'main' || starts-with(event.git.branch, 'trunk-merge/') || starts-with(event.git.branch, 'trunk-merge-beta/') }}
+        init:
+          commit-sha: ${{ event.git.sha }}
+        status-checks:
+          name: tests
+  cli:
+    init:
+      commit-sha: ${{ event.git.sha }}
+
+base:
+  image: ubuntu:24.04
+  config: rwx/base 1.2.0
+
+tasks:
+  - key: code
+    call: git/clone 2.2.0
+    with:
+      repository: https://github.com/elviskahoro/buridan-ui.git
+      ref: ${{ init.commit-sha }}
+
+  # Checksum-pinned uv installer: fails closed if the script at the versioned
+  # URL ever changes. No packaged uv/install leaf exists in the RWX catalog.
+  - key: uv-install
+    run: |
+      set -euo pipefail
+      script="$(mktemp)"
+      trap 'rm -f "${script}"' EXIT
+      curl -LsSf https://astral.sh/uv/0.11.29/install.sh -o "${script}"
+      echo "504a79fd2ed0dcd47e7f04f0792cfd0871f62e24a7fe40fa8ae0f563a369f2bd  ${script}" | sha256sum -c -
+      sh "${script}"
+      echo "$HOME/.local/bin" >> "$RWX_ENV/PATH"
+
+  # Filtered to the lockfile inputs so this stays cached across ordinary
+  # commits. --no-install-project: sources are outside the filter; `uv run`
+  # installs the project itself.
+  - key: deps
+    use: [uv-install, code]
+    filter:
+      - pyproject.toml
+      - uv.lock
+      - .python-version
+    run: uv sync --frozen --no-install-project --group dev
+
+  # Checksum-pinned node: GHA runners ship it, the rwx/base image may not, and
+  # five test files (seed_codec, heatmap, url_sync_popstate, autocomplete,
+  # render_pre) shell out to node and pytest.skip silently when it's absent —
+  # the status would go green while covering less than the GHA check it
+  # replaces. Fails closed if the tarball at the versioned URL ever changes.
+  - key: node-install
+    run: |
+      set -euo pipefail
+      curl -fsSLO https://nodejs.org/dist/v22.23.4/node-v22.23.4-linux-x64.tar.gz
+      echo "b8492284c76a54baf58d61668dd0e41ee0fc98adabf9503d30f05d08f55b4406  node-v22.23.4-linux-x64.tar.gz" | sha256sum -c -
+      mkdir -p "$HOME/.local/lib/nodejs"
+      tar -xzf node-v22.23.4-linux-x64.tar.gz -C "$HOME/.local/lib/nodejs" --strip-components=1
+      echo "$HOME/.local/lib/nodejs/bin" >> "$RWX_ENV/PATH"
+
+  - key: pytest
+    use: [deps, node-install, code]
+    run: uv run pytest -q

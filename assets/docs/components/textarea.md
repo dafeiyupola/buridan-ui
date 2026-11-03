@@ -17,7 +17,7 @@ buridan add textarea
 ### Manual Installation
 
 ```python
-from typing import Self
+from typing import Any, Self
 
 from reflex_components_core.el import Textarea
 
@@ -37,7 +37,7 @@ class ClassNames:
 
 class TextAreaComponent(CoreComponent, Textarea):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props.setdefault(
             "custom_attrs",
             {

@@ -20,6 +20,11 @@ REFLEX_REPO = "reflex-dev/reflex"
 REFLEX_FOLDER = "docs"
 REFLEX_BASE_URL = "https://reflex.dev"
 
+HTTP_FORBIDDEN = 403
+MAX_CRAWL_DEPTH = 4
+MIN_SECTION_PARTS = 3
+MIN_SUBSECTION_PARTS = 4
+
 # Folders inside /docs to skip (non-doc content)
 SKIP_DIRS = {"__pycache__"}
 SKIP_FILES = {"__init__.py"}
@@ -41,7 +46,7 @@ def gh_get(path: str, token: str | None) -> list[dict] | None:
         with urlopen(req) as resp:  # noqa: S310  # nosec B310 - fixed https API URL
             return json.loads(resp.read())
     except HTTPError as e:
-        if e.code == 403:
+        if e.code == HTTP_FORBIDDEN:
             print(f"  [rate limited] {path} — add --github-token to avoid this")
         else:
             print(f"  [HTTP {e.code}] {path}")
@@ -50,7 +55,7 @@ def gh_get(path: str, token: str | None) -> list[dict] | None:
 
 def crawl_folder(folder_path: str, token: str | None, depth: int = 0) -> list[dict]:
     """Recursively walk a GitHub folder, returning .md/.mdx files."""
-    if depth > 4:
+    if depth > MAX_CRAWL_DEPTH:
         return []
 
     items = gh_get(folder_path, token)
@@ -103,9 +108,9 @@ def file_to_section(github_path: str) -> str:
     """
     parts = github_path.split("/")
     # parts[0] = "docs", parts[1] = section, parts[2+] = subsection/file
-    if len(parts) >= 3:
+    if len(parts) >= MIN_SECTION_PARTS:
         section = parts[1].replace("_", " ").title()
-        if len(parts) >= 4:
+        if len(parts) >= MIN_SUBSECTION_PARTS:
             subsection = parts[2].replace("_", " ").title()
             return f"Reflex / {section} / {subsection}"
         return f"Reflex / {section}"
@@ -162,6 +167,7 @@ def reflex_entries(token: str | None) -> list[dict]:
 
 def generate_search_index(
     routes: dict,
+    *,
     include_reflex: bool = True,
     github_token: str | None = None,
 ) -> None:

@@ -16,7 +16,7 @@ buridan add marker
 ### Manual Installation
 
 ```python
-from typing import Literal
+from typing import Any, ClassVar, Literal
 
 import reflex as rx
 from reflex.components.component import ComponentNamespace
@@ -32,7 +32,7 @@ class ClassNames:
         "text-left text-sm text-muted-foreground"
     )
 
-    VARIANTS: dict[str, str] = {
+    VARIANTS: ClassVar[dict[str, str]] = {
         "default": "",
         "separator": (
             "before:mr-1 before:h-px before:min-w-0 before:flex-1 before:bg-border "
@@ -50,10 +50,10 @@ class ClassNames:
 
 
 def marker_root(
-    *children,
+    *children: Any,
     variant: MarkerVariant = "default",
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
 
     return rx.el.div(
@@ -69,7 +69,7 @@ def marker_root(
     )
 
 
-def marker_icon(*children, class_name: str = "", **props) -> rx.Component:
+def marker_icon(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
 
     return rx.el.span(
         *children,
@@ -80,7 +80,7 @@ def marker_icon(*children, class_name: str = "", **props) -> rx.Component:
     )
 
 
-def marker_content(*children, class_name: str = "", **props) -> rx.Component:
+def marker_content(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
 
     return rx.el.span(
         *children,

@@ -17,7 +17,7 @@ buridan add dialog
 ### Manual Installation
 
 ```python
-from typing import Annotated, Literal, Self
+from typing import Annotated, Any, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -58,7 +58,7 @@ class DialogRoot(DialogBaseComponent):
     on_open_change_complete: Annotated[EventHandler, passthrough_event_spec(bool)]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "dialog"
         return super().create(*children, **props)
 
@@ -70,7 +70,7 @@ class DialogTrigger(DialogBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "dialog-trigger"
         cls.set_class_name(ClassNames.TRIGGER, props)
         return super().create(*children, **props)
@@ -83,7 +83,7 @@ class DialogPortal(DialogBaseComponent):
     keep_mounted: Var[bool]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "dialog-portal"
         return super().create(*children, **props)
 
@@ -95,7 +95,7 @@ class DialogBackdrop(DialogBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "dialog-overlay"
         cls.set_class_name(ClassNames.BACKDROP, props)
         return super().create(*children, **props)
@@ -109,7 +109,7 @@ class DialogPopup(DialogBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "dialog-content"
         cls.set_class_name(ClassNames.POPUP, props)
         return super().create(*children, **props)
@@ -121,7 +121,7 @@ class DialogTitle(DialogBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "dialog-title"
         cls.set_class_name(ClassNames.TITLE, props)
         return super().create(*children, **props)
@@ -133,7 +133,7 @@ class DialogDescription(DialogBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "dialog-description"
         cls.set_class_name(ClassNames.DESCRIPTION, props)
         return super().create(*children, **props)
@@ -146,7 +146,7 @@ class DialogClose(DialogBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "dialog-close"
         cls.set_class_name(ClassNames.CLOSE, props)
         return super().create(*children, **props)
@@ -154,7 +154,7 @@ class DialogClose(DialogBaseComponent):
 
 class DialogHeader(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "dialog-header"
         cls.set_class_name(ClassNames.HEADER, props)
         return super().create(*children, **props)
@@ -162,7 +162,7 @@ class DialogHeader(CoreComponent, Div):
 
 class DialogFooter(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "dialog-footer"
         cls.set_class_name(ClassNames.FOOTER, props)
         return super().create(*children, **props)

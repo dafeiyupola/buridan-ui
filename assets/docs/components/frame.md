@@ -19,7 +19,7 @@ buridan add frame
 ### Manual Installation
 
 ```python
-from typing import Literal
+from typing import Any, Literal
 
 import reflex as rx
 from reflex.components.component import ComponentNamespace
@@ -59,13 +59,13 @@ SPACING_CLASSES: dict[str, str] = {
 
 
 def frame_root(
-    *children,
+    *children: Any,
     variant: LiteralVariant = "default",
     spacing: LiteralSpacing = "default",
     stacked: bool = False,
     dense: bool = False,
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
     stacked_class = (
         "gap-0 *:has-[+[data-slot=frame-panel]]:rounded-b-none *:[[data-slot=frame-panel]+[data-slot=frame-panel]]:rounded-t-none *:[[data-slot=frame-panel]+[data-slot=frame-panel]]:border-t-0"
@@ -95,7 +95,7 @@ def frame_root(
     )
 
 
-def frame_panel(*children, class_name: str = "", **props) -> rx.Component:
+def frame_panel(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
     return rx.el.div(
         *children,
         class_name=cn(ClassNames.PANEL, class_name),
@@ -104,7 +104,7 @@ def frame_panel(*children, class_name: str = "", **props) -> rx.Component:
     )
 
 
-def frame_header(*children, class_name: str = "", **props) -> rx.Component:
+def frame_header(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
     return rx.el.header(
         *children,
         class_name=cn(ClassNames.HEADER, class_name),
@@ -113,7 +113,7 @@ def frame_header(*children, class_name: str = "", **props) -> rx.Component:
     )
 
 
-def frame_title(*children, class_name: str = "", **props) -> rx.Component:
+def frame_title(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
     return rx.el.div(
         *children,
         class_name=cn(ClassNames.TITLE, class_name),
@@ -122,7 +122,11 @@ def frame_title(*children, class_name: str = "", **props) -> rx.Component:
     )
 
 
-def frame_description(*children, class_name: str = "", **props) -> rx.Component:
+def frame_description(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
     return rx.el.div(
         *children,
         class_name=cn(ClassNames.DESCRIPTION, class_name),
@@ -131,7 +135,7 @@ def frame_description(*children, class_name: str = "", **props) -> rx.Component:
     )
 
 
-def frame_footer(*children, class_name: str = "", **props) -> rx.Component:
+def frame_footer(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
     return rx.el.footer(
         *children,
         class_name=cn(ClassNames.FOOTER, class_name),

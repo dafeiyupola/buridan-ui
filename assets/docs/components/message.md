@@ -23,7 +23,7 @@ buridan add message
 ### Manual Installation
 
 ```python
-from typing import Literal
+from typing import Any, Literal
 
 import reflex as rx
 from reflex.components.component import ComponentNamespace
@@ -66,7 +66,7 @@ class ClassNames:
     )
 
 
-def message_group(*children, class_name: str = "", **props) -> rx.Component:
+def message_group(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
     ##
 
     return rx.el.div(
@@ -78,10 +78,10 @@ def message_group(*children, class_name: str = "", **props) -> rx.Component:
 
 
 def message_root(
-    *children,
+    *children: Any,
     align: MessageAlign = "start",
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
     ##
 
@@ -94,7 +94,7 @@ def message_root(
     )
 
 
-def message_avatar(*children, class_name: str = "", **props) -> rx.Component:
+def message_avatar(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
     ##
 
     return rx.el.div(
@@ -105,7 +105,7 @@ def message_avatar(*children, class_name: str = "", **props) -> rx.Component:
     )
 
 
-def message_content(*children, class_name: str = "", **props) -> rx.Component:
+def message_content(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
     ##
 
     return rx.el.div(
@@ -116,7 +116,7 @@ def message_content(*children, class_name: str = "", **props) -> rx.Component:
     )
 
 
-def message_header(*children, class_name: str = "", **props) -> rx.Component:
+def message_header(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
     ##
 
     return rx.el.div(
@@ -127,7 +127,7 @@ def message_header(*children, class_name: str = "", **props) -> rx.Component:
     )
 
 
-def message_footer(*children, class_name: str = "", **props) -> rx.Component:
+def message_footer(*children: Any, class_name: str = "", **props: Any) -> rx.Component:
     ##
 
     return rx.el.div(

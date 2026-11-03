@@ -70,6 +70,7 @@ def dynamic_load_components(dirs: list[str]) -> Registry:
 
 MIN_TABLE_LINES = 2
 MIN_SEPARATOR_WIDTH = 3
+FRONTMATTER_SPLIT_PARTS = 2
 
 
 def align_markdown_tables(content: str) -> str:
@@ -325,7 +326,7 @@ def convert_to_pure_markdown(content: str, registry: Registry) -> str:
     # Remove frontmatter if present (consistent with generator.py)
     if content.startswith("---"):
         parts = content.split("---", 2)
-        if len(parts) > 2:
+        if len(parts) > FRONTMATTER_SPLIT_PARTS:
             content = parts[2]
 
     def replacer(m: re.Match[str]) -> str:

@@ -3,7 +3,7 @@
 """Regression tests for the ``table`` component's ``striped`` handling.
 
 ``striped`` is a declared keyword parameter of only the high-level ``table(...)``
-builder (``HighLevelTable.create``). The low-level ``table.root(...)`` builder
+builder (``high_level_table``). The low-level ``table.root(...)`` builder
 (``TableRoot.create``) does not declare it, so passing ``striped=True`` there
 leaks the kwarg onto the component ``style`` dict (rendered as an inert Emotion
 ``css`` rule that browsers discard) and no zebra striping is applied.
@@ -41,6 +41,10 @@ def test_high_level_table_default_has_no_striping() -> None:
     assert "even:bg-secondary/30" not in str(
         table(data=[{"a": str(i)} for i in range(4)]).render(),
     )
+
+
+def test_high_level_table_returns_table_root_instance() -> None:
+    assert isinstance(table(data=[{"a": "1"}]), TableRoot)
 
 
 def test_passing_striped_to_table_root_leaks_into_style() -> None:

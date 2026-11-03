@@ -17,7 +17,7 @@ buridan add input_group
 ### Manual Installation
 
 ```python
-from typing import Literal, Self, cast
+from typing import Any, Literal, Self, cast
 
 from reflex.components.component import ComponentNamespace
 from reflex_components_core.el import (
@@ -90,7 +90,7 @@ class ClassNames:
 
 class InputGroupRoot(CoreComponent, ElDiv):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["role"] = "group"
         props["data_slot"] = "input-group"
 
@@ -100,7 +100,7 @@ class InputGroupRoot(CoreComponent, ElDiv):
 
 class InputGroupAddon(CoreComponent, ElDiv):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["role"] = "group"
         props["data_slot"] = "input-group-addon"
 
@@ -145,50 +145,55 @@ class InputGroupAddon(CoreComponent, ElDiv):
 
 class InputGroupText(CoreComponent, ElSpan):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         cls.set_class_name(ClassNames.TEXT, props)
         return super().create(*children, **props)
 
 
 class InputGroupButton(CoreComponent):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props.setdefault("type", "button")
         props.setdefault("variant", "ghost")
 
         size = props.pop("size", "xs")
         props["data_size"] = size
 
-        props["class_name"] = cn(
+        unstyled = props.get("unstyled")
+        wrapper_defaults = cn(
             "flex items-center gap-2 text-sm shadow-none",
             ClassNames.get_button_size(size),
-            props.get("class_name", ""),
         )
+        cls.set_class_name(wrapper_defaults, props)
+        if unstyled is not None:
+            props["unstyled"] = unstyled
 
         return cast("Self", button(*children, **props))
 
 
 class InputGroupInput(CoreComponent):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props.setdefault("type", "text")
         props["data_slot"] = "input-group-control"
-        props["class_name"] = cn(
-            ClassNames.CONTROL_INPUT,
-            props.get("class_name", ""),
-        )
+
+        unstyled = props.get("unstyled")
+        cls.set_class_name(ClassNames.CONTROL_INPUT, props)
+        if unstyled is not None:
+            props["unstyled"] = unstyled
 
         return cast("Self", input(*children, **props))
 
 
 class InputGroupTextarea(CoreComponent):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data_slot"] = "input-group-control"
-        props["class_name"] = cn(
-            ClassNames.CONTROL_TEXTAREA,
-            props.get("class_name", ""),
-        )
+
+        unstyled = props.get("unstyled")
+        cls.set_class_name(ClassNames.CONTROL_TEXTAREA, props)
+        if unstyled is not None:
+            props["unstyled"] = unstyled
 
         return cast("Self", textarea(*children, **props))
 

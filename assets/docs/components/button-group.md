@@ -17,7 +17,7 @@ buridan add button_group
 ### Manual Installation
 
 ```python
-from typing import Literal, Self
+from typing import Any, Literal, Self
 
 from reflex.components.component import ComponentNamespace
 from reflex.vars.base import Var
@@ -40,7 +40,7 @@ class ButtonGroupRoot(CoreComponent, Div):
     orientation: Var[Literal["horizontal", "vertical"]]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "button-group"
         orientation = props.get("orientation", "horizontal")
 
@@ -61,7 +61,7 @@ class ButtonGroupRoot(CoreComponent, Div):
 
 class ButtonGroupText(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "button-group-text"
         cls.set_class_name(ClassNames.TEXT, props)
         return super().create(*children, **props)
@@ -69,7 +69,7 @@ class ButtonGroupText(CoreComponent, Div):
 
 class ButtonGroupSeparator(SeparatorComponent):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "button-group-separator"
 
         if "orientation" not in props:

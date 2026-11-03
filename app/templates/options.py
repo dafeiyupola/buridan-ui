@@ -87,7 +87,7 @@ def style_icon() -> rx.Component:
     )
 
 
-def component_panel(desktop: bool = True) -> rx.Component:
+def component_panel(*, desktop: bool = True) -> rx.Component:
     return select.root(
         select.trigger(
             rx.el.div(
@@ -191,7 +191,7 @@ def component_panel(desktop: bool = True) -> rx.Component:
     )
 
 
-def menu_panel(desktop: bool = True) -> rx.Component:
+def menu_panel(*, desktop: bool = True) -> rx.Component:
     return select.root(
         select.trigger(
             rx.el.p("Menu", class_name="text-primary"),
@@ -236,7 +236,7 @@ def menu_panel(desktop: bool = True) -> rx.Component:
     )
 
 
-def style_panel(desktop: bool = True) -> rx.Component:
+def style_panel(*, desktop: bool = True) -> rx.Component:
     return select.root(
         select.trigger(
             rx.el.div(
@@ -286,7 +286,7 @@ def style_panel(desktop: bool = True) -> rx.Component:
     )
 
 
-def font_panel(desktop: bool = True) -> rx.Component:
+def font_panel(*, desktop: bool = True) -> rx.Component:
     categories = {"sans": "Sans Serif", "serif": "Serif", "mono": "Monospace"}
 
     return select.root(
@@ -344,7 +344,7 @@ def font_panel(desktop: bool = True) -> rx.Component:
     )
 
 
-def base_color_panel(desktop: bool = True) -> rx.Component:
+def base_color_panel(*, desktop: bool = True) -> rx.Component:
     rows = [BASE_THEMES[i : i + 3] for i in range(0, len(BASE_THEMES), 3)]
 
     return select.root(
@@ -404,7 +404,7 @@ def base_color_panel(desktop: bool = True) -> rx.Component:
     )
 
 
-def theme_panel(desktop: bool = True) -> rx.Component:
+def theme_panel(*, desktop: bool = True) -> rx.Component:
     # rows = [COLOR_THEMES[i : i + 3] for i in range(0, len(COLOR_THEMES), 3)]
 
     sorted_themes = sorted(COLOR_THEMES, key=lambda x: x["label"])
@@ -495,7 +495,7 @@ def theme_panel(desktop: bool = True) -> rx.Component:
     )
 
 
-def chart_color_panel(desktop: bool = True) -> rx.Component:
+def chart_color_panel(*, desktop: bool = True) -> rx.Component:
     # rows = [COLOR_THEMES[i : i + 3] for i in range(0, len(COLOR_THEMES), 3)]
 
     sorted_themes = sorted(COLOR_THEMES, key=lambda x: x["label"])
@@ -586,7 +586,7 @@ def chart_color_panel(desktop: bool = True) -> rx.Component:
     )
 
 
-def radius_panel(desktop: bool = True) -> rx.Component:
+def radius_panel(*, desktop: bool = True) -> rx.Component:
     return select.root(
         select.trigger(
             rx.el.div(

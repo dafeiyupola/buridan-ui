@@ -123,7 +123,7 @@ def test_generated_javascript_codecs_match_cli_and_cover_shuffle() -> None:
     if not node:
         pytest.skip("Node.js is required to execute the generated seed codecs")
 
-    generated_browser_js = cast(
+    generated_browser_js = cast(  # noqa: SLF001
         "Any",
         seed_engine().children[0].children[0],
     ).contents._var_value
@@ -186,7 +186,7 @@ console.log(JSON.stringify({cases, maximumSeed}));
         + "\n"
         + js_checks
     )
-    result = subprocess.run(
+    result = subprocess.run(  # noqa: S603 - node path and js payload are both test-owned
         [node, "-e", js],
         check=True,
         capture_output=True,

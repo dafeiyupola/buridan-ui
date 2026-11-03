@@ -40,6 +40,7 @@ dev = [
   "reflex-hosting-cli>=0.1.67",
   "pillow>=12.2.0",
   "PyYAML>=6.0.3",
+  "types-PyYAML>=6.0.3",
   "questionary>=2.1.1",
   "pytest>=9.1.1",
   "gtm-linear>=0.2.1",

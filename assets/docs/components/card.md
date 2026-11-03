@@ -17,7 +17,7 @@ buridan add card
 ### Manual Installation
 
 ```python
-from typing import Self
+from typing import Any, Self
 
 from reflex.components.component import ComponentNamespace
 from reflex.vars.base import Var
@@ -51,7 +51,7 @@ class CardRoot(CoreComponent, Div):
     size: Var[str]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "card"
         if "size" in props:
             props["data-size"] = props.pop("size")
@@ -61,7 +61,7 @@ class CardRoot(CoreComponent, Div):
 
 class CardHeader(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "card-header"
         cls.set_class_name(ClassNames.HEADER, props)
         return super().create(*children, **props)
@@ -69,7 +69,7 @@ class CardHeader(CoreComponent, Div):
 
 class CardTitle(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "card-title"
         cls.set_class_name(ClassNames.TITLE, props)
         return super().create(*children, **props)
@@ -77,7 +77,7 @@ class CardTitle(CoreComponent, Div):
 
 class CardDescription(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "card-description"
         cls.set_class_name(ClassNames.DESCRIPTION, props)
         return super().create(*children, **props)
@@ -85,7 +85,7 @@ class CardDescription(CoreComponent, Div):
 
 class CardAction(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "card-action"
         cls.set_class_name(ClassNames.ACTION, props)
         return super().create(*children, **props)
@@ -93,7 +93,7 @@ class CardAction(CoreComponent, Div):
 
 class CardContent(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "card-content"
         cls.set_class_name(ClassNames.CONTENT, props)
         return super().create(*children, **props)
@@ -101,7 +101,7 @@ class CardContent(CoreComponent, Div):
 
 class CardFooter(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "card-footer"
         cls.set_class_name(ClassNames.FOOTER, props)
         return super().create(*children, **props)

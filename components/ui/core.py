@@ -1,7 +1,7 @@
 from typing import Any, ClassVar, Self
 
 import reflex as rx
-from reflex.components.component import Component
+from reflex.components.component import Component, field
 from reflex.utils.imports import ImportVar
 from reflex.vars import FunctionVar, Var
 from reflex.vars.base import VarData
@@ -68,7 +68,9 @@ class CoreComponent(Component):
 
 
 class BaseUIComponent(CoreComponent):
-    lib_dependencies: list[str] = [f"{PACKAGE_NAME}@{PACKAGE_VERSION}"]
+    lib_dependencies: list[str] = field(
+        default_factory=lambda: [f"{PACKAGE_NAME}@{PACKAGE_VERSION}"],
+    )
 
 
 def cn(*classes: Var | str | tuple | list | None) -> Var:

@@ -229,9 +229,11 @@ def test_unrelated_from_env_error_is_not_misreported() -> None:
 def test_main_maps_linear_api_error_to_clean_stderr_and_exit_1(
     capsys: pytest.CaptureFixture[str],
 ) -> None:
-    with mock.patch.object(linear_cli, "app", side_effect=LinearAPIError("boom")):
-        with pytest.raises(SystemExit) as excinfo:
-            linear_cli.main()
+    with (
+        mock.patch.object(linear_cli, "app", side_effect=LinearAPIError("boom")),
+        pytest.raises(SystemExit) as excinfo,
+    ):
+        linear_cli.main()
 
     assert excinfo.value.code == 1
     stderr = capsys.readouterr().err
