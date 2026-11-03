@@ -378,7 +378,10 @@ merge:
   # -- the queue waits on the upload itself, not the check -- but a red
   # RWX: trunk-impacted-targets status means no
   # upload landed and queued PRs stall at Not Ready even with every required
-  # status green.
+  # status green. The upload task is author-gated: non-owner PRs (forks,
+  # Dependabot, same-repo bots) skip it and post a green status without
+  # uploading -- same stall, recovered by folding the change into an
+  # owner-authored PR.
   required_statuses:
     - "RWX: trunk-check"
     - "RWX: tests"
