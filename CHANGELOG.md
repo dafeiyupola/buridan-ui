@@ -1,3 +1,5 @@
+# Changelog
+
 ## Unreleased
 
 - `chart_tooltip`'s `is_animation_active`, `separator`, `cursor`, `item_style`, `label_style`, and `content_style` parameters, and `high_level_table`'s (`table(...)`) `striped` parameter, are now keyword-only. Code that passed any of these positionally will raise `TypeError`; pass them by keyword instead (e.g. `chart_tooltip(is_animation_active=True)`, `table(data=..., striped=True)`).
