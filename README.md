@@ -1,6 +1,6 @@
-> **NOTE** Repo is currently unmaintained (July 16, 2026). New library here: https://github.com/LineIndent/native
-
 # buridan/ui
+
+> **NOTE** Repo is currently unmaintained (July 16, 2026). New library here: https://github.com/LineIndent/native
 
 Composable, themeable components designed for Reflex. Extend, override, and ship without fighting the framework. Open source.
 
