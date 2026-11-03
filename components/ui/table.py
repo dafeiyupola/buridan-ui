@@ -96,6 +96,7 @@ class TableCaption(CoreComponent, Caption):
 def high_level_table(
     data: Var[list[dict[str, Any]]] | list[dict[str, Any]],
     columns: list[dict[str, Any]] | None = None,
+    *,
     striped: bool = False,
     **props: Any,
 ) -> TableRoot:

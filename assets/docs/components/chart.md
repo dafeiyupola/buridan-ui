@@ -41,7 +41,7 @@ buridan add chart_tooltip
 ### Manual Installation
 
 ```python
-from typing import Literal
+from typing import Any, Literal
 
 import reflex as rx
 
@@ -63,6 +63,7 @@ class _ChartTooltip:
     def __call__(
         self,
         label: Display = "show",
+        *,
         is_animation_active: bool = False,
         separator: str = "",
         cursor: bool = False,
@@ -70,7 +71,7 @@ class _ChartTooltip:
         label_style: dict | None = None,
         content_style: dict | None = None,
     ) -> rx.Component:
-        defaults = {
+        defaults: dict[str, Any] = {
             "is_animation_active": is_animation_active,
             "separator": separator,
             "cursor": cursor,
