@@ -183,3 +183,12 @@ class TableNamespace(ComponentNamespace):
 
 
 table = TableNamespace()
+
+
+class HighLevelTable:
+    """Deprecated: use `high_level_table` or the `table(...)` namespace call.
+
+    Kept for any out-of-tree code calling `HighLevelTable.create(...)`.
+    """
+
+    create = staticmethod(high_level_table)

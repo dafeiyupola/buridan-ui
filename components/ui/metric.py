@@ -71,3 +71,12 @@ class MetricNamespace(ComponentNamespace):
 
 
 metric = MetricNamespace()
+
+
+class HighLevelMetric:
+    """Deprecated: use `high_level_metric` or the `metric(...)` namespace call.
+
+    Kept for any out-of-tree code calling `HighLevelMetric.create(...)`.
+    """
+
+    create = staticmethod(high_level_metric)
