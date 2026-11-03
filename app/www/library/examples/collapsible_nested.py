@@ -5,7 +5,7 @@ from components.ui.button import button
 from components.ui.collapsible import collapsible
 
 
-def file_item(name: str, root_level: bool = False) -> rx.Component:
+def file_item(name: str, *, root_level: bool = False) -> rx.Component:
     padding_class = "pl-2" if root_level else "pl-9"
 
     return rx.el.div(

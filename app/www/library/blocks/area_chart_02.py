@@ -48,7 +48,7 @@ def _area(data_key: str, color: str) -> rx.Component:
     )
 
 
-def _chart(show_y_axis: bool, start_end_only: bool = False) -> rx.Component:
+def _chart(*, show_y_axis: bool, start_end_only: bool = False) -> rx.Component:
     return rx.recharts.area_chart(
         rx.el.svg.defs(
             _gradient("Organic", "chart-1"),

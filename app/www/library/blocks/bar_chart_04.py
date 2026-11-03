@@ -31,7 +31,7 @@ data = [
 ]
 
 
-def _chart(show_y_axis: bool) -> rx.Component:
+def _chart(*, show_y_axis: bool) -> rx.Component:
     return rx.recharts.bar_chart(
         chart_tooltip(),
         rx.recharts.cartesian_grid(
