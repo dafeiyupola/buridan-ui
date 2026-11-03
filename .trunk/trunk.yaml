@@ -228,6 +228,7 @@ lint:
         - "**/*.openapi.json"
         - "**/*.openapi.yaml"
         - "**/*.openapi.yml"
+
     # Entire-managed file; its single plain-text line has no H1 (MD041).
     - linters: [markdownlint-cli2]
       paths:
