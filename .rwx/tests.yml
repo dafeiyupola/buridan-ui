@@ -5,6 +5,8 @@
 on:
   github:
     pull_request:
+      # Matches GHA's prior `pull_request: branches: [main]` scope.
+      if: ${{ event.github.pull_request.pull_request.base.ref == 'main' }}
       init:
         commit-sha: ${{ event.git.sha }}
       status-checks:
