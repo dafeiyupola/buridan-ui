@@ -50,7 +50,7 @@ def _area(data_key: str, color: str) -> rx.Component:
     )
 
 
-def _chart(show_y_axis: bool) -> rx.Component:
+def _chart(*, show_y_axis: bool) -> rx.Component:
     return rx.recharts.area_chart(
         rx.el.svg.defs(
             _gradient("Actual_costs", "chart-1"),
