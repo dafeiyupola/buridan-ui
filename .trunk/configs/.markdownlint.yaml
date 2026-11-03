@@ -13,7 +13,7 @@ MD060: false
 # Docs pages carry a frontmatter `title:` and also open with an H1.
 MD025:
   front_matter_title: ""
-# CHANGELOG/LICENSE/README/agent files intentionally don't open with an H1.
+# .entire/graph-agent.md (managed, out of scope here) doesn't open with an H1.
 MD041: false
 # Same heading text under different parents (per-component docs) is fine.
 MD024:
