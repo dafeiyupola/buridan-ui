@@ -186,10 +186,14 @@ class TableNamespace(ComponentNamespace):
 table = TableNamespace()
 
 
-class HighLevelTable:
+class HighLevelTable(TableRoot):
     """Deprecated: use `high_level_table` or the `table(...)` namespace call.
 
-    Kept for any out-of-tree code calling `HighLevelTable.create(...)`.
+    Kept as a `TableRoot` subclass so `isinstance`/`issubclass` checks on
+    out-of-tree code still hold; `.create(...)` delegates to the new
+    module-level factory.
     """
 
-    create = staticmethod(high_level_table)
+    @classmethod
+    def create(cls, *args: Any, **kwargs: Any) -> TableRoot:
+        return high_level_table(*args, **kwargs)

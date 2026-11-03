@@ -73,10 +73,14 @@ class MetricNamespace(ComponentNamespace):
 metric = MetricNamespace()
 
 
-class HighLevelMetric:
+class HighLevelMetric(MetricRoot):
     """Deprecated: use `high_level_metric` or the `metric(...)` namespace call.
 
-    Kept for any out-of-tree code calling `HighLevelMetric.create(...)`.
+    Kept as a `MetricRoot` subclass so `isinstance`/`issubclass` checks on
+    out-of-tree code still hold; `.create(...)` delegates to the new
+    module-level factory.
     """
 
-    create = staticmethod(high_level_metric)
+    @classmethod
+    def create(cls, *args: Any, **kwargs: Any) -> MetricRoot:
+        return high_level_metric(*args, **kwargs)
