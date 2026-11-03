@@ -33,7 +33,6 @@ tasks:
   # Checksum-pinned uv installer: fails closed if the script at the versioned
   # URL ever changes. No packaged uv/install leaf exists in the RWX catalog.
   - key: uv-install
-    use: [code]
     run: |
       set -euo pipefail
       script="$(mktemp)"
@@ -43,9 +42,16 @@ tasks:
       sh "${script}"
       echo "$HOME/.local/bin" >> "$RWX_ENV/PATH"
 
+  # Filtered to the lockfile inputs so this stays cached across ordinary
+  # commits. --no-install-project: sources are outside the filter; `uv run`
+  # installs the project itself.
   - key: deps
-    use: [uv-install]
-    run: uv sync --frozen --group dev
+    use: [uv-install, code]
+    filter:
+      - pyproject.toml
+      - uv.lock
+      - .python-version
+    run: uv sync --frozen --no-install-project --group dev
 
   # Checksum-pinned node: GHA runners ship it, the rwx/base image may not, and
   # five test files (seed_codec, heatmap, url_sync_popstate, autocomplete,
@@ -53,7 +59,6 @@ tasks:
   # the status would go green while covering less than the GHA check it
   # replaces. Fails closed if the tarball at the versioned URL ever changes.
   - key: node-install
-    use: [code]
     run: |
       set -euo pipefail
       curl -fsSLO https://nodejs.org/dist/v22.23.4/node-v22.23.4-linux-x64.tar.gz
@@ -63,5 +68,5 @@ tasks:
       echo "$HOME/.local/lib/nodejs/bin" >> "$RWX_ENV/PATH"
 
   - key: pytest
-    use: [deps, node-install]
+    use: [deps, node-install, code]
     run: uv run pytest -q

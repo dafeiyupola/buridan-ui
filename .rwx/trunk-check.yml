@@ -36,7 +36,6 @@ tasks:
 
   # Checksum-pinned uv installer: fails closed if the script changes.
   - key: uv-install
-    use: [code]
     run: |
       set -euo pipefail
       script="$(mktemp)"
@@ -48,9 +47,16 @@ tasks:
 
   # pyright and pyrefly resolve against .venv (see the pyright override in
   # .trunk/trunk.yaml), so the lint gate needs the project synced.
+  # Filtered to the lockfile inputs so this stays cached across ordinary
+  # commits. --no-install-project: sources are outside the filter; `uv run`
+  # installs the project itself.
   - key: deps
-    use: [uv-install]
-    run: uv sync --frozen --group dev
+    use: [uv-install, code]
+    filter:
+      - pyproject.toml
+      - uv.lock
+      - .python-version
+    run: uv sync --frozen --no-install-project --group dev
 
   # Trunk launcher, checksum-pinned: trunk.io/releases/trunk is latest-only,
   # so any upstream change fails closed. Re-pin deliberately on mismatch.
@@ -102,7 +108,7 @@ tasks:
       trunk install --ci < /dev/null
 
   - key: lint
-    use: [deps, trunk-tools]
+    use: [deps, trunk-tools, code]
     env:
       EVENT_TYPE: ${{ init.event-type }}
     run: |
