@@ -23,6 +23,7 @@ def test_components_and_charts_preserve_generated_order(
             {"title": "Area Chart", "order": 1},
         ],
     }
+
     def fake_generate_doc_routes(
         section: str,
         _base_path: str,
@@ -57,6 +58,7 @@ def test_resources_and_utilities_remain_sorted_by_title(
         "components": [],
         "charts": [],
     }
+
     def fake_generate_doc_routes(
         section: str,
         _base_path: str,
