@@ -28,7 +28,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
 
-def get_all_dependencies(name: str, registry: dict) -> list[str]:
+def get_all_dependencies(name: str, registry: dict[str, Any]) -> list[str]:
     """Recursively get all dependencies for a component in correct order."""
     deps = []
 

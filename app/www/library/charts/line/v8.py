@@ -15,6 +15,15 @@ data = [
 
 def linechart_v8() -> rx.Component:
 
+    def legend_item(device: str, index: int) -> rx.Component:
+        return rx.el.div(
+            rx.el.div(
+                class_name=f"w-3 h-3 rounded-sm bg-chart-{index + 1}",
+            ),
+            rx.el.p(device, class_name="text-sm text-foreground"),
+            class_name="flex flex-row items-center gap-x-2",
+        )
+
     return card.root(
         card.header(
             rx.hstack(
@@ -69,13 +78,7 @@ def linechart_v8() -> rx.Component:
             rx.el.div(
                 rx.foreach(
                     ["Desktop", "Mobile"],
-                    lambda device, index: rx.el.div(
-                        rx.el.div(
-                            class_name=f"w-3 h-3 rounded-sm bg-chart-{index + 1}",
-                        ),
-                        rx.el.p(device, class_name="text-sm text-foreground"),
-                        class_name="flex flex-row items-center gap-x-2",
-                    ),
+                    legend_item,
                 ),
                 class_name="py-4 px-4 flex w-full flex justify-center gap-8",
             ),

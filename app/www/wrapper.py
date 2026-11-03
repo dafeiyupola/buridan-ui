@@ -1,7 +1,7 @@
 import json
 import random
 import string
-from typing import Literal
+from typing import Any, Literal
 
 import reflex as rx
 
@@ -439,7 +439,7 @@ def tooltip_label(label: str, color: str, swatch: Swatch) -> rx.Component:
 
 def tooltip_wrapper_demo(
     label: str | None,
-    items: list[dict],
+    items: list[dict[str, Any]],
     swatch: Swatch = "square",
 ) -> rx.Component:
     children = []

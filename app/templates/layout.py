@@ -28,7 +28,7 @@ banner = rx.el.div(
 def layout_decorator(
     title: str,
     description: str,
-    ctas: list | None = None,
+    ctas: list[rx.Component] | None = None,
 ) -> Callable[[Callable[..., rx.Component]], Callable[..., rx.Component]]:
     """Decorator to wrap a page function with a sticky navbar,
     a landing header, and page-specific content.

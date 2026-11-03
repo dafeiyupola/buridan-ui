@@ -49,7 +49,7 @@ Display = Literal["show", "hide"]
 Swatch = Literal["square", "line", "border"]
 
 
-def _deep_merge(base: dict, override: dict) -> dict:
+def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     result = base.copy()
     for key, value in override.items():
         if isinstance(result.get(key), dict) and isinstance(value, dict):
@@ -67,9 +67,9 @@ class _ChartTooltip:
         is_animation_active: bool = False,
         separator: str = "",
         cursor: bool = False,
-        item_style: dict | None = None,
-        label_style: dict | None = None,
-        content_style: dict | None = None,
+        item_style: dict[str, Any] | None = None,
+        label_style: dict[str, Any] | None = None,
+        content_style: dict[str, Any] | None = None,
     ) -> rx.Component:
         defaults: dict[str, Any] = {
             "is_animation_active": is_animation_active,
@@ -428,6 +428,13 @@ rx.el.div(
 ```python
 def chart_example_with_custom_legends() -> rx.Component:
 
+    def legend_item(device: str, index: int) -> rx.Component:
+        return rx.el.div(
+            rx.el.div(class_name=f"h-3 w-3 rounded-sm bg-chart-{index + 1}"),
+            rx.el.p(device, class_name="text-xs text-foreground"),
+            class_name="flex flex-row items-center gap-x-2",
+        )
+
     return rx.el.div(
         rx.recharts.bar_chart(
             rx.recharts.cartesian_grid(
@@ -468,11 +475,7 @@ def chart_example_with_custom_legends() -> rx.Component:
         rx.el.div(
             rx.foreach(
                 ["Desktop", "Mobile"],
-                lambda device, index: rx.el.div(
-                    rx.el.div(class_name=f"h-3 w-3 rounded-sm bg-chart-{index + 1}"),
-                    rx.el.p(device, class_name="text-xs text-foreground"),
-                    class_name="flex flex-row items-center gap-x-2",
-                ),
+                legend_item,
             ),
             class_name="flex items-center gap-4 justify-center",
         ),
