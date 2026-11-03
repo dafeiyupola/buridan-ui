@@ -27,14 +27,14 @@ from scripts import generate_search_index  # noqa: E402
 
 def test_options_panel_rejects_positional_desktop_and_accepts_keyword() -> None:
     with pytest.raises(TypeError):
-        component_panel(False)  # noqa: FBT003
+        component_panel(False)  # noqa: FBT003  # pyright: ignore[reportCallIssue]  # pyrefly: ignore[bad-argument-count]  # ty: ignore[too-many-positional-arguments]
     component_panel(desktop=False)
     menu_panel()
 
 
 def test_chart_tooltip_rejects_positional_bool_and_accepts_keyword() -> None:
     with pytest.raises(TypeError):
-        chart_tooltip("show", True)  # noqa: FBT003
+        chart_tooltip("show", True)  # noqa: FBT003  # pyright: ignore[reportCallIssue]  # pyrefly: ignore[bad-argument-count]  # ty: ignore[too-many-positional-arguments]
     chart_tooltip("show", is_animation_active=True)
     app_chart_tooltip("hide")
 
@@ -42,10 +42,10 @@ def test_chart_tooltip_rejects_positional_bool_and_accepts_keyword() -> None:
 def test_high_level_table_rejects_positional_striped_and_accepts_keyword() -> None:
     data = [{"a": "1"}]
     with pytest.raises(TypeError):
-        high_level_table(data, None, True)  # noqa: FBT003
+        high_level_table(data, None, True)  # noqa: FBT003  # pyright: ignore[reportCallIssue]  # pyrefly: ignore[bad-argument-count]  # ty: ignore[too-many-positional-arguments]
     high_level_table(data, striped=True)
 
 
 def test_generate_search_index_rejects_positional_include_reflex() -> None:
     with pytest.raises(TypeError):
-        generate_search_index.generate_search_index({}, True)  # noqa: FBT003
+        generate_search_index.generate_search_index({}, True)  # noqa: FBT003  # pyright: ignore[reportCallIssue]  # pyrefly: ignore[bad-argument-count]  # ty: ignore[too-many-positional-arguments]
