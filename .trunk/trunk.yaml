@@ -228,6 +228,10 @@ lint:
         - "**/*.openapi.json"
         - "**/*.openapi.yaml"
         - "**/*.openapi.yml"
+    # Entire-managed file; its single plain-text line has no H1 (MD041).
+    - linters: [markdownlint-cli2]
+      paths:
+        - .entire/graph-agent.md
 
     # gha-* rules misfire on RWX task-level env.
     - linters: [checkov]
