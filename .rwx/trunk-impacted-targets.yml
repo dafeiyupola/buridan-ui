@@ -4,8 +4,12 @@
 # "Not Ready" until impacted targets are uploaded for its head commit. This
 # repo is a single deployable unit, so every PR declares impactsAllTargets.
 #
-# Do NOT add path filters or an `if:` here: a PR that skips this never uploads
-# and the queue would hold it forever. Deliberately not a required status.
+# Do NOT add path filters here: a PR that skips this never uploads and the
+# queue would hold it forever. Deliberately not a required status. The one
+# exception is the author gate on `upload`: non-owner PRs (forks, Dependabot,
+# same-repo bots like app/entire and pullfrog[bot]) stay at "Not Ready" by
+# design. Recovery is folding the change into an owner-authored PR: the gate
+# keys on the PR author, which no push to the stalled branch can change.
 #
 # TRUNK_API_KEY lives in its own `buridan-ui-trunk` vault (org-wide Trunk
 # token; never add another secret to it). Grants must include
@@ -17,6 +21,7 @@ on:
     pull_request:
       init:
         commit-sha: ${{ event.git.sha }}
+        pr-author: ${{ event.github.pull_request.pull_request.user.login }}
         pr-number: ${{ event.github.pull_request.pull_request.number }}
         target-branch: ${{ event.github.pull_request.pull_request.base.ref }}
       status-checks:
@@ -28,6 +33,9 @@ base:
 
 tasks:
   - key: upload
+    # Vault grants match repo + ref, never author, and the repo is public: skip
+    # non-owner PR legs so the token never reaches their code.
+    if: ${{ init.pr-author == 'elviskahoro' }}
     cache: false
     env:
       TRUNK_API_KEY:

@@ -52,6 +52,12 @@ on every PR to main (`PUT /v2/impacted-targets` authorized by
 not the check — but a red `RWX: trunk-impacted-targets` status means nothing was
 uploaded, and PRs stall at Not Ready even with every required status green.
 
+The `upload` task is gated by PR author, so non-owner PRs (forks, Dependabot,
+same-repo bots) skip it and post a green status without uploading — same
+stall, all-green board. Recovery is folding the change into an
+owner-authored PR: the gate keys on the PR author, which no push to the
+stalled branch can change.
+
 `pullfrog-approval` (Pullfrog's AI review verdict) is required on the GitHub
 side only (ruleset `main - PR requirements` plus classic branch protection on
 `main`, pinned to the Pullfrog app). It is deliberately not in
