@@ -167,6 +167,7 @@ def reflex_entries(token: str | None) -> list[dict]:
 
 def generate_search_index(
     routes: dict,
+    *,
     include_reflex: bool = True,
     github_token: str | None = None,
 ) -> None:
