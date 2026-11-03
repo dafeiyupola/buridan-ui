@@ -1,4 +1,4 @@
-from typing import Self
+from typing import Any, Self
 
 from reflex.components.component import ComponentNamespace
 from reflex_components_core.el import (
@@ -22,7 +22,7 @@ class ClassNames:
 
 class KbdRoot(CoreComponent, ElKbd):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "kbd"
 
         cls.set_class_name(ClassNames.KBD, props)
@@ -31,7 +31,7 @@ class KbdRoot(CoreComponent, ElKbd):
 
 class KbdGroupContainer(CoreComponent, Div):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "kbd-group"
 
         cls.set_class_name(ClassNames.GROUP, props)

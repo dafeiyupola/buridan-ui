@@ -17,7 +17,7 @@ buridan add checkbox
 ### Manual Installation
 
 ```python
-from typing import Annotated, Self
+from typing import Annotated, Any, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -72,7 +72,7 @@ class CheckboxRoot(CheckboxBaseComponent):
     render_: Component
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "checkbox"
         cls.set_class_name(ClassNames.ROOT, props)
         return super().create(*children, **props)
@@ -82,7 +82,7 @@ class CheckboxIndicator(CheckboxBaseComponent):
     tag = "Checkbox.Indicator"
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         if len(children) == 0:
             children = (hi("Tick02Icon"),)
         props["data-slot"] = "checkbox-indicator"

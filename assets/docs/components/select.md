@@ -100,7 +100,7 @@ class SelectRoot(SelectBaseComponent):
     input_ref: Var[Any]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "select"
         return super().create(*children, **props)
 
@@ -113,7 +113,7 @@ class SelectTrigger(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
 
         props["data-slot"] = "select-trigger"
 
@@ -131,7 +131,7 @@ class SelectValue(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
 
         props["data-slot"] = "select-value"
         cls.set_class_name(ClassNames.VALUE, props)
@@ -178,7 +178,7 @@ class SelectPositioner(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
 
         props["data-slot"] = "select-positioner"
         props.setdefault("side_offset", 4)
@@ -192,7 +192,7 @@ class SelectPopup(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
 
         props["data-slot"] = "select-popup"
         cls.set_class_name(ClassNames.POPUP, props)
@@ -205,7 +205,7 @@ class SelectList(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
 
         props["data-slot"] = "select-list"
         return super().create(*children, **props)
@@ -223,7 +223,7 @@ class SelectItem(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
 
         props["data-slot"] = "select-item"
         cls.set_class_name(ClassNames.ITEM, props)
@@ -236,7 +236,7 @@ class SelectItemText(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
 
         props["data-slot"] = "select-item-text"
         cls.set_class_name(ClassNames.ITEM_TEXT, props)
@@ -249,7 +249,7 @@ class SelectItemIndicator(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "select-item-indicator"
         cls.set_class_name(ClassNames.ITEM_INDICATOR, props)
 
@@ -265,7 +265,7 @@ class SelectGroup(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
 
         props["data-slot"] = "select-group"
         cls.set_class_name(ClassNames.GROUP, props)
@@ -278,7 +278,7 @@ class SelectGroupLabel(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
 
         props["data-slot"] = "select-group-label"
         cls.set_class_name(ClassNames.GROUP_LABEL, props)
@@ -293,7 +293,7 @@ class SelectSeparator(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
 
         props["data-slot"] = "select-separator"
         cls.set_class_name(ClassNames.SEPARATOR, props)
@@ -306,7 +306,7 @@ class SelectIcon(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "select-icon"
         cls.set_class_name(ClassNames.ICON, props)
 
@@ -322,7 +322,7 @@ class SelectArrow(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
 
         props["data-slot"] = "select-arrow"
         cls.set_class_name(ClassNames.ARROW, props)
@@ -337,7 +337,7 @@ class SelectScrollUpArrow(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
 
         props["data-slot"] = "select-scroll-up-arrow"
         cls.set_class_name(ClassNames.SCROLL_ARROW_UP, props)
@@ -355,7 +355,7 @@ class SelectScrollDownArrow(SelectBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
 
         props["data-slot"] = "select-scroll-down-arrow"
         cls.set_class_name(ClassNames.SCROLL_ARROW_DOWN, props)

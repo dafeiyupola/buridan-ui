@@ -17,7 +17,7 @@ buridan add menu
 ### Manual Installation
 
 ```python
-from typing import Annotated, Literal, Self
+from typing import Annotated, Any, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -149,7 +149,7 @@ class MenuRoot(MenuBaseComponent):
     orientation: Var[LiteralMenuOrientation]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu"
         return super().create(*children, **props)
 
@@ -170,7 +170,7 @@ class MenuTrigger(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-trigger"
         cls.set_class_name(ClassNames.TRIGGER, props)
         return super().create(*children, **props)
@@ -184,7 +184,7 @@ class MenuPortal(MenuBaseComponent):
     keep_mounted: Var[bool]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-portal"
         cls.set_class_name(ClassNames.PORTAL, props)
         return super().create(*children, **props)
@@ -218,7 +218,7 @@ class MenuPositioner(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-positioner"
         props.setdefault("side_offset", 4)
         cls.set_class_name(ClassNames.POSITIONER, props)
@@ -233,7 +233,7 @@ class MenuPopup(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-popup"
         cls.set_class_name(ClassNames.POPUP, props)
         return super().create(
@@ -248,7 +248,7 @@ class MenuArrow(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-arrow"
         cls.set_class_name(ClassNames.ARROW, props)
         return super().create(*children, **props)
@@ -272,7 +272,7 @@ class MenuItem(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-item"
         if props.get("inset"):
             props["data-inset"] = props.pop("inset")
@@ -302,7 +302,7 @@ class MenuSubMenuRoot(MenuBaseComponent):
     orientation: Var[LiteralMenuOrientation]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-submenu-root"
         cls.set_class_name(ClassNames.ITEM_TEXT, props)
         return super().create(*children, **props)
@@ -328,7 +328,7 @@ class MenuSubMenuTrigger(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-submenu-trigger"
         if props.get("inset"):
             props["data-inset"] = props.pop("inset")
@@ -348,7 +348,7 @@ class MenuGroup(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-group"
         cls.set_class_name(ClassNames.GROUP, props)
         return super().create(*children, **props)
@@ -362,7 +362,7 @@ class MenuGroupLabel(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-group-label"
         if props.get("inset"):
             props["data-inset"] = props.pop("inset")
@@ -374,7 +374,7 @@ class MenuShortcut(CoreComponent, Span):
     ##
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-shortcut"
         cls.set_class_name(ClassNames.SHORTCUT, props)
         return super().create(*children, **props)
@@ -394,7 +394,7 @@ class MenuRadioGroup(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-radio-group"
         cls.set_class_name(ClassNames.RADIO_GROUP, props)
         return super().create(*children, **props)
@@ -416,7 +416,7 @@ class MenuRadioItem(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-radio-item"
         cls.set_class_name(ClassNames.RADIO_ITEM, props)
         return super().create(*children, **props)
@@ -430,7 +430,7 @@ class MenuRadioItemIndicator(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-radio-item-indicator"
         cls.set_class_name(ClassNames.RADIO_ITEM_INDICATOR, props)
         return super().create(*children, hi("Tick02Icon"), **props)
@@ -456,7 +456,7 @@ class MenuCheckboxItem(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-checkbox-item"
         cls.set_class_name(ClassNames.CHECKBOX_ITEM, props)
         return super().create(*children, **props)
@@ -470,7 +470,7 @@ class MenuCheckboxItemIndicator(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-checkbox-item-indicator"
         cls.set_class_name(ClassNames.CHECKBOX_ITEM_INDICATOR, props)
         return super().create(*children, hi("Tick02Icon"), **props)
@@ -484,7 +484,7 @@ class MenuSeparator(MenuBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data-slot"] = "menu-separator"
         cls.set_class_name(ClassNames.SEPARATOR, props)
         return super().create(*children, **props)

@@ -17,7 +17,7 @@ buridan add input_group
 ### Manual Installation
 
 ```python
-from typing import Literal, Self, cast
+from typing import Any, Literal, Self, cast
 
 from reflex.components.component import ComponentNamespace
 from reflex_components_core.el import (
@@ -90,7 +90,7 @@ class ClassNames:
 
 class InputGroupRoot(CoreComponent, ElDiv):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["role"] = "group"
         props["data_slot"] = "input-group"
 
@@ -100,7 +100,7 @@ class InputGroupRoot(CoreComponent, ElDiv):
 
 class InputGroupAddon(CoreComponent, ElDiv):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["role"] = "group"
         props["data_slot"] = "input-group-addon"
 
@@ -145,14 +145,14 @@ class InputGroupAddon(CoreComponent, ElDiv):
 
 class InputGroupText(CoreComponent, ElSpan):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         cls.set_class_name(ClassNames.TEXT, props)
         return super().create(*children, **props)
 
 
 class InputGroupButton(CoreComponent):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props.setdefault("type", "button")
         props.setdefault("variant", "ghost")
 
@@ -173,7 +173,7 @@ class InputGroupButton(CoreComponent):
 
 class InputGroupInput(CoreComponent):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props.setdefault("type", "text")
         props["data_slot"] = "input-group-control"
 
@@ -187,7 +187,7 @@ class InputGroupInput(CoreComponent):
 
 class InputGroupTextarea(CoreComponent):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         props["data_slot"] = "input-group-control"
 
         unstyled = props.get("unstyled")

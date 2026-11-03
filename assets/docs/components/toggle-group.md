@@ -17,7 +17,7 @@ buridan add toggle_group
 ### Manual Installation
 
 ```python
-from typing import Annotated, Literal, Self
+from typing import Annotated, Any, ClassVar, Literal, Self
 
 from reflex.components.component import Component, ComponentNamespace
 from reflex.event import EventHandler, passthrough_event_spec
@@ -38,7 +38,7 @@ class ClassNames:
         "data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch"
     )
 
-    ITEM_VARIANTS = {
+    ITEM_VARIANTS: ClassVar[dict[str, str]] = {
         "default": "group-data-[variant=default]/toggle-group:bg-transparent",
         "outline": (
             "group-data-[variant=outline]/toggle-group:border "
@@ -48,7 +48,7 @@ class ClassNames:
         ),
     }
 
-    ITEM_SIZES = {
+    ITEM_SIZES: ClassVar[dict[str, str]] = {
         "default": (
             "group-data-[size=default]/toggle-group:h-8 "
             "group-data-[size=default]/toggle-group:min-w-8 "
@@ -116,7 +116,7 @@ class ToggleGroupRoot(ToggleGroupBaseComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         variant = props.pop("variant", "default")
         size = props.pop("size", "default")
         spacing = props.pop("spacing", 2)
@@ -146,7 +146,7 @@ class ToggleGroupItem(BaseUIComponent):
     render_: Var[Component]
 
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         variant = props.pop("variant", None)
         size = props.pop("size", None)
 

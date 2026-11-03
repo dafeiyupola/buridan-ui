@@ -17,7 +17,7 @@ buridan add attachment
 ### Manual Installation
 
 ```python
-from typing import Literal
+from typing import Any, ClassVar, Literal
 
 import reflex as rx
 from reflex.components.component import ComponentNamespace
@@ -42,7 +42,7 @@ class ClassNames:
         "data-[state=idle]:border-dashed"
     )
 
-    SIZES = {
+    SIZES: ClassVar[dict[str, str]] = {
         "default": (
             "gap-2 text-sm "
             "has-data-[slot=attachment-content]:px-2.5 "
@@ -63,7 +63,7 @@ class ClassNames:
         ),
     }
 
-    ORIENTATIONS = {
+    ORIENTATIONS: ClassVar[dict[str, str]] = {
         "horizontal": "min-w-40 items-center",
         "vertical": "w-24 flex-col has-data-[slot=attachment-content]:w-30",
     }
@@ -83,7 +83,7 @@ class ClassNames:
         "group-data-[size=xs]/attachment:[&_svg:not([class*='size-'])]:size-3.5"
     )
 
-    MEDIA_VARIANTS = {
+    MEDIA_VARIANTS: ClassVar[dict[str, str]] = {
         "icon": "",
         "image": (
             "opacity-60 "
@@ -128,12 +128,12 @@ class ClassNames:
 
 
 def attachment_root(
-    *children,
+    *children: Any,
     orientation: AttachmentOrientation = "horizontal",
     size: AttachmentSize = "default",
     state: AttachmentState = "done",
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
 
     return rx.el.div(
@@ -153,10 +153,10 @@ def attachment_root(
 
 
 def attachment_media(
-    *children,
+    *children: Any,
     variant: AttachmentMediaVariant = "icon",
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
 
     return rx.el.div(
@@ -172,7 +172,11 @@ def attachment_media(
     )
 
 
-def attachment_content(*children, class_name: str = "", **props) -> rx.Component:
+def attachment_content(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
 
     return rx.el.div(
         *children,
@@ -182,7 +186,11 @@ def attachment_content(*children, class_name: str = "", **props) -> rx.Component
     )
 
 
-def attachment_title(*children, class_name: str = "", **props) -> rx.Component:
+def attachment_title(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
 
     return rx.el.span(
         *children,
@@ -192,7 +200,11 @@ def attachment_title(*children, class_name: str = "", **props) -> rx.Component:
     )
 
 
-def attachment_description(*children, class_name: str = "", **props) -> rx.Component:
+def attachment_description(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
 
     return rx.el.span(
         *children,
@@ -202,7 +214,11 @@ def attachment_description(*children, class_name: str = "", **props) -> rx.Compo
     )
 
 
-def attachment_actions(*children, class_name: str = "", **props) -> rx.Component:
+def attachment_actions(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
 
     return rx.el.div(
         *children,
@@ -212,7 +228,11 @@ def attachment_actions(*children, class_name: str = "", **props) -> rx.Component
     )
 
 
-def attachment_action(*children, class_name: str = "", **props) -> rx.Component:
+def attachment_action(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
     props.setdefault("variant", "ghost")
 
     props.setdefault("size", "icon-xs")
@@ -226,10 +246,10 @@ def attachment_action(*children, class_name: str = "", **props) -> rx.Component:
 
 
 def attachment_trigger(
-    *children,
+    *children: Any,
     link: bool = False,
     class_name: str = "",
-    **props,
+    **props: Any,
 ) -> rx.Component:
 
     component_fn = rx.el.a if link else rx.el.button
@@ -243,7 +263,11 @@ def attachment_trigger(
     return component_fn(*children, **props)
 
 
-def attachment_group(*children, class_name: str = "", **props) -> rx.Component:
+def attachment_group(
+    *children: Any,
+    class_name: str = "",
+    **props: Any,
+) -> rx.Component:
 
     return rx.el.div(
         *children,

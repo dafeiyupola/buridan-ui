@@ -17,7 +17,7 @@ buridan add badge
 ### Manual Installation
 
 ```python
-from typing import Literal, Self
+from typing import Any, Literal, Self
 
 from reflex.vars.base import Var
 from reflex_components_core.el import Span
@@ -63,7 +63,7 @@ def badge_variants(variant: str = "default") -> Var[str]:
 
 class Badge(CoreComponent, Span):
     @classmethod
-    def create(cls, *children, **props) -> Self:
+    def create(cls, *children: Any, **props: Any) -> Self:
         custom_classes = props.pop("class_name", "")
         variant = props.pop("variant", "default")
         props["data-slot"] = "badge"

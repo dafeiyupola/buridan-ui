@@ -17,6 +17,8 @@ buridan add breadcrumb
 ### Manual Installation
 
 ```python
+from typing import Any
+
 import reflex as rx
 
 from components.icons.hugeicon import hi
@@ -26,7 +28,7 @@ from .core import cn
 
 class Breadcrumb:
     @classmethod
-    def root(cls, *children, **props) -> rx.Component:
+    def root(cls, *children: Any, **props: Any) -> rx.Component:
         custom_classes = props.pop("class_name", "")
 
         props["aria-label"] = "breadcrumb"
@@ -40,7 +42,7 @@ class Breadcrumb:
         )
 
     @classmethod
-    def list(cls, *children, **props) -> rx.Component:
+    def list(cls, *children: Any, **props: Any) -> rx.Component:
         custom_classes = props.pop("class_name", "")
 
         props["data-slot"] = "breadcrumb-list"
@@ -57,7 +59,7 @@ class Breadcrumb:
         )
 
     @classmethod
-    def item(cls, *children, **props) -> rx.Component:
+    def item(cls, *children: Any, **props: Any) -> rx.Component:
         custom_classes = props.pop("class_name", "")
 
         props["data-slot"] = "breadcrumb-item"
@@ -71,7 +73,7 @@ class Breadcrumb:
         )
 
     @classmethod
-    def link(cls, *children, **props) -> rx.Component:
+    def link(cls, *children: Any, **props: Any) -> rx.Component:
         custom_classes = props.pop("class_name", "")
 
         props["data-slot"] = "breadcrumb-link"
@@ -87,7 +89,7 @@ class Breadcrumb:
         )
 
     @classmethod
-    def page(cls, *children, **props) -> rx.Component:
+    def page(cls, *children: Any, **props: Any) -> rx.Component:
         custom_classes = props.pop("class_name", "")
 
         props["data-slot"] = "breadcrumb-page"
@@ -103,7 +105,7 @@ class Breadcrumb:
         )
 
     @classmethod
-    def separator(cls, *children, **props) -> rx.Component:
+    def separator(cls, *children: Any, **props: Any) -> rx.Component:
         custom_classes = props.pop("class_name", "")
 
         props["data-slot"] = "breadcrumb-separator"
@@ -124,7 +126,7 @@ class Breadcrumb:
         )
 
     @classmethod
-    def ellipsis(cls, *children, **props) -> rx.Component:
+    def ellipsis(cls, *children: Any, **props: Any) -> rx.Component:
         custom_classes = props.pop("class_name", "")
 
         props["data-slot"] = "breadcrumb-ellipsis"
