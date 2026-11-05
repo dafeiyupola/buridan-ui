@@ -1,5 +1,6 @@
 from collections.abc import Iterator
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -22,10 +23,17 @@ def test_components_and_charts_preserve_generated_order(
             {"title": "Area Chart", "order": 1},
         ],
     }
+
+    def fake_generate_doc_routes(
+        section: str,
+        _base_path: str,
+    ) -> list[dict[str, Any]]:
+        return generated_routes[section]
+
     monkeypatch.setattr(
         routes,
         "generate_doc_routes",
-        lambda section, _base_path: generated_routes[section],
+        fake_generate_doc_routes,
     )
 
     result = routes.build_all_routes()
@@ -50,10 +58,17 @@ def test_resources_and_utilities_remain_sorted_by_title(
         "components": [],
         "charts": [],
     }
+
+    def fake_generate_doc_routes(
+        section: str,
+        _base_path: str,
+    ) -> list[dict[str, Any]]:
+        return generated_routes[section]
+
     monkeypatch.setattr(
         routes,
         "generate_doc_routes",
-        lambda section, _base_path: generated_routes[section],
+        fake_generate_doc_routes,
     )
 
     result = routes.build_all_routes()

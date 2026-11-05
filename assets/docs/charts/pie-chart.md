@@ -14,6 +14,9 @@ A minimal example showing proportional data distribution in a circular format.
 ```python
 def piechart_v1() -> rx.Component:
 
+    def pie_cell(_index_value: int, index: int) -> rx.Component:
+        return rx.recharts.cell(fill=f"var(--chart-{index + 1})")
+
     return card.root(
         card.header(
             card.title("Pie Chart"),
@@ -24,9 +27,7 @@ def piechart_v1() -> rx.Component:
                 rx.recharts.pie(
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
-                            fill=f"var(--chart-{index + 1})",
-                        ),
+                        pie_cell,
                     ),
                     data=data,
                     data_key="visitors",
@@ -66,6 +67,9 @@ Displays labels that appear dynamically when hovering over chart segments.
 ```python
 def piechart_v2() -> rx.Component:
 
+    def pie_cell(_index_value: int, index: int) -> rx.Component:
+        return rx.recharts.cell(fill=f"var(--chart-{index + 1})")
+
     return card.root(
         card.header(
             card.title("Pie Chart - Hovering Labels"),
@@ -77,9 +81,7 @@ def piechart_v2() -> rx.Component:
                 rx.recharts.pie(
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
-                            fill=f"var(--chart-{index + 1})",
-                        ),
+                        pie_cell,
                     ),
                     data=data,
                     data_key="visitors",
@@ -120,6 +122,9 @@ Shows labels positioned inside each pie segment for compact presentation.
 ```python
 def piechart_v3() -> rx.Component:
 
+    def pie_cell(_index_value: int, index: int) -> rx.Component:
+        return rx.recharts.cell(fill=f"var(--chart-{index + 1})")
+
     return card.root(
         card.header(
             card.title("Pie Chart - Inner Labels"),
@@ -136,9 +141,7 @@ def piechart_v3() -> rx.Component:
                     ),
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
-                            fill=f"var(--chart-{index + 1})",
-                        ),
+                        pie_cell,
                     ),
                     data=data,
                     data_key="visitors",
@@ -178,6 +181,9 @@ Adds a built-in legend for easy segment identification and reference.
 ```python
 def piechart_v4() -> rx.Component:
 
+    def pie_cell(_index_value: int, index: int) -> rx.Component:
+        return rx.recharts.cell(fill=f"var(--chart-{index + 1})")
+
     return card.root(
         card.header(
             card.title("Pie Chart - Legend"),
@@ -188,9 +194,7 @@ def piechart_v4() -> rx.Component:
                 rx.recharts.pie(
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
-                            fill=f"var(--chart-{index + 1})",
-                        ),
+                        pie_cell,
                     ),
                     data=data,
                     data_key="visitors",
@@ -231,6 +235,9 @@ Renders the pie chart with a hollow center for a modern doughnut style.
 ```python
 def piechart_v5() -> rx.Component:
 
+    def pie_cell(_index_value: int, index: int) -> rx.Component:
+        return rx.recharts.cell(fill=f"var(--chart-{index + 1})")
+
     return card.root(
         card.header(
             card.title("Pie Chart - Doughnut"),
@@ -241,9 +248,7 @@ def piechart_v5() -> rx.Component:
                 rx.recharts.pie(
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
-                            fill=f"var(--chart-{index + 1})",
-                        ),
+                        pie_cell,
                     ),
                     data=data,
                     data_key="visitors",
@@ -284,6 +289,9 @@ Demonstrates interactive segment highlighting and selection states.
 ```python
 def piechart_v6() -> rx.Component:
 
+    def pie_cell(_index_value: int, index: int) -> rx.Component:
+        return rx.recharts.cell(fill=f"var(--chart-{index + 1})")
+
     return card.root(
         card.header(
             card.title("Pie Chart - Active"),
@@ -294,9 +302,7 @@ def piechart_v6() -> rx.Component:
                 rx.recharts.pie(
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
-                            fill=f"var(--chart-{index + 1})",
-                        ),
+                        pie_cell,
                     ),
                     data=data,
                     data_key="visitors",

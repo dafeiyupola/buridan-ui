@@ -18,7 +18,7 @@ Display = Literal["show", "hide"]
 Swatch = Literal["square", "line", "border"]
 
 
-def _deep_merge(base: dict, override: dict) -> dict:
+def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     result = base.copy()
     for key, value in override.items():
         if isinstance(result.get(key), dict) and isinstance(value, dict):
@@ -36,9 +36,9 @@ class _ChartTooltip:
         is_animation_active: bool = False,
         separator: str = "",
         cursor: bool = False,
-        item_style: dict | None = None,
-        label_style: dict | None = None,
-        content_style: dict | None = None,
+        item_style: dict[str, Any] | None = None,
+        label_style: dict[str, Any] | None = None,
+        content_style: dict[str, Any] | None = None,
     ) -> rx.Component:
         defaults: dict[str, Any] = {
             "is_animation_active": is_animation_active,
@@ -669,6 +669,15 @@ Show how the chart adapts across different screen sizes and layouts.
 ```python
 def barchart_v9() -> rx.Component:
 
+    def legend_item(device: str, index: int) -> rx.Component:
+        return rx.el.div(
+            rx.el.div(
+                class_name=f"h-3 w-3 rounded-sm bg-chart-{index + 1}",
+            ),
+            rx.el.p(device, class_name="text-xs text-foreground"),
+            class_name="flex flex-row items-center gap-x-2",
+        )
+
     return card.root(
         card.header(
             rx.el.div(
@@ -718,13 +727,7 @@ def barchart_v9() -> rx.Component:
             rx.el.div(
                 rx.foreach(
                     ["Desktop", "Mobile", "Tablet"],
-                    lambda device, index: rx.el.div(
-                        rx.el.div(
-                            class_name=f"h-3 w-3 rounded-sm bg-chart-{index + 1}",
-                        ),
-                        rx.el.p(device, class_name="text-xs text-foreground"),
-                        class_name="flex flex-row items-center gap-x-2",
-                    ),
+                    legend_item,
                 ),
                 class_name="flex items-center gap-4 justify-center",
             ),

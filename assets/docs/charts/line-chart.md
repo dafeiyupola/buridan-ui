@@ -17,7 +17,7 @@ Display = Literal["show", "hide"]
 Swatch = Literal["square", "line", "border"]
 
 
-def _deep_merge(base: dict, override: dict) -> dict:
+def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     result = base.copy()
     for key, value in override.items():
         if isinstance(result.get(key), dict) and isinstance(value, dict):
@@ -35,9 +35,9 @@ class _ChartTooltip:
         is_animation_active: bool = False,
         separator: str = "",
         cursor: bool = False,
-        item_style: dict | None = None,
-        label_style: dict | None = None,
-        content_style: dict | None = None,
+        item_style: dict[str, Any] | None = None,
+        label_style: dict[str, Any] | None = None,
+        content_style: dict[str, Any] | None = None,
     ) -> rx.Component:
         defaults: dict[str, Any] = {
             "is_animation_active": is_animation_active,
@@ -666,6 +666,15 @@ Implements a user-defined legend layout for better presentation control.
 ```python
 def linechart_v8() -> rx.Component:
 
+    def legend_item(device: str, index: int) -> rx.Component:
+        return rx.el.div(
+            rx.el.div(
+                class_name=f"w-3 h-3 rounded-sm bg-chart-{index + 1}",
+            ),
+            rx.el.p(device, class_name="text-sm text-foreground"),
+            class_name="flex flex-row items-center gap-x-2",
+        )
+
     return card.root(
         card.header(
             rx.hstack(
@@ -720,13 +729,7 @@ def linechart_v8() -> rx.Component:
             rx.el.div(
                 rx.foreach(
                     ["Desktop", "Mobile"],
-                    lambda device, index: rx.el.div(
-                        rx.el.div(
-                            class_name=f"w-3 h-3 rounded-sm bg-chart-{index + 1}",
-                        ),
-                        rx.el.p(device, class_name="text-sm text-foreground"),
-                        class_name="flex flex-row items-center gap-x-2",
-                    ),
+                    legend_item,
                 ),
                 class_name="py-4 px-4 flex w-full flex justify-center gap-8",
             ),

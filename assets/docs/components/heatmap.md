@@ -22,7 +22,7 @@ buridan add heatmap
 from typing import Any, Self
 
 from reflex.components.component import Component
-from reflex.utils.imports import ImportVar
+from reflex.utils.imports import ImportDict, ImportVar
 from reflex.vars.base import Var
 
 from .core import cn
@@ -386,7 +386,7 @@ class BuridanHeatmap(Component):
     def add_custom_code(self) -> list[str]:
         return [BURIDAN_HEATMAP_JS]
 
-    def add_imports(self) -> dict:
+    def add_imports(self) -> ImportDict:
         return {"react": ImportVar(tag="React", is_default=True)}
 
     @classmethod

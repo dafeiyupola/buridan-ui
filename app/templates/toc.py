@@ -1,3 +1,4 @@
+from typing import Any
 from urllib.parse import quote
 
 import reflex as rx
@@ -57,7 +58,10 @@ def create_copy_button(url: str) -> rx.Component:
     )
 
 
-def _create_markdown_toc_links(url: str, toc_data: list[dict]) -> rx.Component:
+def _create_markdown_toc_links(
+    url: str,
+    toc_data: list[dict[str, Any]],
+) -> rx.Component:
     if not toc_data:
         return rx.el.div()
 
@@ -163,7 +167,7 @@ Help me understand how to use it. Be ready to explain concepts, give examples, o
     )
 
 
-def table_of_content(url: str, toc_data: list[dict]) -> rx.Component:
+def table_of_content(url: str, toc_data: list[dict[str, Any]]) -> rx.Component:
     """Render table of contents.
 
     Args:

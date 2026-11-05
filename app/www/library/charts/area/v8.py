@@ -35,6 +35,21 @@ def areachart_v8() -> rx.Component:
             id=var_name.strip("-"),
         )
 
+    def series_legend_item(s: tuple[str, str, str]) -> rx.Component:
+        return rx.hstack(
+            rx.el.div(
+                class_name="h-2 w-2 shrink-0 rounded-[2px]",
+                bg=f"var({s[2]})",
+            ),
+            rx.el.p(
+                s[1],
+                class_name="text-xs font-medium",
+                color=rx.color("slate", 11),
+            ),
+            align="center",
+            spacing="2",
+        )
+
     return card.root(
         card.header(
             rx.hstack(
@@ -46,19 +61,7 @@ def areachart_v8() -> rx.Component:
                 rx.hstack(
                     rx.foreach(
                         series,
-                        lambda s: rx.hstack(
-                            rx.el.div(
-                                class_name="h-2 w-2 shrink-0 rounded-[2px]",
-                                bg=f"var({s[2]})",
-                            ),
-                            rx.el.p(
-                                s[1],
-                                class_name="text-xs font-medium",
-                                color=rx.color("slate", 11),
-                            ),
-                            align="center",
-                            spacing="2",
-                        ),
+                        series_legend_item,
                     ),
                     class_name="flex items-center gap-4",
                 ),

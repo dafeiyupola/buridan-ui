@@ -66,8 +66,8 @@ def from_base62(s: str) -> int:
     return n
 
 
-def flatten_vars(obj: dict) -> dict:
-    out = {}
+def flatten_vars(obj: dict[str, Any]) -> dict[str, Any]:
+    out: dict[str, Any] = {}
     for k, v in obj.items():
         key = "--radius" if k == "radius" else f"--{k}"
         out[key] = v
@@ -98,7 +98,7 @@ def _apply_color_overlays(
             theme[k] = v
 
 
-def rebuild_theme(config: dict) -> dict:
+def rebuild_theme(config: dict[str, Any]) -> dict[str, Any]:
     base_id = config.get("baseId")
     color_id = config.get("colorId")
     chart_id = config.get("chartId")
@@ -132,7 +132,7 @@ def rebuild_theme(config: dict) -> dict:
     return theme
 
 
-def decode_seed(seed: str) -> dict | None:
+def decode_seed(seed: str) -> dict[str, Any] | None:
     if not seed:
         return None
     if seed == "b0":
@@ -175,7 +175,7 @@ def decode_seed(seed: str) -> dict | None:
     return None
 
 
-def format_css(config: dict) -> str:
+def format_css(config: dict[str, Any]) -> str:
     return "\n".join(f"    {k}: {v};" for k, v in config.items() if k.startswith("--"))
 
 
@@ -204,7 +204,10 @@ def get_source_root() -> Path | None:
         return None
 
 
-def resolve_dependencies(component_names: list[str], registry: dict) -> list[str]:
+def resolve_dependencies(
+    component_names: list[str],
+    registry: dict[str, Any],
+) -> list[str]:
     required_files: set[str] = set()
     visited: set[str] = set()
 

@@ -14,6 +14,15 @@ data = [
 
 def barchart_v9() -> rx.Component:
 
+    def legend_item(device: str, index: int) -> rx.Component:
+        return rx.el.div(
+            rx.el.div(
+                class_name=f"h-3 w-3 rounded-sm bg-chart-{index + 1}",
+            ),
+            rx.el.p(device, class_name="text-xs text-foreground"),
+            class_name="flex flex-row items-center gap-x-2",
+        )
+
     return card.root(
         card.header(
             rx.el.div(
@@ -63,13 +72,7 @@ def barchart_v9() -> rx.Component:
             rx.el.div(
                 rx.foreach(
                     ["Desktop", "Mobile", "Tablet"],
-                    lambda device, index: rx.el.div(
-                        rx.el.div(
-                            class_name=f"h-3 w-3 rounded-sm bg-chart-{index + 1}",
-                        ),
-                        rx.el.p(device, class_name="text-xs text-foreground"),
-                        class_name="flex flex-row items-center gap-x-2",
-                    ),
+                    legend_item,
                 ),
                 class_name="flex items-center gap-4 justify-center",
             ),

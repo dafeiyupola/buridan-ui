@@ -13,6 +13,9 @@ data = [
 
 def piechart_v4() -> rx.Component:
 
+    def pie_cell(_index_value: int, index: int) -> rx.Component:
+        return rx.recharts.cell(fill=f"var(--chart-{index + 1})")
+
     return card.root(
         card.header(
             card.title("Pie Chart - Legend"),
@@ -23,9 +26,7 @@ def piechart_v4() -> rx.Component:
                 rx.recharts.pie(
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
-                            fill=f"var(--chart-{index + 1})",
-                        ),
+                        pie_cell,
                     ),
                     data=data,
                     data_key="visitors",
