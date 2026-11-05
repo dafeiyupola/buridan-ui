@@ -18,12 +18,10 @@ project-excludes = ["tmp/**", "node_modules/**", "venv/**"]
 search-path = ["."]
 python-interpreter-path = ".venv/bin/python"
 
-# Reflex components override `CoreComponent.create` with narrower signatures
-# and index untyped Var wrappers; these are inherent to the Reflex component
-# pattern, not bugs, so scope them off for the component library only.
+# Components index untyped Var wrappers (`bad-index`); relax it for the
+# component library until the 34 findings in components/ui are fixed (#257).
 [[sub-config]]
 matches = "components/**"
 
 [sub-config.errors]
-bad-override = false
 bad-index = false
