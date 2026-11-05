@@ -1,14 +1,15 @@
 """Regression tests for the interactive chart demo selectors."""
 
 from collections.abc import Callable
-from typing import Any
+
+import reflex as rx
 
 from app.www.library.charts.area.v5 import areachart_v5
 from app.www.library.charts.bar.v5 import barchart_v5
 from app.www.library.charts.line.v7 import linechart_v7
 
 
-def _find_select(component: Any) -> Any:
+def _find_select(component: rx.Component) -> rx.Component:
     pending = [component]
     while pending:
         current = pending.pop()
@@ -24,7 +25,7 @@ def _find_select(component: Any) -> Any:
 
 
 def _assert_select_wiring(
-    factory: Callable[[], Any],
+    factory: Callable[[], rx.Component],
     expected_default: str,
     expected_values: list[str],
 ) -> None:
