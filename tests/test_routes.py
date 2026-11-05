@@ -22,11 +22,14 @@ def test_components_and_charts_preserve_generated_order(
             {"title": "Area Chart", "order": 1},
         ],
     }
-    monkeypatch.setattr(
-        routes,
-        "generate_doc_routes",
-        lambda section, _base_path: generated_routes[section],
-    )
+
+    def _fake_generate_doc_routes(
+        section: str,
+        _base_path: str,
+    ) -> list[dict[str, str | int]]:
+        return generated_routes[section]
+
+    monkeypatch.setattr(routes, "generate_doc_routes", _fake_generate_doc_routes)
 
     result = routes.build_all_routes()
 
@@ -50,11 +53,14 @@ def test_resources_and_utilities_remain_sorted_by_title(
         "components": [],
         "charts": [],
     }
-    monkeypatch.setattr(
-        routes,
-        "generate_doc_routes",
-        lambda section, _base_path: generated_routes[section],
-    )
+
+    def _fake_generate_doc_routes(
+        section: str,
+        _base_path: str,
+    ) -> list[dict[str, str | int]]:
+        return generated_routes[section]
+
+    monkeypatch.setattr(routes, "generate_doc_routes", _fake_generate_doc_routes)
 
     result = routes.build_all_routes()
 

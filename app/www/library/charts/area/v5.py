@@ -119,7 +119,7 @@ def areachart_v5() -> rx.Component:
             rx.el.div(
                 rx.foreach(
                     ["Desktop", "Mobile"],
-                    lambda device, index: rx.el.div(
+                    lambda device, index: rx.el.div(  # pyright: ignore[reportUnknownLambdaType]
                         rx.el.div(
                             class_name=f"h-2 w-2 shrink-0 rounded-[2px] bg-chart-{index + 1}",
                         ),

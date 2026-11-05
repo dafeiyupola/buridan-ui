@@ -179,7 +179,7 @@ def _accordion_icon() -> rx.Component:
     )
 
 
-def _accordion_item(item: dict) -> rx.Component:
+def _accordion_item(item: dict[str, Any]) -> rx.Component:
     """Build a single accordion item from a dict with trigger/content/value keys."""
     return accordion.item(
         accordion.trigger(
@@ -632,7 +632,7 @@ def card_nine() -> rx.Component:
         },
     ]
 
-    def goal_item(goal: dict) -> rx.Component:
+    def goal_item(goal: dict[str, Any]) -> rx.Component:
         return rx.el.div(
             rx.el.div(
                 rx.el.p(
@@ -1103,7 +1103,7 @@ def card_thirteen() -> rx.Component:
         },
     ]
 
-    def checkbox_row(item: dict) -> rx.Component:
+    def checkbox_row(item: dict[str, Any]) -> rx.Component:
         return rx.el.label(
             checkbox.root(
                 checkbox.indicator(),
@@ -1168,7 +1168,7 @@ def card_fourteen() -> rx.Component:
         {"label": "S", "calories": 40},
     ]
 
-    def day_bar(day: dict) -> rx.Component:
+    def day_bar(day: dict[str, Any]) -> rx.Component:
         return rx.el.div(
             rx.el.p(
                 day["label"],
@@ -1263,7 +1263,7 @@ def card_fifteen() -> rx.Component:
             style={"height": f"{height}%"},
         )
 
-    def sleep_group(group: dict) -> rx.Component:
+    def sleep_group(group: dict[str, Any]) -> rx.Component:
         return rx.el.div(
             # Bars
             rx.el.div(
@@ -1342,7 +1342,7 @@ def card_sixteen() -> rx.Component:
         {"email": "sam@example.com", "role": "viewer"},
     ]
 
-    def member_row(member: dict) -> rx.Component:
+    def member_row(member: dict[str, Any]) -> rx.Component:
         return rx.el.div(
             input(
                 default_value=member["email"],
@@ -1513,7 +1513,7 @@ def card_nineteen() -> rx.Component:
         },
     ]
 
-    def menu_item(item: dict) -> rx.Component:
+    def menu_item(item: dict[str, Any]) -> rx.Component:
         return button(
             rx.el.div(
                 rx.el.div(
@@ -1570,7 +1570,7 @@ def card_twenty() -> rx.Component:
         {"bg": "bg-chart-5", "label": "-chart-5"},
     ]
 
-    def swatch(color: dict) -> rx.Component:
+    def swatch(color: dict[str, Any]) -> rx.Component:
         border_class = "border border-input" if color.get("border") else ""
         return rx.el.div(
             rx.el.div(

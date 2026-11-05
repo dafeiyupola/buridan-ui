@@ -24,7 +24,7 @@ def piechart_v1() -> rx.Component:
                 rx.recharts.pie(
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
+                        lambda _, index: rx.recharts.cell(  # pyright: ignore[reportUnknownLambdaType]
                             fill=f"var(--chart-{index + 1})",
                         ),
                     ),
@@ -77,7 +77,7 @@ def piechart_v2() -> rx.Component:
                 rx.recharts.pie(
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
+                        lambda _, index: rx.recharts.cell(  # pyright: ignore[reportUnknownLambdaType]
                             fill=f"var(--chart-{index + 1})",
                         ),
                     ),
@@ -136,7 +136,7 @@ def piechart_v3() -> rx.Component:
                     ),
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
+                        lambda _, index: rx.recharts.cell(  # pyright: ignore[reportUnknownLambdaType]
                             fill=f"var(--chart-{index + 1})",
                         ),
                     ),
@@ -188,7 +188,7 @@ def piechart_v4() -> rx.Component:
                 rx.recharts.pie(
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
+                        lambda _, index: rx.recharts.cell(  # pyright: ignore[reportUnknownLambdaType]
                             fill=f"var(--chart-{index + 1})",
                         ),
                     ),
@@ -241,7 +241,7 @@ def piechart_v5() -> rx.Component:
                 rx.recharts.pie(
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
+                        lambda _, index: rx.recharts.cell(  # pyright: ignore[reportUnknownLambdaType]
                             fill=f"var(--chart-{index + 1})",
                         ),
                     ),
@@ -294,7 +294,7 @@ def piechart_v6() -> rx.Component:
                 rx.recharts.pie(
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
+                        lambda _, index: rx.recharts.cell(  # pyright: ignore[reportUnknownLambdaType]
                             fill=f"var(--chart-{index + 1})",
                         ),
                     ),

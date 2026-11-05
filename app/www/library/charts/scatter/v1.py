@@ -76,7 +76,7 @@ def scatterchart_v1() -> rx.Component:
             rx.el.div(
                 rx.foreach(
                     ["Data 1", "Data 2"],
-                    lambda data, index: rx.el.div(
+                    lambda data, index: rx.el.div(  # pyright: ignore[reportUnknownLambdaType]
                         rx.el.div(
                             class_name=f"h-3 w-3 rounded-sm bg-chart-{index + 1}",
                         ),

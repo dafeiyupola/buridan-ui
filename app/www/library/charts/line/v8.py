@@ -69,7 +69,7 @@ def linechart_v8() -> rx.Component:
             rx.el.div(
                 rx.foreach(
                     ["Desktop", "Mobile"],
-                    lambda device, index: rx.el.div(
+                    lambda device, index: rx.el.div(  # pyright: ignore[reportUnknownLambdaType]
                         rx.el.div(
                             class_name=f"w-3 h-3 rounded-sm bg-chart-{index + 1}",
                         ),

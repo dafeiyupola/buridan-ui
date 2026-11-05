@@ -54,7 +54,7 @@ def chart_example_with_custom_legends() -> rx.Component:
         rx.el.div(
             rx.foreach(
                 ["Desktop", "Mobile"],
-                lambda device, index: rx.el.div(
+                lambda device, index: rx.el.div(  # pyright: ignore[reportUnknownLambdaType]
                     rx.el.div(class_name=f"h-3 w-3 rounded-sm bg-chart-{index + 1}"),
                     rx.el.p(device, class_name="text-xs text-foreground"),
                     class_name="flex flex-row items-center gap-x-2",

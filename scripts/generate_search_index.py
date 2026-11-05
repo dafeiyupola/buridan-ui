@@ -11,6 +11,7 @@ import argparse
 import json
 import time
 from pathlib import Path
+from typing import Any
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
@@ -33,7 +34,7 @@ SKIP_FILES = {"__init__.py"}
 # ─── GitHub API ───────────────────────────────────────────────────────────────
 
 
-def gh_get(path: str, token: str | None) -> list[dict] | None:
+def gh_get(path: str, token: str | None) -> list[dict[str, Any]] | None:
     url = f"https://api.github.com/repos/{REFLEX_REPO}/contents/{path}"
     headers = {
         "Accept": "application/vnd.github+json",
@@ -53,13 +54,15 @@ def gh_get(path: str, token: str | None) -> list[dict] | None:
         return None
 
 
-def crawl_folder(folder_path: str, token: str | None, depth: int = 0) -> list[dict]:
+def crawl_folder(
+    folder_path: str, token: str | None, depth: int = 0,
+) -> list[dict[str, Any]]:
     """Recursively walk a GitHub folder, returning .md/.mdx files."""
     if depth > MAX_CRAWL_DEPTH:
         return []
 
     items = gh_get(folder_path, token)
-    if not items or not isinstance(items, list):
+    if not items:
         return []
 
     # Be polite to the API
@@ -126,7 +129,7 @@ def file_to_title(filename: str) -> str:
 # ─── Buridan routes ───────────────────────────────────────────────────────────
 
 
-def buridan_entries(routes: dict) -> list[dict]:
+def buridan_entries(routes: dict[str, Any]) -> list[dict[str, Any]]:
     entries = []
     for section, pages in routes.items():
         for page in pages:
@@ -143,7 +146,7 @@ def buridan_entries(routes: dict) -> list[dict]:
 # ─── Reflex docs entries ──────────────────────────────────────────────────────
 
 
-def reflex_entries(token: str | None) -> list[dict]:
+def reflex_entries(token: str | None) -> list[dict[str, Any]]:
     print(f"Fetching Reflex docs from github.com/{REFLEX_REPO}/{REFLEX_FOLDER} ...")
     files = crawl_folder(REFLEX_FOLDER, token)
     print(f"  Found {len(files)} doc files")
@@ -166,7 +169,7 @@ def reflex_entries(token: str | None) -> list[dict]:
 
 
 def generate_search_index(
-    routes: dict,
+    routes: dict[str, Any],
     *,
     include_reflex: bool = True,
     github_token: str | None = None,

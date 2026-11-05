@@ -104,7 +104,7 @@ class SliderRoot(SliderBaseComponent):
 
     max: Var[float | int]
 
-    format: Var[dict]
+    format: Var[dict[str, Any]]
 
     disabled: Var[bool]
 

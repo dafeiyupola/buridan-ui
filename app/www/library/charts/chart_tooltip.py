@@ -6,7 +6,7 @@ Display = Literal["show", "hide"]
 Swatch = Literal["square", "line", "border"]
 
 
-def _deep_merge(base: dict, override: dict) -> dict:
+def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     result = base.copy()
     for key, value in override.items():
         if isinstance(result.get(key), dict) and isinstance(value, dict):
@@ -24,9 +24,9 @@ class _ChartTooltip:
         is_animation_active: bool = False,
         separator: str = "",
         cursor: bool = False,
-        item_style: dict | None = None,
-        label_style: dict | None = None,
-        content_style: dict | None = None,
+        item_style: dict[str, Any] | None = None,
+        label_style: dict[str, Any] | None = None,
+        content_style: dict[str, Any] | None = None,
     ) -> rx.Component:
         defaults: dict[str, Any] = {
             "is_animation_active": is_animation_active,

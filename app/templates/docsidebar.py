@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Any
 
 import reflex as rx
 
@@ -36,7 +37,7 @@ class SidebarSection:
     """Configuration for a sidebar section."""
 
     title: str
-    routes: list[dict]
+    routes: list[dict[str, Any]]
 
 
 SIDEBAR_SECTIONS = [
@@ -57,7 +58,7 @@ SIDEBAR_SECTIONS = [
 ]
 
 
-def create_menu_item(data: dict) -> rx.Component:
+def create_menu_item(data: dict[str, Any]) -> rx.Component:
     """Create a single menu item."""
     if is_external_href(data["url"]):
         link = external_link(
@@ -93,7 +94,7 @@ def create_menu_item(data: dict) -> rx.Component:
     )
 
 
-def create_sidebar_menu_items(routes: list[dict]) -> rx.Component:
+def create_sidebar_menu_items(routes: list[dict[str, Any]]) -> rx.Component:
     """Create menu items from routes."""
     return rx.el.div(
         *[create_menu_item(route) for route in routes],

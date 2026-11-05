@@ -46,7 +46,7 @@ def areachart_v8() -> rx.Component:
                 rx.hstack(
                     rx.foreach(
                         series,
-                        lambda s: rx.hstack(
+                        lambda s: rx.hstack(  # pyright: ignore[reportUnknownLambdaType]
                             rx.el.div(
                                 class_name="h-2 w-2 shrink-0 rounded-[2px]",
                                 bg=f"var({s[2]})",

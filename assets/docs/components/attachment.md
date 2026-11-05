@@ -344,7 +344,7 @@ def attachment_image_demo() -> rx.Component:
         attachment.group(
             rx.foreach(
                 images,
-                lambda image: attachment.root(
+                lambda image: attachment.root(  # pyright: ignore[reportUnknownLambdaType]
                     attachment.trigger(
                         link=True,
                         href=image["src"],
@@ -509,7 +509,7 @@ def attachment_group_demo() -> rx.Component:
         attachment.group(
             rx.foreach(
                 items,
-                lambda item: attachment.root(
+                lambda item: attachment.root(  # pyright: ignore[reportUnknownLambdaType]
                     rx.cond(
                         item["type"] == "image",
                         attachment.media(

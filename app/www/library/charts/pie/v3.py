@@ -29,7 +29,7 @@ def piechart_v3() -> rx.Component:
                     ),
                     rx.foreach(
                         range(5),
-                        lambda _, index: rx.recharts.cell(
+                        lambda _, index: rx.recharts.cell(  # pyright: ignore[reportUnknownLambdaType]
                             fill=f"var(--chart-{index + 1})",
                         ),
                     ),

@@ -24,7 +24,7 @@ def doughnutchart_v1() -> rx.Component:
                 rx.recharts.pie(
                     rx.foreach(
                         [1, 2, 3, 4, 5],
-                        lambda _, index: rx.recharts.cell(
+                        lambda _, index: rx.recharts.cell(  # pyright: ignore[reportUnknownLambdaType]
                             fill=f"var(--chart-{index + 1})",
                         ),
                     ),
@@ -46,7 +46,7 @@ def doughnutchart_v1() -> rx.Component:
             rx.el.div(
                 rx.foreach(
                     ["chrome", "safari", "firefox", "edge", "other"],
-                    lambda browser, index: rx.el.div(
+                    lambda browser, index: rx.el.div(  # pyright: ignore[reportUnknownLambdaType]
                         rx.el.div(
                             class_name=f"w-3 h-3 rounded-sm bg-chart-{index + 1}",
                         ),

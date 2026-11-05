@@ -30,7 +30,7 @@ def attachment_image_demo() -> rx.Component:
         attachment.group(
             rx.foreach(
                 images,
-                lambda image: attachment.root(
+                lambda image: attachment.root(  # pyright: ignore[reportUnknownLambdaType]
                     attachment.trigger(
                         link=True,
                         href=image["src"],

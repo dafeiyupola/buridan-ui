@@ -63,7 +63,7 @@ def barchart_v9() -> rx.Component:
             rx.el.div(
                 rx.foreach(
                     ["Desktop", "Mobile", "Tablet"],
-                    lambda device, index: rx.el.div(
+                    lambda device, index: rx.el.div(  # pyright: ignore[reportUnknownLambdaType]
                         rx.el.div(
                             class_name=f"h-3 w-3 rounded-sm bg-chart-{index + 1}",
                         ),

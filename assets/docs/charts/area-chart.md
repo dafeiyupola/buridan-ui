@@ -17,7 +17,7 @@ Display = Literal["show", "hide"]
 Swatch = Literal["square", "line", "border"]
 
 
-def _deep_merge(base: dict, override: dict) -> dict:
+def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     result = base.copy()
     for key, value in override.items():
         if isinstance(result.get(key), dict) and isinstance(value, dict):
@@ -35,9 +35,9 @@ class _ChartTooltip:
         is_animation_active: bool = False,
         separator: str = "",
         cursor: bool = False,
-        item_style: dict | None = None,
-        label_style: dict | None = None,
-        content_style: dict | None = None,
+        item_style: dict[str, Any] | None = None,
+        label_style: dict[str, Any] | None = None,
+        content_style: dict[str, Any] | None = None,
     ) -> rx.Component:
         defaults: dict[str, Any] = {
             "is_animation_active": is_animation_active,
@@ -526,7 +526,7 @@ def areachart_v5() -> rx.Component:
             rx.el.div(
                 rx.foreach(
                     ["Desktop", "Mobile"],
-                    lambda device, index: rx.el.div(
+                    lambda device, index: rx.el.div(  # pyright: ignore[reportUnknownLambdaType]
                         rx.el.div(
                             class_name=f"h-2 w-2 shrink-0 rounded-[2px] bg-chart-{index + 1}",
                         ),
@@ -742,7 +742,7 @@ def areachart_v8() -> rx.Component:
                 rx.hstack(
                     rx.foreach(
                         series,
-                        lambda s: rx.hstack(
+                        lambda s: rx.hstack(  # pyright: ignore[reportUnknownLambdaType]
                             rx.el.div(
                                 class_name="h-2 w-2 shrink-0 rounded-[2px]",
                                 bg=f"var({s[2]})",
@@ -922,7 +922,7 @@ def areachart_v10() -> rx.Component:
                 rx.hstack(
                     rx.foreach(
                         series,
-                        lambda s: rx.hstack(
+                        lambda s: rx.hstack(  # pyright: ignore[reportUnknownLambdaType]
                             rx.el.div(
                                 class_name="h-2 w-2 shrink-0 rounded-[2px]",
                                 bg=f"var({s[2]})",

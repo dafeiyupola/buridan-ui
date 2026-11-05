@@ -386,7 +386,7 @@ class BuridanHeatmap(Component):
     def add_custom_code(self) -> list[str]:
         return [BURIDAN_HEATMAP_JS]
 
-    def add_imports(self) -> dict:
+    def add_imports(self) -> dict[str, Any]:
         return {"react": ImportVar(tag="React", is_default=True)}
 
     @classmethod

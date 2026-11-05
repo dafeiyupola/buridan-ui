@@ -1,5 +1,5 @@
 import re
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from typing import Any
 
 import reflex as rx
@@ -225,43 +225,42 @@ def render_blockquote(*children: Any, **props: Any) -> rx.Component:
     )
 
 
-# --- Final Component Map ---
-markdown_component_map = {
-    "h1": lambda text: render_heading(1, text),
-    "h2": lambda text: render_heading(2, text),
-    "p": render_paragraph,
-    "li": render_list_item,
-    "a": render_link,
-    "blockquote": render_blockquote,
-    "code": lambda text: rx.el.span(text, class_name="bg-secondary rounded-md p-1"),
-    "pre": render_pre,
-    "table": lambda *children, **props: rx.el.div(
+def render_h1(text: str) -> rx.Component:
+    return render_heading(1, text)
+
+
+def render_h2(text: str) -> rx.Component:
+    return render_heading(2, text)
+
+
+def render_inline_code(text: str) -> rx.Component:
+    return rx.el.span(text, class_name="bg-secondary rounded-md p-1")
+
+
+def render_table(*children: Any, **props: Any) -> rx.Component:
+    return rx.el.div(
         rx.el.div(
-            rx.el.table(
-                *children,
-                **props,
-                class_name="w-max min-w-full",
-            ),
+            rx.el.table(*children, **props, class_name="w-max min-w-full"),
             class_name="w-full overflow-x-auto scrollbar-none",
         ),
         class_name="w-full !text-sm rounded-[1rem] border border-input mb-4",
-    ),
-    "thead": lambda *children, **props: rx.el.thead(
-        *children,
-        **props,
-        class_name="border-input border-b",
-    ),
-    "tbody": lambda *children, **props: rx.el.tbody(
-        *children,
-        **props,
-        class_name="divide-input divide-y",
-    ),
-    "tr": lambda *children, **props: rx.el.tr(
-        *children,
-        **props,
-        class_name="m-0 p-0",
-    ),
-    "th": lambda *children, **props: rx.el.th(
+    )
+
+
+def render_thead(*children: Any, **props: Any) -> rx.Component:
+    return rx.el.thead(*children, **props, class_name="border-input border-b")
+
+
+def render_tbody(*children: Any, **props: Any) -> rx.Component:
+    return rx.el.tbody(*children, **props, class_name="divide-input divide-y")
+
+
+def render_tr(*children: Any, **props: Any) -> rx.Component:
+    return rx.el.tr(*children, **props, class_name="m-0 p-0")
+
+
+def render_th(*children: Any, **props: Any) -> rx.Component:
+    return rx.el.th(
         *children,
         **props,
         class_name=(
@@ -270,8 +269,11 @@ markdown_component_map = {
             "whitespace-nowrap "
             "[&[align=right]]:text-right"
         ),
-    ),
-    "td": lambda *children, **props: rx.el.td(
+    )
+
+
+def render_td(*children: Any, **props: Any) -> rx.Component:
+    return rx.el.td(
         *children,
         **props,
         class_name=(
@@ -280,7 +282,25 @@ markdown_component_map = {
             "whitespace-nowrap "
             "[&[align=right]]:text-right"
         ),
-    ),
+    )
+
+
+# --- Final Component Map ---
+markdown_component_map: dict[str, Callable[..., rx.Component]] = {
+    "h1": render_h1,
+    "h2": render_h2,
+    "p": render_paragraph,
+    "li": render_list_item,
+    "a": render_link,
+    "blockquote": render_blockquote,
+    "code": render_inline_code,
+    "pre": render_pre,
+    "table": render_table,
+    "thead": render_thead,
+    "tbody": render_tbody,
+    "tr": render_tr,
+    "th": render_th,
+    "td": render_td,
 }
 
 

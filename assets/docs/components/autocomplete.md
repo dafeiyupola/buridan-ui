@@ -449,7 +449,7 @@ class BuridanAutocomplete(Component):
     def add_custom_code(self) -> list[str]:
         return [BURIDAN_AUTOCOMPLETE_JS]
 
-    def add_imports(self) -> dict:
+    def add_imports(self) -> dict[str, Any]:
         return {
             "react": ImportVar(tag="React", is_default=True),
             "react-dom": ImportVar(tag="ReactDOM", is_default=True),

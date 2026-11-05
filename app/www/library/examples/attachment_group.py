@@ -21,7 +21,7 @@ def attachment_group_demo() -> rx.Component:
         attachment.group(
             rx.foreach(
                 items,
-                lambda item: attachment.root(
+                lambda item: attachment.root(  # pyright: ignore[reportUnknownLambdaType]
                     rx.cond(
                         item["type"] == "image",
                         attachment.media(
