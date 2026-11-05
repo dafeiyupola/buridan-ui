@@ -21,7 +21,7 @@
   "reportMissingTypeArgument": "warning",
   "reportPrivateUsage": "warning",
   "reportUnknownArgumentType": "none",
-  "reportUnknownLambdaType": "warning",
+  "reportUnknownLambdaType": "error",
   "reportUnknownMemberType": "none",
   "reportUnknownParameterType": "none",
   "reportUnknownVariableType": "none",
