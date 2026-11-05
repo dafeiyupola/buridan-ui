@@ -90,7 +90,10 @@ class TabsRoot(TabsBaseComponent):
     tag = "Tabs.Root"
     default_value: Var[str | int]
     value: Var[str | int]
-    on_value_change: Annotated[EventHandler, passthrough_event_spec(str | dict[str, Any])]
+    on_value_change: Annotated[
+        EventHandler,
+        passthrough_event_spec(str | dict[str, Any]),
+    ]
     orientation: Var[LiteralOrientation]
     render_: Var[Component]
 
