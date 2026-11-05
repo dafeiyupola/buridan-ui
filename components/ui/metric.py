@@ -82,5 +82,9 @@ class HighLevelMetric(MetricRoot):
     """
 
     @classmethod
-    def create(cls, *args: Any, **kwargs: Any) -> MetricRoot:
+    def create(  # pyrefly: ignore[bad-override]
+        cls,
+        *args: Any,
+        **kwargs: Any,
+    ) -> MetricRoot:
         return high_level_metric(*args, **kwargs)
