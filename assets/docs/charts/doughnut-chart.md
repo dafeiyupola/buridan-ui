@@ -14,6 +14,21 @@ A customizable doughnut chart with flexible styling and data visualization optio
 ```python
 def doughnutchart_v1() -> rx.Component:
 
+    def pie_cell(_index_value: int, index: int) -> rx.Component:
+        return rx.recharts.cell(fill=f"var(--chart-{index + 1})")
+
+    def legend_item(browser: str, index: int) -> rx.Component:
+        return rx.el.div(
+            rx.el.div(
+                class_name=f"w-3 h-3 rounded-sm bg-chart-{index + 1}",
+            ),
+            rx.el.p(
+                browser,
+                class_name="text-sm font-semibold text-foreground capitalize",
+            ),
+            class_name="flex flex-row gap-x-2 items-center",
+        )
+
     return card.root(
         card.header(
             card.title("Doughnut Chart"),
@@ -24,9 +39,7 @@ def doughnutchart_v1() -> rx.Component:
                 rx.recharts.pie(
                     rx.foreach(
                         [1, 2, 3, 4, 5],
-                        lambda _, index: rx.recharts.cell(  # pyright: ignore[reportUnknownLambdaType]
-                            fill=f"var(--chart-{index + 1})",
-                        ),
+                        pie_cell,
                     ),
                     data=data,
                     data_key="visitors",
@@ -46,16 +59,7 @@ def doughnutchart_v1() -> rx.Component:
             rx.el.div(
                 rx.foreach(
                     ["chrome", "safari", "firefox", "edge", "other"],
-                    lambda browser, index: rx.el.div(  # pyright: ignore[reportUnknownLambdaType]
-                        rx.el.div(
-                            class_name=f"w-3 h-3 rounded-sm bg-chart-{index + 1}",
-                        ),
-                        rx.el.p(
-                            browser,
-                            class_name="text-sm font-semibold text-foreground capitalize",
-                        ),
-                        class_name="flex flex-row gap-x-2 items-center",
-                    ),
+                    legend_item,
                 ),
                 class_name="w-full flex flex-row flex-wrap gap-2 items-center justify-center",
             ),

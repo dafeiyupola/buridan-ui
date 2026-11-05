@@ -10,7 +10,6 @@ import os
 import sys
 import types
 from pathlib import Path
-from typing import Any
 from unittest import mock
 
 import pytest
@@ -53,7 +52,7 @@ def _issue(
     )
 
 
-def _patch_workflow(inner: mock.MagicMock) -> "mock._patch[Any]":
+def _patch_workflow(inner: mock.MagicMock) -> "mock._patch[mock.MagicMock]":
     """Patch ``linear_cli._workflow`` so its context yields ``inner``.
 
     ``__exit__`` must return False so exceptions raised inside the ``with``

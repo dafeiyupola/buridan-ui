@@ -23,7 +23,7 @@ from typing import Annotated, Any, Self
 
 from reflex.components.component import Component
 from reflex.event import EventHandler, passthrough_event_spec
-from reflex.utils.imports import ImportVar
+from reflex.utils.imports import ImportDict, ImportVar
 from reflex.vars.base import Var
 
 from .core import cn
@@ -449,7 +449,7 @@ class BuridanAutocomplete(Component):
     def add_custom_code(self) -> list[str]:
         return [BURIDAN_AUTOCOMPLETE_JS]
 
-    def add_imports(self) -> dict[str, Any]:
+    def add_imports(self) -> ImportDict:
         return {
             "react": ImportVar(tag="React", is_default=True),
             "react-dom": ImportVar(tag="ReactDOM", is_default=True),

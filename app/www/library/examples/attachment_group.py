@@ -17,31 +17,34 @@ items = [
 
 
 def attachment_group_demo() -> rx.Component:
+    def attachment_item(item: dict[str, str]) -> rx.Component:
+        return attachment.root(
+            rx.cond(
+                item["type"] == "image",
+                attachment.media(
+                    rx.el.img(src=item["src"], alt=item["name"]),
+                    variant="image",
+                ),
+                attachment.media(hi("File02Icon")),
+            ),
+            attachment.content(
+                attachment.title(item["name"]),
+                attachment.description(item["meta"]),
+            ),
+            attachment.actions(
+                attachment.action(
+                    hi("Cancel01Icon"),
+                    aria_label=f"Remove {item['name']}",
+                ),
+            ),
+            class_name="w-64",
+        )
+
     return rx.el.div(
         attachment.group(
             rx.foreach(
                 items,
-                lambda item: attachment.root(  # pyright: ignore[reportUnknownLambdaType]
-                    rx.cond(
-                        item["type"] == "image",
-                        attachment.media(
-                            rx.el.img(src=item["src"], alt=item["name"]),
-                            variant="image",
-                        ),
-                        attachment.media(hi("File02Icon")),
-                    ),
-                    attachment.content(
-                        attachment.title(item["name"]),
-                        attachment.description(item["meta"]),
-                    ),
-                    attachment.actions(
-                        attachment.action(
-                            hi("Cancel01Icon"),
-                            aria_label=f"Remove {item['name']}",
-                        ),
-                    ),
-                    class_name="w-64",
-                ),
+                attachment_item,
             ),
             class_name="full",
         ),

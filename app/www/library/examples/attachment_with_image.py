@@ -26,35 +26,38 @@ images = [
 
 
 def attachment_image_demo() -> rx.Component:
+    def attachment_image_item(image: dict[str, str]) -> rx.Component:
+        return attachment.root(
+            attachment.trigger(
+                link=True,
+                href=image["src"],
+                target="_blank",
+                rel="noreferrer",
+                reload_document=True,
+                aria_label=f"Open {image['name']}",
+            ),
+            attachment.media(
+                rx.el.img(src=image["src"], alt=image["alt"]),
+                variant="image",
+            ),
+            attachment.content(
+                attachment.title(image["name"]),
+                attachment.description(image["meta"]),
+            ),
+            attachment.actions(
+                attachment.action(
+                    hi("Cancel01Icon"),
+                    aria_label=f"Remove {image['name']}",
+                ),
+            ),
+            orientation="vertical",
+        )
+
     return rx.el.div(
         attachment.group(
             rx.foreach(
                 images,
-                lambda image: attachment.root(  # pyright: ignore[reportUnknownLambdaType]
-                    attachment.trigger(
-                        link=True,
-                        href=image["src"],
-                        target="_blank",
-                        rel="noreferrer",
-                        reload_document=True,
-                        aria_label=f"Open {image['name']}",
-                    ),
-                    attachment.media(
-                        rx.el.img(src=image["src"], alt=image["alt"]),
-                        variant="image",
-                    ),
-                    attachment.content(
-                        attachment.title(image["name"]),
-                        attachment.description(image["meta"]),
-                    ),
-                    attachment.actions(
-                        attachment.action(
-                            hi("Cancel01Icon"),
-                            aria_label=f"Remove {image['name']}",
-                        ),
-                    ),
-                    orientation="vertical",
-                ),
+                attachment_image_item,
             ),
             class_name="w-full",
         ),

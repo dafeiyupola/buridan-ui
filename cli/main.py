@@ -67,7 +67,7 @@ def from_base62(s: str) -> int:
 
 
 def flatten_vars(obj: dict[str, Any]) -> dict[str, Any]:
-    out = {}
+    out: dict[str, Any] = {}
     for k, v in obj.items():
         key = "--radius" if k == "radius" else f"--{k}"
         out[key] = v

@@ -340,35 +340,38 @@ Set `variant="image"` on `attachment.media` and render an `rx.el.img()` inside i
 
 ```python
 def attachment_image_demo() -> rx.Component:
+    def attachment_image_item(image: dict[str, str]) -> rx.Component:
+        return attachment.root(
+            attachment.trigger(
+                link=True,
+                href=image["src"],
+                target="_blank",
+                rel="noreferrer",
+                reload_document=True,
+                aria_label=f"Open {image['name']}",
+            ),
+            attachment.media(
+                rx.el.img(src=image["src"], alt=image["alt"]),
+                variant="image",
+            ),
+            attachment.content(
+                attachment.title(image["name"]),
+                attachment.description(image["meta"]),
+            ),
+            attachment.actions(
+                attachment.action(
+                    hi("Cancel01Icon"),
+                    aria_label=f"Remove {image['name']}",
+                ),
+            ),
+            orientation="vertical",
+        )
+
     return rx.el.div(
         attachment.group(
             rx.foreach(
                 images,
-                lambda image: attachment.root(  # pyright: ignore[reportUnknownLambdaType]
-                    attachment.trigger(
-                        link=True,
-                        href=image["src"],
-                        target="_blank",
-                        rel="noreferrer",
-                        reload_document=True,
-                        aria_label=f"Open {image['name']}",
-                    ),
-                    attachment.media(
-                        rx.el.img(src=image["src"], alt=image["alt"]),
-                        variant="image",
-                    ),
-                    attachment.content(
-                        attachment.title(image["name"]),
-                        attachment.description(image["meta"]),
-                    ),
-                    attachment.actions(
-                        attachment.action(
-                            hi("Cancel01Icon"),
-                            aria_label=f"Remove {image['name']}",
-                        ),
-                    ),
-                    orientation="vertical",
-                ),
+                attachment_image_item,
             ),
             class_name="w-full",
         ),
@@ -505,31 +508,34 @@ Wrap attachments in `attachment.group` to lay them out in a horizontally scrolla
 
 ```python
 def attachment_group_demo() -> rx.Component:
+    def attachment_item(item: dict[str, str]) -> rx.Component:
+        return attachment.root(
+            rx.cond(
+                item["type"] == "image",
+                attachment.media(
+                    rx.el.img(src=item["src"], alt=item["name"]),
+                    variant="image",
+                ),
+                attachment.media(hi("File02Icon")),
+            ),
+            attachment.content(
+                attachment.title(item["name"]),
+                attachment.description(item["meta"]),
+            ),
+            attachment.actions(
+                attachment.action(
+                    hi("Cancel01Icon"),
+                    aria_label=f"Remove {item['name']}",
+                ),
+            ),
+            class_name="w-64",
+        )
+
     return rx.el.div(
         attachment.group(
             rx.foreach(
                 items,
-                lambda item: attachment.root(  # pyright: ignore[reportUnknownLambdaType]
-                    rx.cond(
-                        item["type"] == "image",
-                        attachment.media(
-                            rx.el.img(src=item["src"], alt=item["name"]),
-                            variant="image",
-                        ),
-                        attachment.media(hi("File02Icon")),
-                    ),
-                    attachment.content(
-                        attachment.title(item["name"]),
-                        attachment.description(item["meta"]),
-                    ),
-                    attachment.actions(
-                        attachment.action(
-                            hi("Cancel01Icon"),
-                            aria_label=f"Remove {item['name']}",
-                        ),
-                    ),
-                    class_name="w-64",
-                ),
+                attachment_item,
             ),
             class_name="full",
         ),

@@ -39,6 +39,15 @@ def areachart_v5() -> rx.Component:
             id=id_,
         )
 
+    def legend_item(device: str, index: int) -> rx.Component:
+        return rx.el.div(
+            rx.el.div(
+                class_name=f"h-2 w-2 shrink-0 rounded-[2px] bg-chart-{index + 1}",
+            ),
+            rx.el.p(device, class_name="text-sm text-foreground"),
+            class_name="flex flex-row items-center gap-x-2",
+        )
+
     def area(data_key: str, color: str) -> rx.Component:
         return rx.recharts.area(
             data_key=data_key,
@@ -119,13 +128,7 @@ def areachart_v5() -> rx.Component:
             rx.el.div(
                 rx.foreach(
                     ["Desktop", "Mobile"],
-                    lambda device, index: rx.el.div(  # pyright: ignore[reportUnknownLambdaType]
-                        rx.el.div(
-                            class_name=f"h-2 w-2 shrink-0 rounded-[2px] bg-chart-{index + 1}",
-                        ),
-                        rx.el.p(device, class_name="text-sm text-foreground"),
-                        class_name="flex flex-row items-center gap-x-2",
-                    ),
+                    legend_item,
                 ),
                 class_name="py-4 px-4 flex w-full flex justify-center gap-8",
             ),

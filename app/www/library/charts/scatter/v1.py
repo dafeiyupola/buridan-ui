@@ -31,6 +31,15 @@ scat_data_2 = [
 
 def scatterchart_v1() -> rx.Component:
 
+    def legend_item(series_name: str, index: int) -> rx.Component:
+        return rx.el.div(
+            rx.el.div(
+                class_name=f"h-3 w-3 rounded-sm bg-chart-{index + 1}",
+            ),
+            rx.el.div(series_name, class_name="text-xs text-foreground"),
+            class_name="flex flex-row items-center gap-x-2",
+        )
+
     return card.root(
         card.header(
             rx.el.div(
@@ -76,13 +85,7 @@ def scatterchart_v1() -> rx.Component:
             rx.el.div(
                 rx.foreach(
                     ["Data 1", "Data 2"],
-                    lambda data, index: rx.el.div(  # pyright: ignore[reportUnknownLambdaType]
-                        rx.el.div(
-                            class_name=f"h-3 w-3 rounded-sm bg-chart-{index + 1}",
-                        ),
-                        rx.el.div(data, class_name="text-xs text-foreground"),
-                        class_name="flex flex-row items-center gap-x-2",
-                    ),
+                    legend_item,
                 ),
                 class_name="flex items-center gap-4",
             ),

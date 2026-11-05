@@ -131,7 +131,9 @@ def file_to_title(filename: str) -> str:
 # ─── Buridan routes ───────────────────────────────────────────────────────────
 
 
-def buridan_entries(routes: dict[str, Any]) -> list[dict[str, Any]]:
+def buridan_entries(
+    routes: dict[str, list[dict[str, Any]]],
+) -> list[dict[str, Any]]:
     entries = []
     for section, pages in routes.items():
         for page in pages:
@@ -171,7 +173,7 @@ def reflex_entries(token: str | None) -> list[dict[str, Any]]:
 
 
 def generate_search_index(
-    routes: dict[str, Any],
+    routes: dict[str, list[dict[str, Any]]],
     *,
     include_reflex: bool = True,
     github_token: str | None = None,

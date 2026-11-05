@@ -143,6 +143,82 @@ def render_list_item(text: str) -> rx.Component:
     return rx.list_item(rx.el.p(text, class_name=LIST_ITEM_CLASS))
 
 
+def render_heading_1(text: str) -> rx.Component:
+    return render_heading(1, text)
+
+
+def render_heading_2(text: str) -> rx.Component:
+    return render_heading(2, text)
+
+
+def render_code(text: str) -> rx.Component:
+    return rx.el.span(text, class_name="bg-secondary rounded-md p-1")
+
+
+def render_table(*children: Any, **props: Any) -> rx.Component:
+    return rx.el.div(
+        rx.el.div(
+            rx.el.table(
+                *children,
+                **props,
+                class_name="w-max min-w-full",
+            ),
+            class_name="w-full overflow-x-auto scrollbar-none",
+        ),
+        class_name="w-full !text-sm rounded-[1rem] border border-input mb-4",
+    )
+
+
+def render_thead(*children: Any, **props: Any) -> rx.Component:
+    return rx.el.thead(
+        *children,
+        **props,
+        class_name="border-input border-b",
+    )
+
+
+def render_tbody(*children: Any, **props: Any) -> rx.Component:
+    return rx.el.tbody(
+        *children,
+        **props,
+        class_name="divide-input divide-y",
+    )
+
+
+def render_tr(*children: Any, **props: Any) -> rx.Component:
+    return rx.el.tr(
+        *children,
+        **props,
+        class_name="m-0 p-0",
+    )
+
+
+def render_th(*children: Any, **props: Any) -> rx.Component:
+    return rx.el.th(
+        *children,
+        **props,
+        class_name=(
+            "px-4 py-2 text-left font-bold "
+            "[&[align=center]]:text-center "
+            "whitespace-nowrap "
+            "[&[align=right]]:text-right"
+        ),
+    )
+
+
+def render_td(*children: Any, **props: Any) -> rx.Component:
+    return rx.el.td(
+        *children,
+        **props,
+        class_name=(
+            "px-4 py-2 text-left "
+            "[&[align=center]]:text-center "
+            "whitespace-nowrap "
+            "[&[align=right]]:text-right"
+        ),
+    )
+
+
 def render_link(*args: Any, **props: Any) -> rx.Component:
     # Reflex builds Markdown map callbacks without the runtime href; ReactMarkdown
     # supplies it through the props spread, which keeps this a native Radix link.
@@ -225,75 +301,15 @@ def render_blockquote(*children: Any, **props: Any) -> rx.Component:
     )
 
 
-def render_h1(text: str) -> rx.Component:
-    return render_heading(1, text)
-
-
-def render_h2(text: str) -> rx.Component:
-    return render_heading(2, text)
-
-
-def render_inline_code(text: str) -> rx.Component:
-    return rx.el.span(text, class_name="bg-secondary rounded-md p-1")
-
-
-def render_table(*children: Any, **props: Any) -> rx.Component:
-    return rx.el.div(
-        rx.el.div(
-            rx.el.table(*children, **props, class_name="w-max min-w-full"),
-            class_name="w-full overflow-x-auto scrollbar-none",
-        ),
-        class_name="w-full !text-sm rounded-[1rem] border border-input mb-4",
-    )
-
-
-def render_thead(*children: Any, **props: Any) -> rx.Component:
-    return rx.el.thead(*children, **props, class_name="border-input border-b")
-
-
-def render_tbody(*children: Any, **props: Any) -> rx.Component:
-    return rx.el.tbody(*children, **props, class_name="divide-input divide-y")
-
-
-def render_tr(*children: Any, **props: Any) -> rx.Component:
-    return rx.el.tr(*children, **props, class_name="m-0 p-0")
-
-
-def render_th(*children: Any, **props: Any) -> rx.Component:
-    return rx.el.th(
-        *children,
-        **props,
-        class_name=(
-            "px-4 py-2 text-left font-bold "
-            "[&[align=center]]:text-center "
-            "whitespace-nowrap "
-            "[&[align=right]]:text-right"
-        ),
-    )
-
-
-def render_td(*children: Any, **props: Any) -> rx.Component:
-    return rx.el.td(
-        *children,
-        **props,
-        class_name=(
-            "px-4 py-2 text-left "
-            "[&[align=center]]:text-center "
-            "whitespace-nowrap "
-            "[&[align=right]]:text-right"
-        ),
-    )
-
-
 # --- Final Component Map ---
 markdown_component_map: dict[str, Callable[..., rx.Component]] = {
-    "h1": render_h1,
-    "h2": render_h2,
+    "h1": render_heading_1,
+    "h2": render_heading_2,
     "p": render_paragraph,
     "li": render_list_item,
     "a": render_link,
     "blockquote": render_blockquote,
-    "code": render_inline_code,
+    "code": render_code,
     "pre": render_pre,
     "table": render_table,
     "thead": render_thead,

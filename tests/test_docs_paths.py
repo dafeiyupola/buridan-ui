@@ -1,6 +1,7 @@
 import importlib
 import os
 from pathlib import Path
+from typing import Any
 
 import pytest
 from PIL import ImageFont
@@ -57,20 +58,24 @@ def test_preview_cards_use_repository_paths_from_another_working_directory(
 ) -> None:
     default_font = ImageFont.load_default()
 
-    def _fake_truetype(
-        *_args: object,
-        **_kwargs: object,
-    ) -> ImageFont.ImageFont | ImageFont.FreeTypeFont:
+    def fake_truetype(
+        *_args: Any,
+        **_kwargs: Any,
+    ) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
         return default_font
 
-    monkeypatch.setattr(ImageFont, "truetype", _fake_truetype)
+    monkeypatch.setattr(ImageFont, "truetype", fake_truetype)
     preview_cards = importlib.import_module("scripts.generate_preview_cards")
-    generated_paths: list[Path] = []
+    generated_paths = []
 
-    def _fake_create_social_card(**kwargs: Path) -> None:
+    def fake_create_social_card(**kwargs: Any) -> None:
         generated_paths.append(kwargs["output_path"])
 
-    monkeypatch.setattr(preview_cards, "create_social_card", _fake_create_social_card)
+    monkeypatch.setattr(
+        preview_cards,
+        "create_social_card",
+        fake_create_social_card,
+    )
     monkeypatch.chdir(tmp_path)
 
     preview_cards.generate_social_cards()

@@ -5,7 +5,7 @@ from typing import Any
 # --- Simple frontmatter parser. ---
 def parse_frontmatter(content: str) -> tuple[dict[str, Any], str]:
     """A simple frontmatter parser."""
-    metadata = {}
+    metadata: dict[str, Any] = {}
     if not content.startswith("---"):
         return metadata, content
 

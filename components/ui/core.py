@@ -73,5 +73,5 @@ class BaseUIComponent(CoreComponent):
     )
 
 
-def cn(*classes: Var[Any] | str | tuple[Any, ...] | list[Any] | None) -> Var[str]:
+def cn(*classes: Var[str] | str | tuple[Any, ...] | list[Any] | None) -> Var[str]:
     return TW_MERGE.call(CLSX.call(*classes)).to(str)

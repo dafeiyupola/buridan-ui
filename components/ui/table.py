@@ -196,5 +196,9 @@ class HighLevelTable(TableRoot):
     """
 
     @classmethod
-    def create(cls, *args: Any, **kwargs: Any) -> TableRoot:
+    def create(  # pyrefly: ignore[bad-override]
+        cls,
+        *args: Any,
+        **kwargs: Any,
+    ) -> TableRoot:
         return high_level_table(*args, **kwargs)
