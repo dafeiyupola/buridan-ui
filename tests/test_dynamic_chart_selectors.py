@@ -31,17 +31,20 @@ def _assert_select_wiring(
 ) -> None:
     select = _find_select(factory())
 
-    assert select.default_value._var_value == expected_default  # noqa: SLF001
+    assert getattr(select, "default_value")._var_value == expected_default  # noqa: B009, SLF001
     assert [
-        option.value._var_value  # noqa: SLF001
+        getattr(option, "value")._var_value  # noqa: B009, SLF001
         for option in select.children
     ] == expected_values
     assert "on_change" in select.event_triggers
-    on_change_js = select.event_triggers["on_change"].events[0]._js_expr  # noqa: SLF001
+    on_change_js = getattr(select.event_triggers["on_change"], "events")[0]._js_expr  # noqa: B009, SLF001
     assert "_client_state_set" in on_change_js
     assert "target" in on_change_js
     assert "value" in on_change_js
-    assert all("on_click" not in option.event_triggers for option in select.children)
+    assert all(
+        "on_click" not in getattr(option, "event_triggers")  # noqa: B009
+        for option in select.children
+    )
 
 
 def test_area_chart_range_selector_uses_parent_change_event() -> None:

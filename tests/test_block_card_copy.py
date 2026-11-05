@@ -40,10 +40,10 @@ def test_block_card_keeps_terminal_icon_separate_from_command_text() -> None:
     assert len(button.children) == 2
 
     icon, command_text = button.children
-    assert "TerminalIcon" in str(icon.icon)
+    assert "TerminalIcon" in str(getattr(icon, "icon"))  # noqa: B009
     assert getattr(command_text, "tag", None) == "span"
     assert json.loads(str(command_text.children[0])) == SAMPLE_COMMAND
-    assert command_text.id == f"text-{button.id}"
+    assert getattr(command_text, "id") == f"text-{button.id}"  # noqa: B009
 
 
 def test_block_card_copy_feedback_targets_only_command_text_span(
