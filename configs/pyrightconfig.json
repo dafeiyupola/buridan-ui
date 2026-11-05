@@ -18,7 +18,7 @@
   "reportMissingImports": "error",
   "reportMissingModuleSource": "warning",
   "reportMissingParameterType": "error",
-  "reportMissingTypeArgument": "warning",
+  "reportMissingTypeArgument": "error",
   "reportPrivateUsage": "warning",
   "reportUnknownArgumentType": "none",
   "reportUnknownLambdaType": "warning",
