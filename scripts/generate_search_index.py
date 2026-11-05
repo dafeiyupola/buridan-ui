@@ -55,7 +55,9 @@ def gh_get(path: str, token: str | None) -> list[dict[str, Any]] | None:
 
 
 def crawl_folder(
-    folder_path: str, token: str | None, depth: int = 0,
+    folder_path: str,
+    token: str | None,
+    depth: int = 0,
 ) -> list[dict[str, Any]]:
     """Recursively walk a GitHub folder, returning .md/.mdx files."""
     if depth > MAX_CRAWL_DEPTH:

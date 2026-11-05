@@ -58,7 +58,8 @@ def test_preview_cards_use_repository_paths_from_another_working_directory(
     default_font = ImageFont.load_default()
 
     def _fake_truetype(
-        *_args: object, **_kwargs: object,
+        *_args: object,
+        **_kwargs: object,
     ) -> ImageFont.ImageFont | ImageFont.FreeTypeFont:
         return default_font
 

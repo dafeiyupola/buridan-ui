@@ -59,7 +59,8 @@ def create_copy_button(url: str) -> rx.Component:
 
 
 def _create_markdown_toc_links(
-    url: str, toc_data: list[dict[str, Any]]
+    url: str,
+    toc_data: list[dict[str, Any]],
 ) -> rx.Component:
     if not toc_data:
         return rx.el.div()

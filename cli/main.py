@@ -204,7 +204,10 @@ def get_source_root() -> Path | None:
         return None
 
 
-def resolve_dependencies(component_names: list[str], registry: dict[str, Any]) -> list[str]:
+def resolve_dependencies(
+    component_names: list[str],
+    registry: dict[str, Any],
+) -> list[str]:
     required_files: set[str] = set()
     visited: set[str] = set()
 
